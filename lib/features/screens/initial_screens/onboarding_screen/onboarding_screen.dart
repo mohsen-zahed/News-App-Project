@@ -3,6 +3,7 @@ import 'package:news_app_project/config/constants/global_colors.dart';
 import 'package:news_app_project/config/constants/lists.dart';
 import 'package:news_app_project/features/screens/home_screens/home_screen.dart';
 import 'package:news_app_project/features/screens/initial_screens/onboarding_screen/widgets/custom_onboarding_button.dart';
+import 'package:news_app_project/helpers/helper_functions.dart';
 import 'package:news_app_project/packages/smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:news_app_project/utils/my_media_query.dart';
 
@@ -77,8 +78,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 MySmoothPageIndicator.pageIndicator(
                   controller: _controller,
                   count: onboardingList.length,
-                  dotColor: kGreyColorShade300,
-                  activeDotColor: kGreyColor,
+                  dotColor: helperFunctions.isThemeLightMode(context) ? kGreyColorShade300 : kGreyColor,
+                  activeDotColor: helperFunctions.isThemeLightMode(context) ? kGreyColor : kGreyColorShade300,
                 ),
                 CustomOnboardingButton(
                   controller: _controller,
@@ -87,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     if (index == 2) {
                       Navigator.pushNamed(context, HomeScreen.id);
                     }
-                    _controller.nextPage(duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
+                    _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
                   },
                 ),
               ],
