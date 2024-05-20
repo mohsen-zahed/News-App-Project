@@ -78,8 +78,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 MySmoothPageIndicator.pageIndicator(
                   controller: _controller,
                   count: onboardingList.length,
-                  dotColor: helperFunctions.isThemeLightMode(context) ? kGreyColorShade300 : kGreyColor,
-                  activeDotColor: helperFunctions.isThemeLightMode(context) ? kGreyColor : kGreyColorShade300,
+                  dotColor: helperFunctions.isThemeLightMode(context) ? kSecondaryColor : kPrimaryColor,
+                  activeDotColor: helperFunctions.isThemeLightMode(context) ? kPrimaryColor : kSecondaryColor,
                 ),
                 CustomOnboardingButton(
                   controller: _controller,
