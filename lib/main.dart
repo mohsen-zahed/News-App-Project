@@ -15,7 +15,7 @@ void main() async {
         Locale('fa'),
         Locale('ps'),
       ],
-      path: 'assets/translations/',
+      path: 'assets/translations',
       startLocale: const Locale('en'),
       fallbackLocale: const Locale('fa'),
       child: const MyApp(),
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         OnboardingScreen.id: (context) => const OnboardingScreen(),
         HomeScreen.id: (context) => const HomeScreen(),
       },
-      home: const SplashScreen(),
+      home: const HomeScreen(),
     );
   }
 }

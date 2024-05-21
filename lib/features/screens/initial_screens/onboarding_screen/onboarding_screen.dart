@@ -86,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   buttonText: index == 2 ? 'Enter' : 'Next',
                   onPressed: () {
                     if (index == 2) {
-                      Navigator.pushNamed(context, HomeScreen.id);
+                      Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
                     }
                     _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
                   },
