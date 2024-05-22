@@ -5,11 +5,13 @@ class CustomCachedNetworkImage extends StatelessWidget {
   final double borderRadius;
   final String imageUrl;
   final bool? showIndicator;
+  final BoxFit? fit;
   const CustomCachedNetworkImage({
     super.key,
     required this.borderRadius,
     required this.imageUrl,
     this.showIndicator,
+    this.fit,
   });
 
   @override
@@ -18,7 +20,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadius),
       child: CachedNetworkImage(
         imageUrl: imageUrl,
-        fit: BoxFit.cover,
+        fit: fit ?? BoxFit.cover,
         placeholder: (context, url) => Center(
           child: showIndicator != null
               ? showIndicator == true

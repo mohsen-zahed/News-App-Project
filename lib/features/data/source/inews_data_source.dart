@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:news_app_project/features/data/models/business_news_model.dart';
 import 'package:news_app_project/features/data/models/general_news_model.dart';
 import 'package:news_app_project/features/data/models/technology_news_model.dart';
 import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
+import 'package:news_app_project/helpers/helper_functions.dart';
 
 abstract class INewsDataSource {
   Future<List<TechnologyNewsModel>> getTechnologyNews();
@@ -50,11 +52,16 @@ class NewsDataSource implements INewsDataSource {
 
   @override
   Future<List<GeneralNewsModel>> getAllNews() async {
-    final response = await httpClient
-        .get('https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=us&max=10&apikey=15f591ec0e1ad69bcd838e6eff3e0ed0');
+    final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
     final List<GeneralNewsModel> generalNewsList = [];
-    for (var element in (response.data['articles'] as List).reversed) {
-      generalNewsList.add(GeneralNewsModel.fromJson(element));
+    for (var i = 0; i < (response.data['articles'] as List).length; i++) {
+      String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+      if (imageType.contains('webp')) {
+        debugPrint(imageType);
+        continue;
+      } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+        generalNewsList.add(GeneralNewsModel.fromJson(response.data['articles'][i]));
+      }
     }
     return generalNewsList;
   }

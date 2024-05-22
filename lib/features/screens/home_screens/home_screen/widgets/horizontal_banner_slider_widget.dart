@@ -80,7 +80,6 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
             itemBuilder: (context, index) {
               //* Main image holder box...
               return Container(
-                // width: getMediaQueryWidth(context),
                 margin: EdgeInsets.fromLTRB(
                   getMediaQueryWidth(context, 0.025),
                   0,

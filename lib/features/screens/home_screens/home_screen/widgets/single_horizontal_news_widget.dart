@@ -43,8 +43,7 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                       Expanded(
                         child: Text(
                           newsModel.description,
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(color: kGreyColorShade800),
-                          // overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
                       Text(

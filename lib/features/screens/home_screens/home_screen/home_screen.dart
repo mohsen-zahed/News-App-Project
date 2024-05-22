@@ -5,22 +5,15 @@ import 'package:news_app_project/config/constants/global_colors.dart';
 import 'package:news_app_project/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app_project/features/data/repository/ibanner_repository.dart';
 import 'package:news_app_project/features/data/repository/inews_repository.dart';
-import 'package:news_app_project/features/screens/home_screens/widgets/horizontal_banner_slider_widget.dart';
-import 'package:news_app_project/features/screens/home_screens/widgets/vertical_recommendations_list_widget.dart';
+import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
+import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/vertical_recommendations_list_widget.dart';
 import 'package:news_app_project/helpers/helper_functions.dart';
 import 'package:news_app_project/utils/my_media_query.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static const String id = '/home_screen';
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-  final ScrollController childScrollViewController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             style: Theme.of(context).textTheme.titleLarge,
           ),
           actions: [
+            //* Search icon button....
             GestureDetector(
               onTap: () {},
               child: Container(
@@ -45,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               ),
             ),
             const SizedBox(width: 10),
+            //* Notifications icon button....
             GestureDetector(
               onTap: () {},
               child: Container(
@@ -87,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         bannersModelList: state.bannersList,
                       ),
                       SizedBox(height: getmediaQueryHeight(context, 0.03)),
-                      //* Entire news categories vertical listView...
+                      //* Entire news categories vertical listView... (Padding)
                       VerticalRecommendationsListWidget(
                         generalNewsModel: state.generalNewsList,
                       ),

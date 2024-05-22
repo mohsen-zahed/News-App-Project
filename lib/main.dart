@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app_project/features/screens/home_screens/home_screen.dart';
+import 'package:news_app_project/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app_project/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
 import 'package:news_app_project/features/screens/initial_screens/splash_screen/splash_screen.dart';
 import 'package:news_app_project/theme/theme.dart';
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         SplashScreen.id: (context) => const SplashScreen(),
         OnboardingScreen.id: (context) => const OnboardingScreen(),
         HomeScreen.id: (context) => const HomeScreen(),
+        // NewsDetailsScreen.id: (context) => const NewsDetailsScreen(), //* MaterialPageRoute
       },
       home: const HomeScreen(),
     );

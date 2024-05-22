@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_project/config/constants/global_colors.dart';
 import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/screens/home_screens/widgets/single_horizontal_news_widget.dart';
+import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/single_horizontal_news_widget.dart';
+import 'package:news_app_project/features/screens/home_screens/news_details_screen/news_details_screen.dart';
 import 'package:news_app_project/utils/my_media_query.dart';
 
 class VerticalRecommendationsListWidget extends StatelessWidget {
@@ -30,8 +31,13 @@ class VerticalRecommendationsListWidget extends StatelessWidget {
           ),
           ...List.generate(
             generalNewsModel.length,
-            (index) => SingleHorizontalNewsWidget(
-              newsModel: generalNewsModel[index],
+            (index) => GestureDetector(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => NewsDetailsScreen(generalNewsModel: generalNewsModel[index]),
+              )),
+              child: SingleHorizontalNewsWidget(
+                newsModel: generalNewsModel[index],
+              ),
             ),
           ),
         ],

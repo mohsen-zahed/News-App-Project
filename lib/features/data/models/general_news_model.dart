@@ -1,9 +1,8 @@
-import 'package:news_app_project/helpers/helper_functions.dart';
-
 class GeneralNewsModel {
   String source;
   String title;
   String description;
+  String author;
   String url;
   String imageUrl;
   String publishedAt;
@@ -12,8 +11,9 @@ class GeneralNewsModel {
       : source = json['source']['name'] ?? '',
         title = json['title'] ?? '',
         description = json['description'] ?? 'No content available for this post!',
+        author = json['author'] ?? 'Unknown',
         url = json['url'] ?? '',
-        imageUrl = helperFunctions.getFileType(json['image']),
+        imageUrl = json['urlToImage'],
         publishedAt = json['publishedAt'] ?? '',
         content = json['content'] ?? '';
 }
