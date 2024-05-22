@@ -1,38 +1,86 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_project/config/constants/global_colors.dart';
 import 'package:news_app_project/config/constants/images_paths.dart';
 import 'package:news_app_project/features/data/models/banners_news_model.dart';
+import 'package:news_app_project/helpers/helper_functions.dart';
 import 'package:news_app_project/utils/my_media_query.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class HorizontalBannerSliderWidget extends StatefulWidget {
+class HorizontalBreakingNewsSliderWidget extends StatefulWidget {
   final List<BannersNewsModel> bannersModelList;
-  const HorizontalBannerSliderWidget({
+  final GestureTapCallback onViewAllTap;
+  const HorizontalBreakingNewsSliderWidget({
     super.key,
     required this.bannersModelList,
+    required this.onViewAllTap,
   });
 
   @override
-  State<HorizontalBannerSliderWidget> createState() => _HorizontalBannerSliderWidgetState();
+  State<HorizontalBreakingNewsSliderWidget> createState() => _HorizontalBreakingNewsSliderWidgetState();
 }
 
-class _HorizontalBannerSliderWidgetState extends State<HorizontalBannerSliderWidget> {
-  final PageController _controller = PageController();
+class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingNewsSliderWidget> {
+  final PageController _controller = PageController(initialPage: 0);
+  Timer? _timer;
+  int _currentPage = 0;
+  @override
+  void initState() {
+    super.initState();
+    // _startAutoScroll();
+  }
+
+  void _startAutoScroll() {
+    // Set up a timer to automatically scroll to the next page
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _currentPage = ((_currentPage + 1) % widget.bannersModelList.length).round();
+      _controller.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    // Dispose timer and page controller
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.035)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Breaking News', style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold)),
+              GestureDetector(
+                onTap: widget.onViewAllTap,
+                child: Text('View all', style: Theme.of(context).textTheme.labelLarge!.copyWith(color: kBlueColor, fontWeight: FontWeight.w700)),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: getmediaQueryHeight(context, 0.015)),
         AspectRatio(
           aspectRatio: 3 / 1.75,
           child: PageView.builder(
             controller: _controller,
             scrollDirection: Axis.horizontal,
-            itemCount: 3,
+            itemCount: widget.bannersModelList.length,
             itemBuilder: (context, index) {
               //* Main image holder box...
               return Container(
-                width: getMediaQueryWidth(context),
+                // width: getMediaQueryWidth(context),
                 margin: EdgeInsets.fromLTRB(
                   getMediaQueryWidth(context, 0.025),
                   0,
@@ -135,15 +183,15 @@ class _HorizontalBannerSliderWidgetState extends State<HorizontalBannerSliderWid
         //* Scroll indicators...
         SmoothPageIndicator(
           controller: _controller,
-          count: 3,
+          count: widget.bannersModelList.length,
           axisDirection: Axis.horizontal,
-          effect: WormEffect(
+          effect: ScrollingDotsEffect(
             spacing: 5,
-            radius: 50,
-            dotWidth: 35,
-            dotHeight: 3,
-            dotColor: kGreyColorShade300,
-            activeDotColor: kGreyColor,
+            radius: 5,
+            dotWidth: 7,
+            dotHeight: 7,
+            dotColor: helperFunctions.isThemeLightMode(context) ? kGreyColorShade300 : kGreyColorShade600,
+            activeDotColor: helperFunctions.isThemeLightMode(context) ? kGreyColorShade600 : kGreyColorShade300,
           ),
         ),
       ],

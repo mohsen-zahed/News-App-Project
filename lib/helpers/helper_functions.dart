@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_project/config/constants/images_paths.dart';
 
 final helperFunctions = HelperFunctions.instance;
 
@@ -29,5 +30,20 @@ class HelperFunctions {
     }
 
     return combinedList;
+  }
+
+  String getFileType(String filePath) {
+    String filename = filePath.split('/').last;
+
+    // Split the filename by '.' and get the last segment
+    String imagePath = filename.split('.').last.toLowerCase();
+
+    if (imagePath.contains('jpg') || imagePath.contains('jpeg') || imagePath.contains('png') || imagePath.contains('JPEG')) {
+      return filePath;
+    } else if (imagePath.contains('webp')) {
+      return imageDownloadFailed;
+    } else {
+      return imageDownloadFailed;
+    }
   }
 }

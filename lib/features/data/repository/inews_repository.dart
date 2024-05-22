@@ -1,4 +1,5 @@
 import 'package:news_app_project/features/data/models/business_news_model.dart';
+import 'package:news_app_project/features/data/models/general_news_model.dart';
 import 'package:news_app_project/features/data/models/technology_news_model.dart';
 import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
 import 'package:news_app_project/features/data/source/inews_data_source.dart';
@@ -10,7 +11,7 @@ abstract class INewsRepository {
   Future<List<TechnologyNewsModel>> getTechnologyNews();
   Future<List<WallStreetNewsModel>> getWallStreetNews();
   Future<List<BusinessNewsModel>> getBusinessNews();
-  List<dynamic> getAllNews();
+  Future<List<GeneralNewsModel>> getAllNews();
 }
 
 class NewsRepository implements INewsRepository {
@@ -27,5 +28,5 @@ class NewsRepository implements INewsRepository {
   Future<List<BusinessNewsModel>> getBusinessNews() => iNewsDataSource.getBusinessNews();
 
   @override
-  List getAllNews() => iNewsDataSource.getAllNews();
+  Future<List<GeneralNewsModel>> getAllNews() => iNewsDataSource.getAllNews();
 }

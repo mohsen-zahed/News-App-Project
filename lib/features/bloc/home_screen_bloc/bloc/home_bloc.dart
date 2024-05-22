@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:news_app_project/features/data/models/banners_news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app_project/features/data/models/business_news_model.dart';
+import 'package:news_app_project/features/data/models/general_news_model.dart';
 import 'package:news_app_project/features/data/models/technology_news_model.dart';
 import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
 import 'package:news_app_project/features/data/repository/ibanner_repository.dart';
@@ -23,13 +24,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           final technologyResult = await iNewsRepository.getTechnologyNews();
           final wallStreetResult = await iNewsRepository.getWallStreetNews();
           final businessResult = await iNewsRepository.getBusinessNews();
-          final allNewsResult = iNewsRepository.getAllNews();
+          final allNewsResult = await iNewsRepository.getAllNews();
           emit(HomeSuccess(
             bannersList: bannersResult,
             technologyList: technologyResult,
             wallStreetList: wallStreetResult,
             businessNewsList: businessResult,
-            allNewsList: allNewsResult,
+            generalNewsList: allNewsResult,
           ));
         } on DioException catch (e) {
           if (e.type == DioExceptionType.badResponse) {
