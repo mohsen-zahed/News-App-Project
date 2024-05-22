@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_project/config/constants/global_colors.dart';
+import 'package:news_app_project/features/data/models/general_news_model.dart';
 import 'package:news_app_project/utils/my_media_query.dart';
 import 'package:news_app_project/widgets/custom_cached_network_image.dart';
 
 class SingleHorizontalNewsWidget extends StatelessWidget {
-  final dynamic newsModel;
+  final GeneralNewsModel newsModel;
   const SingleHorizontalNewsWidget({
     super.key,
     required this.newsModel,
@@ -34,7 +35,7 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'By ${newsModel.author}',
+                        'By ${newsModel.source}',
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(color: kGreyColorShade500),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
