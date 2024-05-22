@@ -7,3 +7,4 @@ const String onboardingBackground3Path = 'assets/images/background_images/onboar
 
 // Network...
 const String cnnIconTvPath = 'https://cdn1.iconfinder.com/data/icons/metro-ui-dock-icon-set--icons-by-dakirby/512/CNN.png';
+const String imageDownloadFailed = 'https://cdn4.iconfinder.com/data/icons/ui-beast-4/32/Ui-12-1024.png';

@@ -19,6 +19,11 @@ ThemeData lightTheme(BuildContext context) {
         foregroundColor: kWhiteColor,
       ),
     ),
+    tabBarTheme: TabBarTheme(
+      labelStyle: Theme.of(context).textTheme.titleMedium,
+      unselectedLabelColor: kGreyColorShade500,
+      unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
+    ),
   );
 }
 
@@ -39,6 +44,11 @@ ThemeData darkTheme(BuildContext context) {
         backgroundColor: kPrimaryColor,
         foregroundColor: kWhiteColor,
       ),
+    ),
+    tabBarTheme: TabBarTheme(
+      labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: kWhiteColor),
+      unselectedLabelColor: kGreyColorShade500,
+      unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
     ),
   );
 }

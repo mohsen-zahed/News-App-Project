@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Global Colors...
+const Color kTransparentColor = Colors.transparent;
 const Color kWhiteColor = Colors.white;
 const Color kBlackColor = Colors.black;
 Color kGreyColorShade100 = Colors.grey.shade100;
