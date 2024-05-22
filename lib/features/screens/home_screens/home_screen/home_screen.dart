@@ -9,6 +9,7 @@ import 'package:news_app_project/features/screens/home_screens/home_screen/widge
 import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/vertical_recommendations_list_widget.dart';
 import 'package:news_app_project/helpers/helper_functions.dart';
 import 'package:news_app_project/utils/my_media_query.dart';
+import 'package:news_app_project/widgets/empty_screen_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -55,7 +56,10 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
+            },
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 if (state is HomeLoading) {
@@ -73,24 +77,30 @@ class HomeScreen extends StatelessWidget {
                     ),
                   );
                 } else if (state is HomeSuccess) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //* Entire horizontal scroll view with indicators... (Column)
-                      HorizontalBreakingNewsSliderWidget(
-                        onViewAllTap: () {},
-                        bannersModelList: state.bannersList,
-                      ),
-                      SizedBox(height: getmediaQueryHeight(context, 0.03)),
-                      //* Entire news categories vertical listView... (Padding)
-                      VerticalRecommendationsListWidget(
-                        generalNewsModel: state.generalNewsList,
-                      ),
-                    ],
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //* Entire horizontal scroll view with indicators... (Column)
+                        HorizontalBreakingNewsSliderWidget(
+                          onViewAllTap: () {},
+                          bannersModelList: state.bannersList,
+                        ),
+                        SizedBox(height: getmediaQueryHeight(context, 0.03)),
+                        //* Entire news categories vertical listView... (Padding)
+                        VerticalRecommendationsListWidget(
+                          generalNewsModel: state.generalNewsList,
+                        ),
+                      ],
+                    ),
                   );
                 } else if (state is HomeFailed) {
-                  return Center(
-                    child: Text(state.exception),
+                  return EmptyScreenWidget(
+                    errorMessage: state.exception,
+                    buttonText: 'Try again',
+                    onTryAgainPressed: () {
+                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
+                    },
                   );
                 } else {
                   throw 'state not supported';

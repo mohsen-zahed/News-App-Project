@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
         OnboardingScreen.id: (context) => const OnboardingScreen(),
         HomeScreen.id: (context) => const HomeScreen(),
         // NewsDetailsScreen.id: (context) => const NewsDetailsScreen(), //* MaterialPageRoute
+        // FullScreenImage.id: (context) => const FullScreenImage(), //* MaterialPageRoute
       },
       home: const HomeScreen(),
     );
