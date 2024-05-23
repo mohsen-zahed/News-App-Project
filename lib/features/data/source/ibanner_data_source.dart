@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:news_app_project/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app_project/features/data/models/banners_news_model.dart';
+import 'package:news_app_project/packages/hive_flutter_package/hive_flutter_package_constants.dart';
 
 abstract class IBannerDataSource {
   Future<List<BannersNewsModel>> getBannersNews();
@@ -11,12 +14,26 @@ class BannerDataSourceImp implements IBannerDataSource {
   BannerDataSourceImp({required this.httpClient});
   @override
   Future<List<BannersNewsModel>> getBannersNews() async {
-    final response = await httpClient
-        .get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
-    List<BannersNewsModel> newsList = [];
-    for (var element in (response.data['articles'] as List)) {
-      newsList.add(BannersNewsModel.fromJson(element));
+    if (isConnected) {
+      final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName);
+        for (var element in (response.data['articles'] as List)) {
+          box.add(BannersNewsModel.fromJson(element));
+        }
+      }
+      List<BannersNewsModel> newsList = [];
+      for (var element in (response.data['articles'] as List)) {
+        newsList.add(BannersNewsModel.fromJson(element));
+      }
+      return newsList;
+    } else {
+      final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName).values.toList();
+      List<BannersNewsModel> offlineNewsList = [];
+      for (var element in box) {
+        offlineNewsList.add(element);
+      }
+      return offlineNewsList;
     }
-    return newsList;
   }
 }

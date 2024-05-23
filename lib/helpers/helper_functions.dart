@@ -11,10 +11,16 @@ class HelperFunctions {
     return _helperFunctions!;
   }
 
+//** ThemeFunctions starts here ***//
+//**
   bool isThemeLightMode(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light;
   }
+//**
+//** ThemeFunctions ends here ***//
 
+//** Theme Functions starts here ***//
+//**
   List<T> combineLists<T>(lists, wallStreetListA, businessListA) {
     List<T> combinedList = [];
 
@@ -31,7 +37,11 @@ class HelperFunctions {
 
     return combinedList;
   }
+//**
+//** Theme Functions ends here ***//
 
+//** File Functions starts here ***//
+//**
   String getFileType(String filePath) {
     String filename = filePath.split('/').last;
 
@@ -46,7 +56,11 @@ class HelperFunctions {
       return imageDownloadFailed;
     }
   }
+//**
+//** File Functions ends here ***//
 
+//** PopUp Functions starts here ***//
+//**
   void showSnackBar(BuildContext context, String message, int durationInMilli) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -83,3 +97,12 @@ class HelperFunctions {
     );
   }
 }
+//**
+//** PopUp Functions ends here ***//
+
+//** Connectivity Functions starts here ***//
+//**
+
+//**
+//** Connectivity Functions ends here ***//
+

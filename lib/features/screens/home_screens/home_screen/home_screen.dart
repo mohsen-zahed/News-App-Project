@@ -24,12 +24,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late HomeBloc homeBloc;
+  bool isConnect = isConnected;
 
   List<GeneralNewsModel> newsList = [];
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
-      create: (context2) {
+      create: (context) {
         homeBloc = HomeBloc(bannerRepository, newsRepository);
         homeBloc.add(HomeStarted());
         return homeBloc;
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (newsList.isNotEmpty) {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen(newsList: newsList)));
                 } else {
-                  helperFunctions.showSnackBar(context, 'Something went wrong!', 1000);
+                  helperFunctions.showSnackBar(context, '${newsList.toString()} is Empty!', 1000);
                 }
               },
               child: Container(
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onRefresh: () async {
               helperFunctions.showConfirmationDialogBox(
                 context,
-                'Current data might replace with new data, Do you want to continue?',
+                'Current data might replace with new one!\nContinue anyway?',
                 onConfirm: () {
                   homeBloc.add(HomeStarted());
                 },
@@ -105,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else if (state is HomeSuccess) {
                   newsList = state.generalNewsList;
+                  isConnect ? print('connected') : print('not connected');
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

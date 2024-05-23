@@ -1,13 +1,31 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:news_app_project/features/data/models/banners_news_model.dart';
+import 'package:news_app_project/features/data/models/business_news_model.dart';
+import 'package:news_app_project/features/data/models/general_news_model.dart';
+import 'package:news_app_project/features/data/models/technology_news_model.dart';
+import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
 import 'package:news_app_project/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app_project/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
 import 'package:news_app_project/features/screens/initial_screens/splash_screen/splash_screen.dart';
+import 'package:news_app_project/packages/hive_flutter_package/hive_flutter_package_constants.dart';
 import 'package:news_app_project/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(BannersNewsModelAdapter());
+  Hive.registerAdapter(BusinessNewsModelAdapter());
+  Hive.registerAdapter(GeneralNewsModelAdapter());
+  Hive.registerAdapter(TechnologyNewsModelAdapter());
+  Hive.registerAdapter(WallStreetNewsModelAdapter());
+  await Hive.openBox<BannersNewsModel>(bannersNewsModelBoxName);
+  await Hive.openBox<BusinessNewsModel>(businessNewsModelBoxName);
+  await Hive.openBox<GeneralNewsModel>(generalNewsModelBoxName);
+  await Hive.openBox<TechnologyNewsModel>(technologyNewsModelBoxName);
+  await Hive.openBox<WallStreetNewsModel>(wallStreetNewsModelBoxName);
   runApp(
     EasyLocalization(
       supportedLocales: const [

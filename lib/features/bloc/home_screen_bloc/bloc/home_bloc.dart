@@ -12,6 +12,8 @@ import 'package:news_app_project/features/data/repository/inews_repository.dart'
 part 'home_event.dart';
 part 'home_state.dart';
 
+bool isConnected = false;
+
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final IBannerRepository iBannerRepository;
   final INewsRepository iNewsRepository;
@@ -19,6 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeEvent>((event, emit) async {
       if (event is HomeStarted || event is HomeRefresh) {
         emit(HomeLoading());
+        // if (isConnected) {
         try {
           final bannersResult = await iBannerRepository.getAllBanners();
           final technologyResult = await iNewsRepository.getTechnologyNews();
@@ -47,6 +50,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             emit(const HomeFailed(exception: 'Something went wrong!'));
           }
         }
+        // } else {
+        //   try {
+        //     final banners = Hive.box<BannersNewsModel>(bannersNewsModelBoxName).values.toList();
+        //     final business = Hive.box<BusinessNewsModel>(businessNewsModelBoxName).values.toList();
+        //     final general = Hive.box<GeneralNewsModel>(generalNewsModelBoxName).values.toList();
+        //     final technology = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName).values.toList();
+        //     final wallStreet = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName).values.toList();
+        //     emit(HomeSuccess(
+        //       bannersList: banners,
+        //       technologyList: technology,
+        //       wallStreetList: wallStreet,
+        //       businessNewsList: business,
+        //       generalNewsList: general,
+        //     ));
+        //   } on HiveError catch (e) {
+        //     emit(HomeFailed(exception: e.message.toString()));
+        //   }
+        // }
       }
     });
   }

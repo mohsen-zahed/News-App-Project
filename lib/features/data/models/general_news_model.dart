@@ -1,12 +1,35 @@
+import 'package:hive/hive.dart';
+part 'general_news_model.g.dart';
+
+@HiveType(typeId: 2)
 class GeneralNewsModel {
+  @HiveField(0)
   String source;
+  @HiveField(1)
   String title;
+  @HiveField(2)
   String description;
+  @HiveField(3)
   String author;
+  @HiveField(4)
   String url;
+  @HiveField(5)
   String imageUrl;
+  @HiveField(6)
   String publishedAt;
+  @HiveField(7)
   String content;
+  GeneralNewsModel({
+    required this.source,
+    required this.title,
+    required this.description,
+    required this.author,
+    required this.url,
+    required this.imageUrl,
+    required this.publishedAt,
+    required this.content,
+  });
+
   GeneralNewsModel.fromJson(Map<String, dynamic> json)
       : source = json['source']['name'] ?? '',
         title = json['title'] ?? '',

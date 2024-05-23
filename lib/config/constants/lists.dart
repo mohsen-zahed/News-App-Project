@@ -19,3 +19,4 @@ List<Map<String, dynamic>> onboardingList = [
     'subtitle': LocaleKeys.onboarding3_subtitle_text.tr(),
   },
 ];
+
