@@ -29,7 +29,7 @@ class FullScreenImage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: getmediaQueryHeight(context, 0.02),
+                top: getMediaQueryHeight(context, 0.02),
                 left: getMediaQueryWidth(context, 0.035),
                 child: IconButton(
                   onPressed: () {

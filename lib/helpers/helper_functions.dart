@@ -46,4 +46,12 @@ class HelperFunctions {
       return imageDownloadFailed;
     }
   }
+
+  void showSnackBar(BuildContext context, String message, int durationInMilli) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(duration: Duration(milliseconds: durationInMilli), content: Text(message)),
+      );
+  }
 }

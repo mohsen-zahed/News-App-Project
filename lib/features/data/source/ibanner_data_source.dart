@@ -12,7 +12,7 @@ class BannerDataSourceImp implements IBannerDataSource {
   @override
   Future<List<BannersNewsModel>> getBannersNews() async {
     final response = await httpClient
-        .get('https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=us&max=10&apikey=15f591ec0e1ad69bcd838e6eff3e0ed0');
+        .get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
     List<BannersNewsModel> newsList = [];
     for (var element in (response.data['articles'] as List)) {
       newsList.add(BannersNewsModel.fromJson(element));

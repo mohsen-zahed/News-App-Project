@@ -18,7 +18,7 @@ class CustomOnboardingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: getMediaQueryWidth(context, 0.3),
-      height: getmediaQueryHeight(context, 0.07),
+      height: getMediaQueryHeight(context, 0.07),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

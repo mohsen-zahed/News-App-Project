@@ -21,7 +21,7 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<TechnologyNewsModel>> getTechnologyNews() async {
     final response = await httpClient
-        .get('https://newsapi.org/v2/everything?q=apple&from=2024-05-20&to=2024-05-20&sortBy=popularity&apiKey=3f1e9b5d74f7402b9515b7e859482502');
+        .get('https://newsapi.org/v2/everything?q=apple&from=2024-05-21&to=2024-05-21&sortBy=popularity&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
     final List<TechnologyNewsModel> technologyList = [];
     for (var element in (response.data['articles'] as List).reversed) {
       technologyList.add(TechnologyNewsModel.fromJson(element));
@@ -31,7 +31,7 @@ class NewsDataSource implements INewsDataSource {
 
   @override
   Future<List<WallStreetNewsModel>> getWallStreetNews() async {
-    final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
+    final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
     final List<WallStreetNewsModel> wallStreetList = [];
     for (var element in (response.data['articles'] as List).reversed) {
       wallStreetList.add(WallStreetNewsModel.fromJson(element));
@@ -42,7 +42,7 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<BusinessNewsModel>> getBusinessNews() async {
     final response =
-        await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=3f1e9b5d74f7402b9515b7e859482502');
+        await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
     final List<BusinessNewsModel> businessList = [];
     for (var element in (response.data['articles'] as List).reversed) {
       businessList.add(BusinessNewsModel.fromJson(element));
@@ -52,7 +52,7 @@ class NewsDataSource implements INewsDataSource {
 
   @override
   Future<List<GeneralNewsModel>> getAllNews() async {
-    final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
+    final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
     final List<GeneralNewsModel> generalNewsList = [];
     for (var i = 0; i < (response.data['articles'] as List).length; i++) {
       String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);

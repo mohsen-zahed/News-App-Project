@@ -41,7 +41,7 @@ class TopHeaderWidget extends SliverPersistentHeaderDelegate {
           ),
           Positioned(
             left: getMediaQueryWidth(context, 0.035),
-            bottom: getmediaQueryHeight(context, 0.03),
+            bottom: getMediaQueryHeight(context, 0.03),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

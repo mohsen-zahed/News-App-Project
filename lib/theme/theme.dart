@@ -29,6 +29,9 @@ ThemeData lightTheme(BuildContext context) {
       unselectedLabelColor: kGreyColorShade500,
       unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
+    ),
   );
 }
 
@@ -59,6 +62,9 @@ ThemeData darkTheme(BuildContext context) {
       labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: kWhiteColor),
       unselectedLabelColor: kGreyColorShade500,
       unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
     ),
   );
 }

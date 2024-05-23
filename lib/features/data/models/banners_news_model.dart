@@ -15,7 +15,7 @@ class BannersNewsModel {
         description = json['description'] ?? '',
         content = json['content'] ?? '',
         newsLink = json['url'] ?? '',
-        imageUrl = json['image'] ?? imageDownloadFailed,
+        imageUrl = json['urlToImage'] ?? imageDownloadFailed,
         publishedDate = json['publishedAt'] ?? '',
         sourceName = json['source']['name'] ?? '',
         sourceUrl = json['source']['url'] ?? '';

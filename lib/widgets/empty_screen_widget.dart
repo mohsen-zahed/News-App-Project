@@ -32,7 +32,7 @@ class EmptyScreenWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: getmediaQueryHeight(context, 0.02)),
+            SizedBox(height: getMediaQueryHeight(context, 0.02)),
             ElevatedButton(
               onPressed: onTryAgainPressed,
               child: Text(

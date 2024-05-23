@@ -14,11 +14,11 @@ class VerticalRecommendationsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.04)),
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.035)),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -29,19 +29,19 @@ class VerticalRecommendationsListWidget extends StatelessWidget {
               ),
             ],
           ),
-          ...List.generate(
-            generalNewsModel.length,
-            (index) => GestureDetector(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NewsDetailsScreen(generalNewsModel: generalNewsModel[index]),
-              )),
-              child: SingleHorizontalNewsWidget(
-                newsModel: generalNewsModel[index],
-              ),
+        ),
+        ...List.generate(
+          generalNewsModel.length,
+          (index) => GestureDetector(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => NewsDetailsScreen(generalNewsModel: generalNewsModel[index]),
+            )),
+            child: SingleHorizontalNewsWidget(
+              newsModel: generalNewsModel[index],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

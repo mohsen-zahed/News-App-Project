@@ -70,7 +70,7 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
             ],
           ),
         ),
-        SizedBox(height: getmediaQueryHeight(context, 0.015)),
+        SizedBox(height: getMediaQueryHeight(context, 0.015)),
         AspectRatio(
           aspectRatio: 3 / 1.75,
           child: PageView.builder(
@@ -109,7 +109,7 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: getMediaQueryWidth(context, 0.03),
-                        vertical: getmediaQueryHeight(context, 0.015),
+                        vertical: getMediaQueryHeight(context, 0.015),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         width: getMediaQueryWidth(context),
-        height: getmediaQueryHeight(context),
+        height: getMediaQueryHeight(context),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(splashScreenBackgroundPath),
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(getmediaQueryHeight(context, 0.15)),
+            padding: EdgeInsets.all(getMediaQueryHeight(context, 0.15)),
             child: Image.asset(
               lightAppLogoPath,
               fit: BoxFit.cover,

@@ -86,14 +86,14 @@ class _VerticalNewsListViewState extends State<VerticalNewsListView> with Ticker
                                 children: [
                                   Expanded(
                                     child: SizedBox(
-                                      height: getmediaQueryHeight(context),
+                                      height: getMediaQueryHeight(context),
                                       child: CustomCachedNetworkImage(borderRadius: 10, imageUrl: widget.allNews[index].imageUrl),
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: getmediaQueryHeight(context, 0.015)),
+                                      padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.015)),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,14 +159,14 @@ class _VerticalNewsListViewState extends State<VerticalNewsListView> with Ticker
                                 children: [
                                   Expanded(
                                     child: SizedBox(
-                                      height: getmediaQueryHeight(context),
+                                      height: getMediaQueryHeight(context),
                                       child: CustomCachedNetworkImage(borderRadius: 10, imageUrl: widget.wallStreetList[index].imageUrl),
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: getmediaQueryHeight(context, 0.015)),
+                                      padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.015)),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -230,14 +230,14 @@ class _VerticalNewsListViewState extends State<VerticalNewsListView> with Ticker
                                 children: [
                                   Expanded(
                                     child: SizedBox(
-                                      height: getmediaQueryHeight(context),
+                                      height: getMediaQueryHeight(context),
                                       child: CustomCachedNetworkImage(borderRadius: 10, imageUrl: widget.businessNewsList[index].imageUrl),
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: getmediaQueryHeight(context, 0.015)),
+                                      padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.015)),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -301,14 +301,14 @@ class _VerticalNewsListViewState extends State<VerticalNewsListView> with Ticker
                                 children: [
                                   Expanded(
                                     child: SizedBox(
-                                      height: getmediaQueryHeight(context),
+                                      height: getMediaQueryHeight(context),
                                       child: CustomCachedNetworkImage(borderRadius: 10, imageUrl: widget.technologyList[index].imageUrl),
                                     ),
                                   ),
                                   const SizedBox(width: 10),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(vertical: getmediaQueryHeight(context, 0.015)),
+                                      padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.015)),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

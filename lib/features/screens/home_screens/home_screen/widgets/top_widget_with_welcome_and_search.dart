@@ -21,7 +21,7 @@ class TopWidgetWithWelcomeAndSearch extends StatelessWidget {
       width: getMediaQueryWidth(context),
       padding: EdgeInsets.symmetric(
         horizontal: getMediaQueryWidth(context, 0.04),
-        vertical: getmediaQueryHeight(context, 0.02),
+        vertical: getMediaQueryHeight(context, 0.02),
       ),
       child: Row(
         children: [

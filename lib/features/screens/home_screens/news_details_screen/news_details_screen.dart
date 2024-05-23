@@ -21,7 +21,7 @@ class NewsDetailsScreen extends StatelessWidget {
           SliverPersistentHeader(
             delegate: TopHeaderWidget(
               generalNewsModel: generalNewsModel,
-              maxExtent: getmediaQueryHeight(context) / 2,
+              maxExtent: getMediaQueryHeight(context) / 2,
               minExtent: MediaQuery.of(context).padding.top,
             ),
           ),
@@ -31,9 +31,9 @@ class NewsDetailsScreen extends StatelessWidget {
           //* The rest of the screen containing news....
           SliverToBoxAdapter(
             child: Container(
-              height: getmediaQueryHeight(context),
+              height: getMediaQueryHeight(context),
               padding: EdgeInsets.symmetric(
-                vertical: getmediaQueryHeight(context, 0.02),
+                vertical: getMediaQueryHeight(context, 0.02),
                 horizontal: getMediaQueryWidth(context, 0.035),
               ),
               decoration: BoxDecoration(
