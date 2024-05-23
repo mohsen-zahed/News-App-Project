@@ -32,6 +32,20 @@ ThemeData lightTheme(BuildContext context) {
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
     ),
+    dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    dialogTheme: DialogTheme(
+      backgroundColor: kLightBackgroundColor,
+      titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(color: kLightPrimaryTextColor),
+      contentTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(color: kLightPrimaryTextColor),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: const MaterialStatePropertyAll(kLightPrimaryTextColor),
+        textStyle: MaterialStateProperty.all(
+          Theme.of(context).textTheme.titleSmall!.copyWith(color: kLightPrimaryTextColor),
+        ),
+      ),
+    ),
   );
 }
 
@@ -65,6 +79,20 @@ ThemeData darkTheme(BuildContext context) {
     ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
+    ),
+    dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    dialogTheme: DialogTheme(
+      backgroundColor: kDarkBackgroundColor,
+      titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(color: kDarkPrimaryTextColor),
+      contentTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(color: kDarkPrimaryTextColor),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: const MaterialStatePropertyAll(kDarkPrimaryTextColor),
+        textStyle: MaterialStateProperty.all(
+          Theme.of(context).textTheme.titleSmall!.copyWith(color: kDarkPrimaryTextColor),
+        ),
+      ),
     ),
   );
 }

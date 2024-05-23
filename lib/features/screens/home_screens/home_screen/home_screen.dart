@@ -77,7 +77,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: SafeArea(
           child: RefreshIndicator(
-            onRefresh: () async {},
+            onRefresh: () async {
+              helperFunctions.showConfirmationDialogBox(
+                context,
+                'Current data might replace with new data, Do you want to continue?',
+                onConfirm: () {
+                  homeBloc.add(HomeStarted());
+                },
+                onCancel: () {},
+              );
+            },
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 if (state is HomeLoading) {

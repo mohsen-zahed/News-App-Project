@@ -54,4 +54,32 @@ class HelperFunctions {
         SnackBar(duration: Duration(milliseconds: durationInMilli), content: Text(message)),
       );
   }
+
+  void showConfirmationDialogBox(BuildContext context, String confirmationText, {required Function onConfirm, required Function onCancel}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Reload Screen?'),
+          content: Text(confirmationText),
+          actions: [
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                onCancel();
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                onConfirm();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
