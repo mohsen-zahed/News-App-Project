@@ -41,4 +41,11 @@ class WallStreetNewsModel {
         imageUrl = json['urlToImage'] ?? imageDownloadFailed,
         publishedAt = json['publishedAt'] ?? '',
         content = json['content'] ?? '';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is WallStreetNewsModel && runtimeType == other.runtimeType && title == other.title;
+
+  @override
+  int get hashCode => title.hashCode;
 }

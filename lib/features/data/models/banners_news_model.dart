@@ -41,4 +41,10 @@ class BannersNewsModel {
         publishedDate = json['publishedAt'] ?? '',
         sourceName = json['source']['name'] ?? '',
         sourceUrl = json['source']['url'] ?? '';
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is BannersNewsModel && runtimeType == other.runtimeType && title == other.title;
+
+  @override
+  int get hashCode => title.hashCode;
 }

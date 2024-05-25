@@ -39,4 +39,10 @@ class GeneralNewsModel {
         imageUrl = json['urlToImage'],
         publishedAt = json['publishedAt'] ?? '',
         content = json['content'] ?? '';
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is GeneralNewsModel && runtimeType == other.runtimeType && title == other.title;
+
+  @override
+  int get hashCode => title.hashCode;
 }

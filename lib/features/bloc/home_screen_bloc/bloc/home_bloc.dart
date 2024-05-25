@@ -21,6 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeEvent>((event, emit) async {
       if (event is HomeStarted || event is HomeRefresh) {
         emit(HomeLoading());
+        await Future.delayed(const Duration(seconds: 1));
         // if (isConnected) {
         try {
           final bannersResult = await iBannerRepository.getAllBanners();

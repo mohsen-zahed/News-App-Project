@@ -18,14 +18,19 @@ class BannerDataSourceImp implements IBannerDataSource {
       final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
       if (response.data != null && response.data is Map<String, dynamic>) {
         final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName);
+        // box.clear();
         for (var element in (response.data['articles'] as List)) {
-          box.add(BannersNewsModel.fromJson(element));
+          var bannersNewsModel = BannersNewsModel.fromJson(element);
+          if (!box.values.contains(bannersNewsModel)) {
+            box.add(bannersNewsModel);
+          }
         }
       }
       List<BannersNewsModel> newsList = [];
       for (var element in (response.data['articles'] as List)) {
         newsList.add(BannersNewsModel.fromJson(element));
       }
+      print('loaded from api');
       return newsList;
     } else {
       final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName).values.toList();
@@ -33,6 +38,7 @@ class BannerDataSourceImp implements IBannerDataSource {
       for (var element in box) {
         offlineNewsList.add(element);
       }
+      print('loaded from database');
       return offlineNewsList;
     }
   }

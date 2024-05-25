@@ -41,4 +41,9 @@ class BusinessNewsModel {
         imageUrl = json['urlToImage'] ?? imageDownloadFailed,
         publishedAt = json['publishedAt'] ?? '',
         content = json['content'] ?? '';
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is BusinessNewsModel && runtimeType == other.runtimeType && title == other.title;
+
+  @override
+  int get hashCode => title.hashCode;
 }
