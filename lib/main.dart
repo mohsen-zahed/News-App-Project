@@ -9,6 +9,7 @@ import 'package:news_app_project/features/data/models/wall_street_news_model.dar
 import 'package:news_app_project/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app_project/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
 import 'package:news_app_project/features/screens/initial_screens/splash_screen/splash_screen.dart';
+import 'package:news_app_project/packages/connectivity_plus_package/connection_controller.dart';
 import 'package:news_app_project/packages/hive_flutter_package/hive_flutter_package_constants.dart';
 import 'package:news_app_project/theme/theme.dart';
 
@@ -26,6 +27,7 @@ void main() async {
   await Hive.openBox<GeneralNewsModel>(generalNewsModelBoxName);
   await Hive.openBox<TechnologyNewsModel>(technologyNewsModelBoxName);
   await Hive.openBox<WallStreetNewsModel>(wallStreetNewsModelBoxName);
+  initNoInternetListener();
   runApp(
     EasyLocalization(
       supportedLocales: const [

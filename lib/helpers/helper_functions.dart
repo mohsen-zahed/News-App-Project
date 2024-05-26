@@ -97,6 +97,12 @@ class HelperFunctions {
     );
   }
 }
+
+void showInfinitTimeSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(duration: const Duration(days: 365), content: Text(message)),
+  );
+}
 //**
 //** PopUp Functions ends here ***//
 

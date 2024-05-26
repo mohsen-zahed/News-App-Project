@@ -10,6 +10,7 @@ import 'package:news_app_project/features/screens/home_screens/home_screen/widge
 import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/vertical_recommendations_list_widget.dart';
 import 'package:news_app_project/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app_project/helpers/helper_functions.dart';
+import 'package:news_app_project/packages/connectivity_plus_package/connectivity_plus_constants.dart';
 import 'package:news_app_project/utils/my_media_query.dart';
 import 'package:news_app_project/widgets/empty_screen_widget.dart';
 
@@ -106,7 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else if (state is HomeSuccess) {
                   newsList = state.generalNewsList;
-                  isConnect ? print('connected') : print('not connected');
+                  connectionStatusListener.isInternetConnected ? print('homeFolder: connected') : print('homeFolder: not connected');
+
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
