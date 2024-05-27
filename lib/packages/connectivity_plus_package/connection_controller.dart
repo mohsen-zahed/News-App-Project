@@ -56,18 +56,15 @@ class ConnectionStatusListener {
   }
 }
 
-updateConnectivity(dynamic hasConnection, ConnectionStatusListener connectionStatus) {
+void updateConnectivity(dynamic hasConnection, ConnectionStatusListener connectionStatus) {
   if (!hasConnection) {
     connectionStatus.hasShownNoInternet = true;
     connectionStatus.isInternetConnected = false;
     print('no internet');
-  }
-  if (hasConnection) {
-    if (connectionStatus.hasShownNoInternet) {
-      connectionStatus.hasShownNoInternet = false;
-      connectionStatus.isInternetConnected = true;
-      print('internet connection yes');
-    }
+  } else if (hasConnection && connectionStatus.hasShownNoInternet) {
+    connectionStatus.hasShownNoInternet = false;
+    connectionStatus.isInternetConnected = true;
+    print('internet connection yes');
   }
 }
 
