@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/images_paths.dart';
+import 'package:news_app/config/constants/images_paths.dart';
 
 final helperFunctions = HelperFunctions.instance;
 

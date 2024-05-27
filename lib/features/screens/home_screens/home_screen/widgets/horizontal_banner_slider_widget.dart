@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/global_colors.dart';
-import 'package:news_app_project/config/constants/images_paths.dart';
-import 'package:news_app_project/features/data/models/banners_news_model.dart';
-import 'package:news_app_project/helpers/helper_functions.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
+import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/features/data/models/banners_news_model.dart';
+import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/utils/my_media_query.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HorizontalBreakingNewsSliderWidget extends StatefulWidget {

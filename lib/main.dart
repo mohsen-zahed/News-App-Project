@@ -1,17 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:news_app_project/features/data/models/banners_news_model.dart';
-import 'package:news_app_project/features/data/models/business_news_model.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/data/models/technology_news_model.dart';
-import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
-import 'package:news_app_project/features/screens/home_screens/home_screen/home_screen.dart';
-import 'package:news_app_project/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
-import 'package:news_app_project/features/screens/initial_screens/splash_screen/splash_screen.dart';
-import 'package:news_app_project/packages/connectivity_plus_package/connection_controller.dart';
-import 'package:news_app_project/packages/hive_flutter_package/hive_flutter_package_constants.dart';
-import 'package:news_app_project/theme/theme.dart';
+import 'package:news_app/features/data/models/banners_news_model.dart';
+import 'package:news_app/features/data/models/business_news_model.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/data/models/technology_news_model.dart';
+import 'package:news_app/features/data/models/wall_street_news_model.dart';
+import 'package:news_app/features/screens/home_screens/home_screen/home_screen.dart';
+import 'package:news_app/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
+import 'package:news_app/features/screens/initial_screens/splash_screen/splash_screen.dart';
+import 'package:news_app/packages/connectivity_plus_package/connection_controller.dart';
+import 'package:news_app/packages/hive_flutter_package/hive_flutter_package_constants.dart';
+import 'package:news_app/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

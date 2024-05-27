@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/images_paths.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
+import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/utils/my_media_query.dart';
 
 class EmptyScreenWidget extends StatelessWidget {
   final Function() onTryAgainPressed;

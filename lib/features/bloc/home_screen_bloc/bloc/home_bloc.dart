@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:news_app_project/features/data/models/banners_news_model.dart';
+import 'package:news_app/features/data/models/banners_news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app_project/features/data/models/business_news_model.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/data/models/technology_news_model.dart';
-import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
-import 'package:news_app_project/features/data/repository/ibanner_repository.dart';
-import 'package:news_app_project/features/data/repository/inews_repository.dart';
+import 'package:news_app/features/data/models/business_news_model.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/data/models/technology_news_model.dart';
+import 'package:news_app/features/data/models/wall_street_news_model.dart';
+import 'package:news_app/features/data/repository/ibanner_repository.dart';
+import 'package:news_app/features/data/repository/inews_repository.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

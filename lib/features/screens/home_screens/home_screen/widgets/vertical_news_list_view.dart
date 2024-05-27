@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/global_colors.dart';
-import 'package:news_app_project/features/data/models/business_news_model.dart';
-import 'package:news_app_project/features/data/models/technology_news_model.dart';
-import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
-import 'package:news_app_project/widgets/custom_cached_network_image.dart';
+import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/features/data/models/business_news_model.dart';
+import 'package:news_app/features/data/models/technology_news_model.dart';
+import 'package:news_app/features/data/models/wall_street_news_model.dart';
+import 'package:news_app/utils/my_media_query.dart';
+import 'package:news_app/widgets/custom_cached_network_image.dart';
 
 class VerticalNewsListView extends StatefulWidget {
   const VerticalNewsListView({

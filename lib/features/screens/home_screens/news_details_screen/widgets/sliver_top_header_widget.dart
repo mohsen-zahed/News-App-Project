@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:news_app_project/config/constants/global_colors.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/screens/home_screens/news_details_screen/widgets/full_screen_image.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
-import 'package:news_app_project/widgets/custom_cached_network_image.dart';
+import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/full_screen_image.dart';
+import 'package:news_app/utils/my_media_query.dart';
+import 'package:news_app/widgets/custom_cached_network_image.dart';
 
 class TopHeaderWidget extends SliverPersistentHeaderDelegate {
   final GeneralNewsModel generalNewsModel;

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:news_app_project/config/constants/images_paths.dart';
-import 'package:news_app_project/translations/locale_keys.g.dart';
+import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/translations/locale_keys.g.dart';
 
 List<Map<String, dynamic>> onboardingList = [
   {
@@ -19,4 +19,3 @@ List<Map<String, dynamic>> onboardingList = [
     'subtitle': LocaleKeys.onboarding3_subtitle_text.tr(),
   },
 ];
-

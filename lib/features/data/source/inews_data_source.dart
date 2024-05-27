@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:news_app_project/features/data/models/business_news_model.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/data/models/technology_news_model.dart';
-import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
-import 'package:news_app_project/helpers/helper_functions.dart';
-import 'package:news_app_project/packages/connectivity_plus_package/connectivity_plus_constants.dart';
-import 'package:news_app_project/packages/hive_flutter_package/hive_flutter_package_constants.dart';
+import 'package:news_app/features/data/models/business_news_model.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/data/models/technology_news_model.dart';
+import 'package:news_app/features/data/models/wall_street_news_model.dart';
+import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/packages/connectivity_plus_package/connectivity_plus_constants.dart';
+import 'package:news_app/packages/hive_flutter_package/hive_flutter_package_constants.dart';
 
 abstract class INewsDataSource {
   Future<List<TechnologyNewsModel>> getTechnologyNews();

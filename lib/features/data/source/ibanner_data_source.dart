@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:news_app_project/features/data/models/banners_news_model.dart';
-import 'package:news_app_project/packages/connectivity_plus_package/connectivity_plus_constants.dart';
-import 'package:news_app_project/packages/hive_flutter_package/hive_flutter_package_constants.dart';
+import 'package:news_app/features/data/models/banners_news_model.dart';
+import 'package:news_app/packages/connectivity_plus_package/connectivity_plus_constants.dart';
+import 'package:news_app/packages/hive_flutter_package/hive_flutter_package_constants.dart';
 
 abstract class IBannerDataSource {
   Future<List<BannersNewsModel>> getBannersNews();

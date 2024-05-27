@@ -1,9 +1,9 @@
-import 'package:news_app_project/features/data/models/business_news_model.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/data/models/technology_news_model.dart';
-import 'package:news_app_project/features/data/models/wall_street_news_model.dart';
-import 'package:news_app_project/features/data/source/inews_data_source.dart';
-import 'package:news_app_project/packages/dio_package/dio_package.dart';
+import 'package:news_app/features/data/models/business_news_model.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/data/models/technology_news_model.dart';
+import 'package:news_app/features/data/models/wall_street_news_model.dart';
+import 'package:news_app/features/data/source/inews_data_source.dart';
+import 'package:news_app/packages/dio_package/dio_package.dart';
 
 final newsRepository = NewsRepository(iNewsDataSource: NewsDataSource(httpClient: httpClient));
 

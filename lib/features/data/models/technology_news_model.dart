@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:news_app_project/config/constants/images_paths.dart';
+import 'package:news_app/config/constants/images_paths.dart';
 part 'technology_news_model.g.dart';
 
 @HiveType(typeId: 3)

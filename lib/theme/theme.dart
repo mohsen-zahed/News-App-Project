@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/global_colors.dart';
+import 'package:news_app/config/constants/global_colors.dart';
 
 ThemeData lightTheme(BuildContext context) {
   return ThemeData(

@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app_project/config/constants/global_colors.dart';
-import 'package:news_app_project/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/data/repository/ibanner_repository.dart';
-import 'package:news_app_project/features/data/repository/inews_repository.dart';
-import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
-import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/vertical_recommendations_list_widget.dart';
-import 'package:news_app_project/features/screens/home_screens/search_screen/search_screen.dart';
-import 'package:news_app_project/helpers/helper_functions.dart';
-import 'package:news_app_project/packages/connectivity_plus_package/connectivity_plus_constants.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
-import 'package:news_app_project/widgets/empty_screen_widget.dart';
+import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/data/repository/ibanner_repository.dart';
+import 'package:news_app/features/data/repository/inews_repository.dart';
+import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
+import 'package:news_app/features/screens/home_screens/home_screen/widgets/vertical_recommendations_list_widget.dart';
+import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
+import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/packages/connectivity_plus_package/connectivity_plus_constants.dart';
+import 'package:news_app/utils/my_media_query.dart';
+import 'package:news_app/widgets/empty_screen_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

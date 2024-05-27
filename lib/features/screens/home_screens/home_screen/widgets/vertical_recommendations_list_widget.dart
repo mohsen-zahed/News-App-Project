@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/global_colors.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/screens/home_screens/home_screen/widgets/single_horizontal_news_widget.dart';
-import 'package:news_app_project/features/screens/home_screens/news_details_screen/news_details_screen.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
+import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/screens/home_screens/home_screen/widgets/single_horizontal_news_widget.dart';
+import 'package:news_app/features/screens/home_screens/news_details_screen/news_details_screen.dart';
+import 'package:news_app/utils/my_media_query.dart';
 
 class VerticalRecommendationsListWidget extends StatelessWidget {
   final List<GeneralNewsModel> generalNewsModel;

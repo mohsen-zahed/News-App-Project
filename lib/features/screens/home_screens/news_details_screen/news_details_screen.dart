@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/global_colors.dart';
-import 'package:news_app_project/features/data/models/general_news_model.dart';
-import 'package:news_app_project/features/screens/home_screens/news_details_screen/widgets/horizontal_image_source_name_verified_badge_widget.dart';
-import 'package:news_app_project/features/screens/home_screens/news_details_screen/widgets/sliver_top_header_widget.dart';
-import 'package:news_app_project/helpers/helper_functions.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
+import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/features/data/models/general_news_model.dart';
+import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/horizontal_image_source_name_verified_badge_widget.dart';
+import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/sliver_top_header_widget.dart';
+import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/utils/my_media_query.dart';
 
 class NewsDetailsScreen extends StatelessWidget {
   final GeneralNewsModel generalNewsModel;

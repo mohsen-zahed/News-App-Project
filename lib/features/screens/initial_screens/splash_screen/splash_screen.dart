@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:news_app_project/config/constants/images_paths.dart';
-import 'package:news_app_project/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
-import 'package:news_app_project/utils/my_media_query.dart';
+import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
+import 'package:news_app/utils/my_media_query.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
