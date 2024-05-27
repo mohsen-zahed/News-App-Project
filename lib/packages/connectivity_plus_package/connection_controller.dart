@@ -7,8 +7,6 @@ class ConnectionStatusListener {
   static final _singleton = ConnectionStatusListener._internal();
   ConnectionStatusListener._internal();
 
-  bool hasShownNoInternet = false;
-
   final Connectivity _connectivity = Connectivity();
 
   static ConnectionStatusListener getInstance() => _singleton;
@@ -21,7 +19,7 @@ class ConnectionStatusListener {
   Stream get connectionChange => connectionChangeController.stream;
 
   void _connectionChange(List<ConnectivityResult> results) async {
-    for (var i = 0; i < results.length; i++) {
+    for (var i = 0; i <= results[0].index; i++) {
       await checkConnection();
     }
   }
@@ -48,7 +46,7 @@ class ConnectionStatusListener {
 
   Future<void> initialize() async {
     _connectivity.onConnectivityChanged.listen(_connectionChange);
-    await checkConnection();
+    isInternetConnected = await checkConnection();
   }
 
   void dispose() {
@@ -56,28 +54,24 @@ class ConnectionStatusListener {
   }
 }
 
-void updateConnectivity(dynamic hasConnection, ConnectionStatusListener connectionStatus) {
-  if (!hasConnection) {
-    connectionStatus.hasShownNoInternet = true;
+void updateConnectivity(bool hasConnection, ConnectionStatusListener connectionStatus) {
+  if (hasConnection == false) {
     connectionStatus.isInternetConnected = false;
     print('no internet');
-  } else if (hasConnection && connectionStatus.hasShownNoInternet) {
-    connectionStatus.hasShownNoInternet = false;
+  } else if (hasConnection == true) {
     connectionStatus.isInternetConnected = true;
     print('internet connection yes');
   }
 }
 
-initNoInternetListener() async {
+Future initNoInternetListener() async {
   var connectionStatus = ConnectionStatusListener.getInstance();
-  print(connectionStatus.toString());
   await connectionStatus.initialize();
-  if (!connectionStatus.hasConnection) {
-    updateConnectivity(false, connectionStatus);
-  }
-  if (connectionStatus.hasConnection) {
+  if (connectionStatus.isInternetConnected == false) {
+    updateConnectivity(connectionStatus.isInternetConnected, connectionStatus);
+  } else if (connectionStatus.isInternetConnected == true) {
     connectionStatus.connectionChange.listen((event) {
-      updateConnectivity(event, connectionStatus);
+      updateConnectivity(connectionStatus.isInternetConnected, connectionStatus);
     });
   }
 }

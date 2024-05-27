@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app/features/data/models/general_news_model.dart';
 import 'package:news_app/features/data/repository/ibanner_repository.dart';
@@ -10,7 +11,6 @@ import 'package:news_app/features/screens/home_screens/home_screen/widgets/horiz
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/vertical_recommendations_list_widget.dart';
 import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
-import 'package:news_app/packages/connectivity_plus_package/connectivity_plus_constants.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/empty_screen_widget.dart';
 
@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late HomeBloc homeBloc;
-  bool isConnect = isConnected;
+  ValueNotifier<int> listValueNotifier = ValueNotifier<int>(0);
 
   List<GeneralNewsModel> newsList = [];
   @override
@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             GestureDetector(
               onTap: () {
                 if (newsList.isNotEmpty) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen(newsList: newsList)));
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => SearchScreen(newsList: newsList)));
                 } else {
                   helperFunctions.showSnackBar(context, '${newsList.toString()} is Empty!', 1000);
                 }
@@ -106,9 +106,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else if (state is HomeSuccess) {
-                  newsList = state.generalNewsList;
-                  connectionStatusListener.isInternetConnected ? print('homeFolder: connected') : print('homeFolder: not connected');
-
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,9 +116,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           bannersModelList: state.bannersList,
                         ),
                         SizedBox(height: getMediaQueryHeight(context, 0.03)),
-                        //* Entire news categories vertical listView... (Padding)
-                        VerticalRecommendationsListWidget(
-                          generalNewsModel: state.generalNewsList,
+                        //* Horizontal categories with vertical recommendations widget...
+                        Column(
+                          children: [
+                            //* Categories widget...
+                            HorizontalCategoriesWidget(listValueNotifier: listValueNotifier),
+                            SizedBox(height: getMediaQueryHeight(context, 0.015)),
+                            //* Entire news categories vertical listView... (Padding)
+                            ValueListenableBuilder(
+                              valueListenable: listValueNotifier,
+                              builder: (context, value, child) => VerticalRecommendationsListWidget(
+                                newsList: listValueNotifier.value == 0
+                                    ? state.allNewsList
+                                    : listValueNotifier.value == 1
+                                        ? state.businessNewsList
+                                        : listValueNotifier.value == 2
+                                            ? state.technologyList
+                                            : state.wallStreetList,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -141,6 +155,58 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HorizontalCategoriesWidget extends StatelessWidget {
+  const HorizontalCategoriesWidget({
+    super.key,
+    required this.listValueNotifier,
+  });
+
+  final ValueNotifier<int> listValueNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.03)),
+      child: Row(
+        children: [
+          ...List.generate(
+            NewsCategories.values.length,
+            (index) => Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  // setState(() {
+                  //   listValueNotifier.value = index;
+                  // });
+                  debugPrint(listValueNotifier.value.toString());
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: EdgeInsets.fromLTRB(4, 4, index == NewsCategories.values.length - 1 ? 4 : 0, 4),
+                  padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.005)),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: listValueNotifier.value == index ? kPrimaryColor : kGreyColorShade200,
+                    ),
+                    color: listValueNotifier.value == index ? kPrimaryColor : kTransparentColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(
+                      NewsCategories.values[index].name,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: listValueNotifier.value == index ? kWhiteColor : kBlackColor),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

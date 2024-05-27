@@ -1,15 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
-import 'package:news_app/features/data/models/general_news_model.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/single_horizontal_news_widget.dart';
 import 'package:news_app/features/screens/home_screens/news_details_screen/news_details_screen.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class VerticalRecommendationsListWidget extends StatelessWidget {
-  final List<GeneralNewsModel> generalNewsModel;
+  final List<dynamic> newsList;
   const VerticalRecommendationsListWidget({
     super.key,
-    required this.generalNewsModel,
+    required this.newsList,
   });
 
   @override
@@ -31,13 +31,13 @@ class VerticalRecommendationsListWidget extends StatelessWidget {
           ),
         ),
         ...List.generate(
-          generalNewsModel.length,
+          newsList.length,
           (index) => GestureDetector(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => NewsDetailsScreen(generalNewsModel: generalNewsModel[index]),
+            onTap: () => Navigator.of(context).push(CupertinoPageRoute(
+              builder: (context) => NewsDetailsScreen(generalNewsModel: newsList[index]),
             )),
             child: SingleHorizontalNewsWidget(
-              newsModel: generalNewsModel[index],
+              newsModel: newsList[index],
             ),
           ),
         ),

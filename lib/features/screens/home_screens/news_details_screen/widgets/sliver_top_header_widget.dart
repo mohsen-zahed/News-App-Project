@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:news_app/config/constants/global_colors.dart';
@@ -23,7 +24,7 @@ class TopHeaderWidget extends SliverPersistentHeaderDelegate {
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: generalNewsModel.imageUrl)));
+        Navigator.of(context).push(CupertinoPageRoute(builder: (context) => FullScreenImage(imageUrl: generalNewsModel.imageUrl)));
       },
       child: Stack(
         fit: StackFit.expand,

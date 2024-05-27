@@ -15,6 +15,7 @@ import 'package:news_app/theme/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initNoInternetListener();
   await EasyLocalization.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(BannersNewsModelAdapter());
@@ -27,7 +28,6 @@ void main() async {
   await Hive.openBox<GeneralNewsModel>(generalNewsModelBoxName);
   await Hive.openBox<TechnologyNewsModel>(technologyNewsModelBoxName);
   await Hive.openBox<WallStreetNewsModel>(wallStreetNewsModelBoxName);
-  initNoInternetListener();
   runApp(
     EasyLocalization(
       supportedLocales: const [

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/data/models/general_news_model.dart';
@@ -92,7 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => NewsDetailsScreen(generalNewsModel: items[index])));
+                            Navigator.push(context, CupertinoPageRoute(builder: (context) => NewsDetailsScreen(generalNewsModel: items[index])));
                           },
                           child: SingleHorizontalNewsWidget(
                             newsModel: items[index],
