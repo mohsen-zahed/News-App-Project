@@ -2,13 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:news_app/config/constants/global_colors.dart';
-import 'package:news_app/features/data/models/general_news_model.dart';
 import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/full_screen_image.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_cached_network_image.dart';
 
 class TopHeaderWidget extends SliverPersistentHeaderDelegate {
-  final GeneralNewsModel generalNewsModel;
+  final dynamic newsListModel;
 
   @override
   final double maxExtent;
@@ -16,7 +15,7 @@ class TopHeaderWidget extends SliverPersistentHeaderDelegate {
   final double minExtent;
 
   const TopHeaderWidget({
-    required this.generalNewsModel,
+    required this.newsListModel,
     required this.maxExtent,
     required this.minExtent,
   });
@@ -24,12 +23,12 @@ class TopHeaderWidget extends SliverPersistentHeaderDelegate {
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(CupertinoPageRoute(builder: (context) => FullScreenImage(imageUrl: generalNewsModel.imageUrl)));
+        Navigator.of(context).push(CupertinoPageRoute(builder: (context) => FullScreenImage(imageUrl: newsListModel.imageUrl)));
       },
       child: Stack(
         fit: StackFit.expand,
         children: [
-          CustomCachedNetworkImage(borderRadius: 10, imageUrl: generalNewsModel.imageUrl),
+          CustomCachedNetworkImage(borderRadius: 10, imageUrl: newsListModel.imageUrl),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -48,11 +47,11 @@ class TopHeaderWidget extends SliverPersistentHeaderDelegate {
               children: [
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: getMediaQueryWidth(context, 0.95)),
-                  child: Text(generalNewsModel.title, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: kWhiteColor)),
+                  child: Text(newsListModel.title, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: kWhiteColor)),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  '${generalNewsModel.author} • ${generalNewsModel.publishedAt}',
+                  '${newsListModel.author} • ${newsListModel.publishedAt}',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(color: kGreyColor),
                 ),
               ],

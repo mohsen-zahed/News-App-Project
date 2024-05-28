@@ -32,18 +32,14 @@ class BannerDataSourceImp implements IBannerDataSource {
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
         try {
           String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
-          final imageAccess = await httpClient.request(imageType);
-          if (imageAccess.statusCode == 200) {
-            if (imageType.contains('webp') || imageType.contains('gif')) {
-              debugPrint('imageType is not valid: $imageType');
-              continue;
-            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
-              bannersNewsList.add(BannersNewsModel.fromJson(response.data['articles'][i]));
-            }
-          } else {
+
+          if (imageType.contains('webp') || imageType.contains('gif')) {
+            debugPrint('imageType is not valid: $imageType');
             continue;
+          } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+            bannersNewsList.add(BannersNewsModel.fromJson(response.data['articles'][i]));
           }
-        } catch (e) {
+        } on ImageChunkEvent catch (e) {
           debugPrint(e.toString());
           continue;
         }

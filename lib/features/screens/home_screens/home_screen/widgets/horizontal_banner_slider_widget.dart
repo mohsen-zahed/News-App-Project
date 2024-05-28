@@ -29,7 +29,7 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
   @override
   void initState() {
     super.initState();
-    // _startAutoScroll();
+    _startAutoScroll();
   }
 
   void _startAutoScroll() {

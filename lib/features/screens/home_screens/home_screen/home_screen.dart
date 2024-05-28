@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
-import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app/features/data/models/general_news_model.dart';
 import 'package:news_app/features/data/repository/ibanner_repository.dart';
 import 'package:news_app/features/data/repository/inews_repository.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
+import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_categories_widget.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/vertical_recommendations_list_widget.dart';
 import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
@@ -126,11 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ValueListenableBuilder(
                               valueListenable: listValueNotifier,
                               builder: (context, value, child) => VerticalRecommendationsListWidget(
-                                newsList: listValueNotifier.value == 0
+                                newsList: value == 0
                                     ? state.allNewsList
-                                    : listValueNotifier.value == 1
+                                    : value == 1
                                         ? state.wallStreetList
-                                        : listValueNotifier.value == 2
+                                        : value == 2
                                             ? state.technologyList
                                             : state.businessNewsList,
                               ),
@@ -155,66 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class HorizontalCategoriesWidget extends StatefulWidget {
-  const HorizontalCategoriesWidget({
-    super.key,
-    required this.listValueNotifier,
-  });
-
-  final ValueNotifier<int> listValueNotifier;
-
-  @override
-  State<HorizontalCategoriesWidget> createState() => _HorizontalCategoriesWidgetState();
-}
-
-class _HorizontalCategoriesWidgetState extends State<HorizontalCategoriesWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.03)),
-      child: Row(
-        children: [
-          ...List.generate(
-            NewsCategories.values.length,
-            (index) => Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    widget.listValueNotifier.value = index;
-                  });
-                  debugPrint(widget.listValueNotifier.value.toString());
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  margin: EdgeInsets.fromLTRB(4, 4, index == NewsCategories.values.length - 1 ? 4 : 0, 4),
-                  padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.005)),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: widget.listValueNotifier.value == index ? kPrimaryColor : kGreyColorShade200,
-                    ),
-                    color: widget.listValueNotifier.value == index ? kPrimaryColor : kTransparentColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      NewsCategories.values[index].name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: widget.listValueNotifier.value == index ? kWhiteColor : kBlackColor),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

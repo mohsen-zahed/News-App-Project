@@ -93,7 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.push(context, CupertinoPageRoute(builder: (context) => NewsDetailsScreen(generalNewsModel: items[index])));
+                            Navigator.push(context, CupertinoPageRoute(builder: (context) => NewsDetailsScreen(newsList: items[index])));
                           },
                           child: SingleHorizontalNewsWidget(
                             newsModel: items[index],

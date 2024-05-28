@@ -31,10 +31,10 @@ class VerticalRecommendationsListWidget extends StatelessWidget {
           ),
         ),
         ...List.generate(
-          newsList.length,
+          7,
           (index) => GestureDetector(
             onTap: () => Navigator.of(context).push(CupertinoPageRoute(
-              builder: (context) => NewsDetailsScreen(generalNewsModel: newsList[index]),
+              builder: (context) => NewsDetailsScreen(newsList: newsList[index]),
             )),
             child: SingleHorizontalNewsWidget(
               newsModel: newsList[index],
