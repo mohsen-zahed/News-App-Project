@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
@@ -21,7 +22,7 @@ class FullScreenImage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: PhotoView(
-                  imageProvider: NetworkImage(imageUrl),
+                  imageProvider: CachedNetworkImageProvider(imageUrl),
                   loadingBuilder: (context, event) => const Center(
                     child: CupertinoActivityIndicator(),
                   ),

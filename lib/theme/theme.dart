@@ -46,6 +46,11 @@ ThemeData lightTheme(BuildContext context) {
         ),
       ),
     ),
+    cardTheme: CardTheme(
+      color: kWhiteColor,
+      elevation: 0.3,
+      shadowColor: kBlackColorOp3,
+    ),
   );
 }
 
@@ -93,6 +98,11 @@ ThemeData darkTheme(BuildContext context) {
           Theme.of(context).textTheme.titleSmall!.copyWith(color: kDarkPrimaryTextColor),
         ),
       ),
+    ),
+    cardTheme: CardTheme(
+      color: kDarkBackgroundColor,
+      elevation: 0.3,
+      shadowColor: kWhiteColorOp3,
     ),
   );
 }

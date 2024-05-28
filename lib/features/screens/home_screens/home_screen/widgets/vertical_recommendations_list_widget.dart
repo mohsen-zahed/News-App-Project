@@ -7,9 +7,11 @@ import 'package:news_app/utils/my_media_query.dart';
 
 class VerticalRecommendationsListWidget extends StatelessWidget {
   final List<dynamic> newsList;
+  final GestureTapCallback onViewAllTap;
   const VerticalRecommendationsListWidget({
     super.key,
     required this.newsList,
+    required this.onViewAllTap,
   });
 
   @override
@@ -24,7 +26,7 @@ class VerticalRecommendationsListWidget extends StatelessWidget {
             children: [
               Text('Recommendations', style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold)),
               GestureDetector(
-                onTap: () {},
+                onTap: onViewAllTap,
                 child: Text('View all', style: Theme.of(context).textTheme.labelLarge!.copyWith(color: kBlueColor, fontWeight: FontWeight.w700)),
               ),
             ],
