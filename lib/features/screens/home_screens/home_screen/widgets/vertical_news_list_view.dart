@@ -4,7 +4,7 @@ import 'package:news_app/features/data/models/business_news_model.dart';
 import 'package:news_app/features/data/models/technology_news_model.dart';
 import 'package:news_app/features/data/models/wall_street_news_model.dart';
 import 'package:news_app/utils/my_media_query.dart';
-import 'package:news_app/widgets/custom_cached_network_image.dart';
+import 'package:news_app/packages/cached_network_image_package/custom_cached_network_image.dart';
 
 class VerticalNewsListView extends StatefulWidget {
   const VerticalNewsListView({

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/utils/my_media_query.dart';
-import 'package:news_app/widgets/custom_cached_network_image.dart';
+import 'package:news_app/packages/cached_network_image_package/custom_cached_network_image.dart';
 
 class SingleHorizontalNewsWidget extends StatelessWidget {
   final dynamic newsModel;
