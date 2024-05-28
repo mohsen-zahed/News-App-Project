@@ -21,8 +21,8 @@ List<Map<String, dynamic>> onboardingList = [
 ];
 
 enum NewsCategories {
-  All,
-  Technology,
-  Business,
-  Sports,
+  all,
+  wJS,
+  technology,
+  business,
 }

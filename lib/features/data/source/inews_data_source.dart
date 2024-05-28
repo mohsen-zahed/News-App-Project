@@ -10,28 +10,27 @@ import 'package:news_app/packages/connectivity_plus_package/connectivity_plus_co
 import 'package:news_app/packages/hive_flutter_package/hive_flutter_package_constants.dart';
 
 abstract class INewsDataSource {
-  Future<List<TechnologyNewsModel>> getTechnologyNews();
+  Future<List<GeneralNewsModel>> getAllNews();
 
   Future<List<WallStreetNewsModel>> getWallStreetNews();
 
-  Future<List<BusinessNewsModel>> getBusinessNews();
+  Future<List<TechnologyNewsModel>> getTechnologyNews();
 
-  Future<List<GeneralNewsModel>> getAllNews();
+  Future<List<BusinessNewsModel>> getBusinessNews();
 }
 
 class NewsDataSource implements INewsDataSource {
   NewsDataSource({required this.httpClient});
-
   final Dio httpClient;
 
   @override
   Future<List<GeneralNewsModel>> getAllNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      //* To store in local database for accessing later with no connection...
       if (response.data != null || response.data.isNotEmpty) {
         final box = Hive.box<GeneralNewsModel>(generalNewsModelBoxName);
         // box.clear();
-
         for (var element in (response.data['articles'] as List)) {
           var generalNewsModel = GeneralNewsModel.fromJson(element);
           if (!box.values.contains(generalNewsModel)) {
@@ -39,84 +38,39 @@ class NewsDataSource implements INewsDataSource {
           }
         }
       }
-      final List<GeneralNewsModel> generalNewsList = [];
+      //* Ends here...
+      //* Online process occures here...
+      final List<GeneralNewsModel> allNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
-        String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
-        if (imageType.contains('webp')) {
-          debugPrint(imageType);
+        try {
+          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+          final imageAccess = await httpClient.request(imageType);
+          if (imageAccess.statusCode == 200) {
+            if (imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              allNewsList.add(GeneralNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } else {
+            continue;
+          }
+        } catch (e) {
+          debugPrint(e.toString());
           continue;
-        } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
-          generalNewsList.add(GeneralNewsModel.fromJson(response.data['articles'][i]));
         }
       }
-      return generalNewsList;
+      return allNewsList;
+      //* Ends here...
     } else {
+      //* Offline process when user is not connected...
       final box = Hive.box<GeneralNewsModel>(generalNewsModelBoxName).values.toList();
       List<GeneralNewsModel> offlineGeneralNewsList = [];
       for (var element in box) {
         offlineGeneralNewsList.add(element);
       }
       return offlineGeneralNewsList;
-    }
-  }
-
-  @override
-  Future<List<BusinessNewsModel>> getBusinessNews() async {
-    if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
-      if (response.data != null || response.data.isNotEmpty) {
-        final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName);
-        // box.clear();
-
-        for (var element in (response.data['articles'] as List)) {
-          var businessNewsModel = BusinessNewsModel.fromJson(element);
-          if (!box.values.contains(businessNewsModel)) {
-            box.add(businessNewsModel);
-          }
-        }
-      }
-      final List<BusinessNewsModel> businessList = [];
-      for (var element in (response.data['articles'] as List).reversed) {
-        businessList.add(BusinessNewsModel.fromJson(element));
-      }
-      return businessList;
-    } else {
-      final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName).values.toList();
-      List<BusinessNewsModel> offlineBusinessList = [];
-      for (var element in box) {
-        offlineBusinessList.add(element);
-      }
-      return offlineBusinessList;
-    }
-  }
-
-  @override
-  Future<List<TechnologyNewsModel>> getTechnologyNews() async {
-    if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient
-          .get('https://newsapi.org/v2/everything?q=apple&from=2024-05-21&to=2024-05-21&sortBy=popularity&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
-      if (response.data != null || response.data.isNotEmpty) {
-        final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName);
-        // box.clear();
-        for (var element in (response.data['articles'] as List)) {
-          var technologyNewsModel = TechnologyNewsModel.fromJson(element);
-          if (!box.values.contains(technologyNewsModel)) {
-            box.add(technologyNewsModel);
-          }
-        }
-      }
-      final List<TechnologyNewsModel> technologyList = [];
-      for (var element in (response.data['articles'] as List).reversed) {
-        technologyList.add(TechnologyNewsModel.fromJson(element));
-      }
-      return technologyList;
-    } else {
-      final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName).values.toList();
-      List<TechnologyNewsModel> offlineTechnologyList = [];
-      for (var element in box) {
-        offlineTechnologyList.add(element);
-      }
-      return offlineTechnologyList;
+      //* Ends here...
     }
   }
 
@@ -124,6 +78,7 @@ class NewsDataSource implements INewsDataSource {
   Future<List<WallStreetNewsModel>> getWallStreetNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      //* To store in local database for accessing later with no connection...
       if (response.data != null || response.data.isNotEmpty) {
         final box = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName);
         // box.clear();
@@ -134,18 +89,145 @@ class NewsDataSource implements INewsDataSource {
           }
         }
       }
+      //* Ends here...
+      //* Online process occures here...
       final List<WallStreetNewsModel> wallStreetList = [];
-      for (var element in (response.data['articles'] as List).reversed) {
-        wallStreetList.add(WallStreetNewsModel.fromJson(element));
+      for (var i = 0; i < (response.data['articles'] as List).length; i++) {
+        try {
+          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+          final imageAccess = await httpClient.request(imageType);
+          if (imageAccess.statusCode == 200) {
+            if (imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              wallStreetList.add(WallStreetNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } else {
+            continue;
+          }
+        } catch (e) {
+          debugPrint(e.toString());
+          continue;
+        }
       }
       return wallStreetList;
+      //* Ends here...
     } else {
+      //* Offline process when user is not connected...
       final box = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName).values.toList();
       List<WallStreetNewsModel> offlineWallStreetList = [];
       for (var element in box) {
         offlineWallStreetList.add(element);
       }
       return offlineWallStreetList;
+      //* Ends here...
+    }
+  }
+
+  @override
+  Future<List<TechnologyNewsModel>> getTechnologyNews() async {
+    if (connectionStatusListener.isInternetConnected) {
+      final response = await httpClient
+          .get('https://newsapi.org/v2/everything?q=apple&from=2024-05-21&to=2024-05-21&sortBy=popularity&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+
+      //* To store in local database for accessing later with no connection...
+      if (response.data != null || response.data.isNotEmpty) {
+        final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName);
+        // box.clear();
+        for (var element in (response.data['articles'] as List)) {
+          var technologyNewsModel = TechnologyNewsModel.fromJson(element);
+          if (!box.values.contains(technologyNewsModel)) {
+            box.add(technologyNewsModel);
+          }
+        }
+      }
+      //* Ends here...
+      //* Online process occures here...
+      final List<TechnologyNewsModel> technologyList = [];
+      for (var i = 0; i < (response.data['articles'] as List).length; i++) {
+        try {
+          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+          final imageAccess = await httpClient.request(imageType);
+          if (imageAccess.statusCode == 200) {
+            if (imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              technologyList.add(TechnologyNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } else {
+            continue;
+          }
+        } catch (e) {
+          debugPrint(e.toString());
+          continue;
+        }
+      }
+      return technologyList;
+      //* Ends here...
+    } else {
+      //* Offline process when user is not connected...
+      final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName).values.toList();
+      List<TechnologyNewsModel> offlineTechnologyList = [];
+      for (var element in box) {
+        offlineTechnologyList.add(element);
+      }
+      return offlineTechnologyList;
+      //* Ends here
+    }
+  }
+
+  @override
+  Future<List<BusinessNewsModel>> getBusinessNews() async {
+    if (connectionStatusListener.isInternetConnected) {
+      final response =
+          await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+
+      //* To store in local database for accessing later with no connection...
+      if (response.data != null || response.data.isNotEmpty) {
+        final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName);
+        // box.clear();
+        for (var element in (response.data['articles'] as List)) {
+          var businessNewsModel = BusinessNewsModel.fromJson(element);
+          if (!box.values.contains(businessNewsModel)) {
+            box.add(businessNewsModel);
+          }
+        }
+      }
+      //* Ends here...
+      //* Online process occures here...
+      final List<BusinessNewsModel> businessList = [];
+      for (var i = 0; i < (response.data['articles'] as List).length; i++) {
+        try {
+          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+          final imageAccess = await httpClient.request(imageType);
+          if (imageAccess.statusCode == 200) {
+            if (imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              businessList.add(BusinessNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } else {
+            continue;
+          }
+        } catch (e) {
+          debugPrint(e.toString());
+          continue;
+        }
+      }
+      return businessList;
+      //* Ends here...
+    } else {
+      //* Offline process when user is not connected...
+      final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName).values.toList();
+      List<BusinessNewsModel> offlineBusinessList = [];
+      for (var element in box) {
+        offlineBusinessList.add(element);
+      }
+      return offlineBusinessList;
+      //* Ends here...
     }
   }
 }

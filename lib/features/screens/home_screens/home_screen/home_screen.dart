@@ -129,10 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 newsList: listValueNotifier.value == 0
                                     ? state.allNewsList
                                     : listValueNotifier.value == 1
-                                        ? state.businessNewsList
+                                        ? state.wallStreetList
                                         : listValueNotifier.value == 2
                                             ? state.technologyList
-                                            : state.wallStreetList,
+                                            : state.businessNewsList,
                               ),
                             ),
                           ],
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HorizontalCategoriesWidget extends StatelessWidget {
+class HorizontalCategoriesWidget extends StatefulWidget {
   const HorizontalCategoriesWidget({
     super.key,
     required this.listValueNotifier,
@@ -168,6 +168,11 @@ class HorizontalCategoriesWidget extends StatelessWidget {
 
   final ValueNotifier<int> listValueNotifier;
 
+  @override
+  State<HorizontalCategoriesWidget> createState() => _HorizontalCategoriesWidgetState();
+}
+
+class _HorizontalCategoriesWidgetState extends State<HorizontalCategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -180,10 +185,10 @@ class HorizontalCategoriesWidget extends StatelessWidget {
             (index) => Expanded(
               child: GestureDetector(
                 onTap: () {
-                  // setState(() {
-                  //   listValueNotifier.value = index;
-                  // });
-                  debugPrint(listValueNotifier.value.toString());
+                  setState(() {
+                    widget.listValueNotifier.value = index;
+                  });
+                  debugPrint(widget.listValueNotifier.value.toString());
                 },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -191,15 +196,18 @@ class HorizontalCategoriesWidget extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.005)),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: listValueNotifier.value == index ? kPrimaryColor : kGreyColorShade200,
+                      color: widget.listValueNotifier.value == index ? kPrimaryColor : kGreyColorShade200,
                     ),
-                    color: listValueNotifier.value == index ? kPrimaryColor : kTransparentColor,
+                    color: widget.listValueNotifier.value == index ? kPrimaryColor : kTransparentColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
                     child: Text(
                       NewsCategories.values[index].name,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: listValueNotifier.value == index ? kWhiteColor : kBlackColor),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: widget.listValueNotifier.value == index ? kWhiteColor : kBlackColor),
                     ),
                   ),
                 ),

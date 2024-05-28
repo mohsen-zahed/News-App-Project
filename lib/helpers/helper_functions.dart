@@ -59,7 +59,7 @@ class HelperFunctions {
 //**
 //** File Functions ends here ***//
 
-//** PopUp Functions starts here ***//
+//** PopUp Functions start here ***//
 //**
   void showSnackBar(BuildContext context, String message, int durationInMilli) {
     ScaffoldMessenger.of(context)
@@ -104,7 +104,7 @@ void showInfinitTimeSnackBar(BuildContext context, String message) {
   );
 }
 //**
-//** PopUp Functions ends here ***//
+//** PopUp Functions end here ***//
 
 //** Connectivity Functions starts here ***//
 //**
