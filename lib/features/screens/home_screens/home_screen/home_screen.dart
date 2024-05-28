@@ -11,7 +11,7 @@ import 'package:news_app/features/screens/home_screens/home_screen/widgets/verti
 import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/utils/my_media_query.dart';
-import 'package:news_app/widgets/empty_screen_widget.dart';
+import 'package:news_app/widgets/try_again_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else if (state is HomeFailed) {
-                  return EmptyScreenWidget(
+                  return TryAgainWidget(
                     errorMessage: state.exception,
                     buttonText: 'Try again',
                     onTryAgainPressed: () {
@@ -157,7 +157,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 } else {
-                  throw 'state not supported';
+                  return TryAgainWidget(
+                    errorMessage: "Sorry, we're having trouble loading the content. Please try again later.",
+                    buttonText: 'Try again',
+                    onTryAgainPressed: () {
+                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
+                    },
+                  );
                 }
               },
             ),

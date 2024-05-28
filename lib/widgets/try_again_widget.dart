@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
-class EmptyScreenWidget extends StatelessWidget {
+class TryAgainWidget extends StatelessWidget {
   final Function() onTryAgainPressed;
   final String buttonText;
   final String errorMessage;
-  const EmptyScreenWidget({
+  const TryAgainWidget({
     super.key,
     required this.errorMessage,
     required this.onTryAgainPressed,
