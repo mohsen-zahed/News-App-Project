@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/lists.dart';
+import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class HorizontalCategoriesWidget extends StatefulWidget {
@@ -39,7 +40,11 @@ class _HorizontalCategoriesWidgetState extends State<HorizontalCategoriesWidget>
                   padding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.005)),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: widget.listValueNotifier.value == index ? kPrimaryColor : kGreyColorShade200,
+                      color: widget.listValueNotifier.value == index
+                          ? kPrimaryColor
+                          : helperFunctions.isThemeLightMode(context)
+                              ? kGreyColorShade200
+                              : kGreyColorShade100Op2,
                     ),
                     color: widget.listValueNotifier.value == index ? kPrimaryColor : kTransparentColor,
                     borderRadius: BorderRadius.circular(8),
@@ -50,7 +55,7 @@ class _HorizontalCategoriesWidgetState extends State<HorizontalCategoriesWidget>
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium!
-                          .copyWith(color: widget.listValueNotifier.value == index ? kWhiteColor : kBlackColor),
+                          .copyWith(color: widget.listValueNotifier.value == index ? kWhiteColor : Theme.of(context).textTheme.bodyLarge!.color),
                     ),
                   ),
                 ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
-import 'package:news_app/features/data/models/general_news_model.dart';
 import 'package:news_app/features/data/repository/ibanner_repository.dart';
 import 'package:news_app/features/data/repository/inews_repository.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
@@ -27,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late HomeBloc homeBloc;
   ValueNotifier<int> listValueNotifier = ValueNotifier<int>(0);
 
-  List<GeneralNewsModel> newsList = [];
+  List<dynamic> searchNewsList = [];
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
@@ -46,10 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
             //* Search icon button....
             GestureDetector(
               onTap: () {
-                if (newsList.isNotEmpty) {
-                  Navigator.push(context, CupertinoPageRoute(builder: (context) => SearchScreen(newsList: newsList)));
+                if (searchNewsList.isNotEmpty) {
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => SearchScreen(searchList: searchNewsList)));
                 } else {
-                  helperFunctions.showSnackBar(context, '${newsList.toString()} is Empty!', 1000);
+                  helperFunctions.showSnackBar(context, '${searchNewsList.toString()} is Empty!', 1000);
                 }
               },
               child: Container(
@@ -106,6 +105,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else if (state is HomeSuccess) {
+                  if (searchNewsList.isNotEmpty) {
+                    searchNewsList.clear();
+                  }
+                  for (var i = 0; i < state.props.length; i++) {
+                    if (i == 0) {
+                      continue;
+                    }
+                    searchNewsList.add(state.props[i]);
+                  }
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

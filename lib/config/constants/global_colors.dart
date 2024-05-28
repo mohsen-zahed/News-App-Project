@@ -6,6 +6,7 @@ const Color kWhiteColor = Colors.white;
 const Color kBlackColor = Colors.black;
 const Color kBlueColor = Colors.blue;
 Color kGreyColorShade100 = Colors.grey.shade100;
+Color kGreyColorShade100Op2 = Colors.grey.shade100.withOpacity(0.2);
 Color kGreyColorShade200 = Colors.grey.shade200;
 Color kGreyColorShade300 = Colors.grey.shade300;
 Color kGreyColorShade400 = Colors.grey.shade400;

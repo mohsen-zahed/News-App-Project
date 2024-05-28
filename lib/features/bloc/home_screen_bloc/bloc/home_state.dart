@@ -17,14 +17,14 @@ final class HomeSuccess extends HomeState {
   final List<BusinessNewsModel> businessNewsList;
 
   const HomeSuccess({
+    required this.bannersList,
     required this.allNewsList,
-    required this.businessNewsList,
     required this.wallStreetList,
     required this.technologyList,
-    required this.bannersList,
+    required this.businessNewsList,
   });
   @override
-  List<Object> get props => [allNewsList, bannersList, technologyList, wallStreetList, businessNewsList];
+  List<Object> get props => [bannersList, allNewsList, wallStreetList, technologyList, businessNewsList];
 }
 
 final class HomeFailed extends HomeState {

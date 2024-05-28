@@ -34,14 +34,17 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
 
   void _startAutoScroll() {
     // Set up a timer to automatically scroll to the next page
-    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      _currentPage = ((_currentPage + 1) % widget.bannersModelList.length).round();
-      _controller.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-      );
-    });
+    _timer = Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) {
+        _currentPage = ((_currentPage + 1) % widget.bannersModelList.length).round();
+        _controller.animateToPage(
+          _currentPage,
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+        );
+      },
+    );
   }
 
   @override
