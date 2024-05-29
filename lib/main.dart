@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
         // SearchScreen.id: (context) => const SearchScreen(), //* MaterialPageRoute
         // AllNewsScreen.id: (context) => const AllNewsScreen(), //* MaterialPageRoute
       },
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
