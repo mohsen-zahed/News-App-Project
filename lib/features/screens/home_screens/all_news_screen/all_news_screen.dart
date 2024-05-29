@@ -7,8 +7,9 @@ import 'package:news_app/utils/my_media_query.dart';
 
 class AllNewsScreen extends StatefulWidget {
   static const String id = '/all_news_screen';
-  const AllNewsScreen({super.key, required this.allNewsList});
+  const AllNewsScreen({super.key, required this.allNewsList, this.index});
   final List<dynamic> allNewsList;
+  final int? index;
 
   @override
   State<AllNewsScreen> createState() => _AllNewsScreenState();
@@ -24,6 +25,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
     super.dispose();
     _searchTextEditingController.dispose();
     _searchNotifier.dispose();
+    _tabNotifier.dispose();
   }
 
   @override
@@ -43,12 +45,15 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               searchNotifier: _searchNotifier,
             ),
             SizedBox(height: getMediaQueryHeight(context, 0.02)),
-            HorizontalCategoriesWidget(listValueNotifier: _tabNotifier),
+            HorizontalCategoriesWidget(
+              listValueNotifier: _tabNotifier,
+              selectedIndex: widget.index ?? 0,
+            ),
             SizedBox(height: getMediaQueryHeight(context, 0.02)),
             AllNewsVerticalListView(
               tabNotifier: _tabNotifier,
               searchNotifier: _searchNotifier,
-              widget: widget,
+              allNewsList: widget.allNewsList,
             ),
             SizedBox(height: getMediaQueryHeight(context, 0.02)),
           ],

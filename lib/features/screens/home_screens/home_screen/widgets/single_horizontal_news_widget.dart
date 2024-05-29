@@ -111,16 +111,6 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
-          //* Stroke line under news card widget...
-          Container(
-            width: double.infinity,
-            height: 1.5,
-            decoration: BoxDecoration(
-              color: kGreyColorShade200,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
         ],
       ),
     );

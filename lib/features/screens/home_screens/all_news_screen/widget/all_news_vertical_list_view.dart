@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/images_paths.dart';
-import 'package:news_app/features/screens/home_screens/all_news_screen/all_news_screen.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/widget/news_image_widget.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/widget/profile_image_with_name_and_follow_button_widget.dart';
 import 'package:news_app/utils/my_media_query.dart';
@@ -10,13 +9,13 @@ import 'package:news_app/widgets/custom_divider.dart';
 class AllNewsVerticalListView extends StatelessWidget {
   const AllNewsVerticalListView({
     super.key,
-    required this.widget,
+    required this.allNewsList,
     required this.tabNotifier,
     required this.searchNotifier,
   });
 
   final ValueNotifier<int> tabNotifier;
-  final AllNewsScreen widget;
+  final List<dynamic> allNewsList;
   final ValueNotifier<String> searchNotifier;
 
   @override
@@ -28,7 +27,7 @@ class AllNewsVerticalListView extends StatelessWidget {
           valueListenable: tabNotifier,
           builder: (context, value, child) {
             List<dynamic> items = [];
-            List<dynamic> searchNewsList = widget.allNewsList[tabNotifier.value];
+            var searchNewsList = allNewsList[tabNotifier.value];
             if (searchNotifier.value.isNotEmpty) {
               items = searchNewsList.where((element) {
                 return (element.title.contains(searchNotifier.value.toLowerCase()) || element.title.contains(searchNotifier.value.toUpperCase())) ||
@@ -55,7 +54,7 @@ class AllNewsVerticalListView extends StatelessWidget {
               ));
             } else {
               return ListView.builder(
-                itemCount: widget.allNewsList.length,
+                itemCount: allNewsList[tabNotifier.value].length,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
@@ -63,9 +62,9 @@ class AllNewsVerticalListView extends StatelessWidget {
                         children: [
                           //* News post profile image, name, published date, follow button...
                           ProfileImageWithNameAndFollowButtonWidget(
-                            profileName: widget.allNewsList[tabNotifier.value][index].author,
+                            profileName: allNewsList[tabNotifier.value][index].author,
                             profileImageUrl: cnnIconTvPath,
-                            publishedDate: widget.allNewsList[tabNotifier.value][index].publishedAt,
+                            publishedDate: allNewsList[tabNotifier.value][index].publishedAt,
                             onFollowTap: () {},
                           ),
                           SizedBox(height: getMediaQueryHeight(context, 0.02)),
@@ -73,13 +72,13 @@ class AllNewsVerticalListView extends StatelessWidget {
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.05)),
                             child: Text(
-                              '${widget.allNewsList[tabNotifier.value][index].description}\n${widget.allNewsList[tabNotifier.value][index].content}',
+                              '${allNewsList[tabNotifier.value][index].description}\n${allNewsList[tabNotifier.value][index].content}',
                               textAlign: TextAlign.justify,
                             ),
                           ),
                           SizedBox(height: getMediaQueryHeight(context, 0.015)),
                           //* News post Image...
-                          NewsImageWidget(widget: widget, tabNotifier: tabNotifier, index: index),
+                          NewsImageWidget(allNewsList: allNewsList, tabNotifier: tabNotifier, index: index),
                           SizedBox(height: getMediaQueryHeight(context, 0.012)),
                           //* News post like, comments, share, bookmark...
                           Padding(
