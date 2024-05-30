@@ -12,7 +12,7 @@ import 'package:news_app/features/screens/initial_screens/registration_screen/lo
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/or_divider_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/sign_up_screen.dart/bloc/bloc/sign_up_bloc.dart';
+import 'package:news_app/features/screens/initial_screens/registration_screen/sign_up_screen.dart/bloc/sign_up_bloc.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
@@ -114,6 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(height: getScreenArea(context, 0.00005)),
                           //* Email field...
                           RegistrationTextFieldWidget(
+                            textInputType: TextInputType.emailAddress,
                             hintText: 'Email address *',
                             prefixIcon: Icons.email,
                             controller: _emailController,

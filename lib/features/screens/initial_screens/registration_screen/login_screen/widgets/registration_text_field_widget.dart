@@ -12,6 +12,7 @@ class RegistrationTextFieldWidget extends StatelessWidget {
   final GestureTapCallback? onShowPasswordTap;
   final FocusNode focusNode;
   final Function(String) onSumbit;
+  final TextInputType? textInputType;
   const RegistrationTextFieldWidget({
     super.key,
     required this.hintText,
@@ -23,6 +24,7 @@ class RegistrationTextFieldWidget extends StatelessWidget {
     this.onShowPasswordTap,
     required this.focusNode,
     required this.onSumbit,
+    this.textInputType,
   });
 
   @override
@@ -37,6 +39,7 @@ class RegistrationTextFieldWidget extends StatelessWidget {
       ),
       child: Center(
         child: TextField(
+          keyboardType: textInputType ?? TextInputType.text,
           onSubmitted: onSumbit,
           focusNode: focusNode,
           controller: controller,
