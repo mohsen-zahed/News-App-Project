@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/screens/initial_screens/onboarding_screen/widgets/custom_onboarding_button.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen.dart';
+import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/login_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:news_app/utils/my_media_query.dart';
