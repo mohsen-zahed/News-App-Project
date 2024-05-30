@@ -9,7 +9,6 @@ import 'package:news_app/features/data/models/wall_street_news_model.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/login_screen.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/sign_up_screen.dart/sign_up_screen.dart';
 import 'package:news_app/features/screens/initial_screens/splash_screen/splash_screen.dart';
 import 'package:news_app/packages/connectivity_plus_package/connection_controller.dart';
 import 'package:news_app/packages/hive_flutter_package/hive_flutter_package_constants.dart';
@@ -68,7 +67,7 @@ class MyApp extends StatelessWidget {
         // SearchScreen.id: (context) => const SearchScreen(), //* MaterialPageRoute
         // AllNewsScreen.id: (context) => const AllNewsScreen(), //* MaterialPageRoute
         LoginScreen.id: (context) => const LoginScreen(),
-        SignUpScreen.id: (context) => const SignUpScreen(), //* MaterialPageRoute
+        // SignUpScreen.id: (context) => const SignUpScreen(), //* MaterialPageRoute
       },
       home: const SplashScreen(),
     );

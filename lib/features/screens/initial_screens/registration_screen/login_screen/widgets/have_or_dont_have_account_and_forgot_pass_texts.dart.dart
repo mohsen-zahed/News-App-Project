@@ -54,7 +54,7 @@ class _HaveOrDontHaveAccountAndForgotPassTextsState extends State<HaveOrDontHave
                     onTap: widget.onRightTextTap,
                     child: Text(
                       'Forgot password?',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             color: kGreyColorShade400,
                             decoration: TextDecoration.underline,
                             decorationColor: kGreyColorShade400,

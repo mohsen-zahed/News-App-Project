@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "936903577118",
+    "project_id": "tetconewsappproject",
+    "storage_bucket": "tetconewsappproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936903577118:android:6ac496e27095903fdc680f",
+        "android_client_info": {
+          "package_name": "com.example.news_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "936903577118-r5efuj0hnqk46o2h6pp9tipc2k304oj0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.news_app",
+            "certificate_hash": "d10112f52962cf3527cd3842422095199992330d"
+          }
+        },
+        {
+          "client_id": "936903577118-i5menu958n0ohvi2fclhgrpkb8bvei66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxt5FPlccr6a1PkwEES5IEpP7INxgHz-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936903577118-i5menu958n0ohvi2fclhgrpkb8bvei66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
