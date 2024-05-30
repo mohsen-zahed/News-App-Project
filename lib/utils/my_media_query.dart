@@ -11,3 +11,7 @@ double getMediaQueryHeight(BuildContext context, [double? height]) {
 double getMediaQueryPaddingTop(BuildContext context) {
   return MediaQuery.of(context).padding.top;
 }
+
+double getScreenArea(BuildContext context, [double? number]) {
+  return (getMediaQueryWidth(context) * getMediaQueryHeight(context)) * (number ?? 1);
+}
