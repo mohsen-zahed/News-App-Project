@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/utils/my_media_query.dart';
@@ -5,10 +6,12 @@ import 'package:news_app/utils/my_media_query.dart';
 class SubmitButtonWidget extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
+  final bool isLoading;
   const SubmitButtonWidget({
     super.key,
     required this.buttonText,
     required this.onPressed,
+    required this.isLoading,
   });
 
   @override
@@ -22,17 +25,19 @@ class SubmitButtonWidget extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         ),
         onPressed: onPressed,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(buttonText, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold, color: kWhiteColor)),
-            SizedBox(width: getMediaQueryWidth(context, 0.01)),
-            Icon(
-              Icons.arrow_forward_rounded,
-              size: getScreenArea(context, 0.00007),
-            ),
-          ],
-        ),
+        child: isLoading
+            ? const Center(child: CupertinoActivityIndicator(color: kWhiteColor))
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(buttonText, style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold, color: kWhiteColor)),
+                  SizedBox(width: getMediaQueryWidth(context, 0.01)),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    size: getScreenArea(context, 0.00007),
+                  ),
+                ],
+              ),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class IFirebaseAuthDataSource {
   Future<UserCredential> signInWithGoogle();
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password);
+  Future<UserCredential> loginWithEmailAndPassword(String email, String password);
   Future<UserCredential> signUpWithEmailAndPassword(String email, String password);
   Future<UserCredential> signInAnonymously();
 }
@@ -18,7 +18,7 @@ class FirebaseDataSourceImp implements IFirebaseAuthDataSource {
   }
 
   @override
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> loginWithEmailAndPassword(String email, String password) async {
     final UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
     return userCredential;
   }

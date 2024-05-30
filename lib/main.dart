@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app/features/data/models/banners_news_model.dart';
@@ -17,6 +18,14 @@ import 'package:news_app/theme/theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initNoInternetListener();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyAxt5FPlccr6a1PkwEES5IEpP7INxgHz-U',
+      appId: '1:936903577118:android:6ac496e27095903fdc680f',
+      messagingSenderId: '936903577118',
+      projectId: 'tetconewsappproject',
+    ),
+  );
   await EasyLocalization.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(BannersNewsModelAdapter());

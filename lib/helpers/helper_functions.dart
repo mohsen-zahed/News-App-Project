@@ -69,6 +69,14 @@ class HelperFunctions {
       );
   }
 
+  void showRapidSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+  }
+
   void showConfirmationDialogBox(BuildContext context, String confirmationText, {required Function onConfirm, required Function onCancel}) {
     showDialog(
       context: context,

@@ -20,3 +20,10 @@ final class SignUpFailed extends SignUpState {
 
   const SignUpFailed({required this.errorMessage});
 }
+
+final class SignUpError extends SignUpState {
+  final List<String> emailErrorList;
+  final List<String> passwordErrorList;
+
+  const SignUpError({required this.emailErrorList, required this.passwordErrorList});
+}

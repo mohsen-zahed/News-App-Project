@@ -4,7 +4,12 @@ import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.
 
 final firebaseAuthRepository = FirebaseAuthRepositoryImp(iFirebaseAuthDataSource: FirebaseDataSourceImp(auth: auth));
 
-abstract class IFirebaseAuthRepository extends IFirebaseAuthDataSource {}
+abstract class IFirebaseAuthRepository {
+  Future<UserCredential> signInWithGoogle();
+  Future<UserCredential> loginWithEmailAndPassword(String email, String password);
+  Future<UserCredential> signUpWithEmailAndPassword(String email, String password);
+  Future<UserCredential> signInAnonymously();
+}
 
 final class FirebaseAuthRepositoryImp implements IFirebaseAuthRepository {
   final IFirebaseAuthDataSource iFirebaseAuthDataSource;
@@ -14,8 +19,8 @@ final class FirebaseAuthRepositoryImp implements IFirebaseAuthRepository {
   Future<UserCredential> signInAnonymously() => iFirebaseAuthDataSource.signInAnonymously();
 
   @override
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) =>
-      iFirebaseAuthDataSource.signInWithEmailAndPassword(email, password);
+  Future<UserCredential> loginWithEmailAndPassword(String email, String password) =>
+      iFirebaseAuthDataSource.loginWithEmailAndPassword(email, password);
 
   @override
   Future<UserCredential> signInWithGoogle() => iFirebaseAuthDataSource.signInWithGoogle();

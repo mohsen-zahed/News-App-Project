@@ -114,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: getScreenArea(context, 0.0003)),
                     SubmitButtonWidget(
+                      isLoading: false,
                       buttonText: 'Login',
                       onPressed: () {},
                     ),
