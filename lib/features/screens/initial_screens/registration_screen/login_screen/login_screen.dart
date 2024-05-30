@@ -1,13 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/dont_have_account_and_forgot_pass_texts.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/google_login_button.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/or_divider_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
@@ -96,14 +93,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: getScreenArea(context, 0.00002)),
                     DontHaveAccountAndForgotPasswordTexts(
-                      onSignUpTap: TapGestureRecognizer()..onTap = () {},
                       onForgotPassTap: () {},
                     ),
-                    SizedBox(height: getScreenArea(context, 0.00012)),
-                    const OrDividerWidget(),
-                    SizedBox(height: getScreenArea(context, 0.00012)),
-                    GoogleLoginButton(
-                      onButtonTap: () {},
+                    SizedBox(height: getScreenArea(context, 0.0003)),
+                    Container(
+                      width: getMediaQueryWidth(context),
+                      height: getScreenArea(context, 0.00017),
+                      margin: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.06)),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                        ),
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Login', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold, color: kWhiteColor)),
+                            SizedBox(width: getMediaQueryWidth(context, 0.01)),
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              size: getScreenArea(context, 0.00007),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
