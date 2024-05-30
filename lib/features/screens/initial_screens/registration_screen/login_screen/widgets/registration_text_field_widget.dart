@@ -10,6 +10,8 @@ class RegistrationTextFieldWidget extends StatelessWidget {
   final IconData? suffixIcon;
   final bool? isObsecured;
   final GestureTapCallback? onShowPasswordTap;
+  final FocusNode focusNode;
+  final Function(String) onSumbit;
   const RegistrationTextFieldWidget({
     super.key,
     required this.hintText,
@@ -19,6 +21,8 @@ class RegistrationTextFieldWidget extends StatelessWidget {
     this.suffixIcon,
     this.isObsecured,
     this.onShowPasswordTap,
+    required this.focusNode,
+    required this.onSumbit,
   });
 
   @override
@@ -33,6 +37,8 @@ class RegistrationTextFieldWidget extends StatelessWidget {
       ),
       child: Center(
         child: TextField(
+          onSubmitted: onSumbit,
+          focusNode: focusNode,
           controller: controller,
           obscureText: isObsecured ?? false,
           decoration: InputDecoration(

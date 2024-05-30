@@ -15,7 +15,6 @@ class GoogleLoginButton extends StatelessWidget {
     return GestureDetector(
       onTap: onButtonTap,
       child: Container(
-        width: getMediaQueryWidth(context),
         padding: EdgeInsets.symmetric(vertical: getScreenArea(context, 0.000035)),
         margin: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.07)),
         decoration: BoxDecoration(color: kWhiteColor, borderRadius: BorderRadius.circular(15)),
@@ -24,7 +23,7 @@ class GoogleLoginButton extends StatelessWidget {
           children: [
             Image.asset(googleIconPath, height: getScreenArea(context, 0.0001)),
             SizedBox(width: getMediaQueryWidth(context, 0.025)),
-            Text('Login with Google', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold)),
+            Text('SignUp with Google', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
       ),

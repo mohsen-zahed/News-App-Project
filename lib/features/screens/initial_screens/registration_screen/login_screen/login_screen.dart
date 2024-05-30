@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/dont_have_account_and_forgot_pass_texts.dart';
+import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/have_or_dont_have_account_and_forgot_pass_texts.dart.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
+import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
+import 'package:news_app/features/screens/initial_screens/registration_screen/sign_up_screen.dart/sign_up_screen.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,14 +19,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _emailNode = FocusNode();
+  final FocusNode _passwordNode = FocusNode();
 
   @override
   void dispose() {
     super.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
   }
 
   bool showPassword = false;
@@ -76,7 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     RegistrationTextFieldWidget(
                       hintText: 'Username or email',
                       prefixIcon: Icons.email,
-                      controller: emailController,
+                      controller: _emailController,
+                      focusNode: _emailNode,
+                      onSumbit: (value) {},
                     ),
                     SizedBox(height: getScreenArea(context, 0.00005)),
                     RegistrationTextFieldWidget(
@@ -87,36 +93,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       hintText: 'Password',
                       prefixIcon: Icons.lock,
-                      controller: passwordController,
+                      controller: _passwordController,
+                      focusNode: _passwordNode,
+                      onSumbit: (value) {},
                       suffixIcon: showPassword ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
                       isObsecured: showPassword,
                     ),
                     SizedBox(height: getScreenArea(context, 0.00002)),
-                    DontHaveAccountAndForgotPasswordTexts(
-                      onForgotPassTap: () {},
+                    HaveOrDontHaveAccountAndForgotPassTexts(
+                      onAccountTextsTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(builder: (context) => const SignUpScreen()),
+                        );
+                      },
+                      text: "Don't have an account?",
+                      text2: "SignUp",
+                      isLoginScreen: true,
+                      onRightTextTap: () {},
                     ),
                     SizedBox(height: getScreenArea(context, 0.0003)),
-                    Container(
-                      width: getMediaQueryWidth(context),
-                      height: getScreenArea(context, 0.00017),
-                      margin: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.06)),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        ),
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Login', style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold, color: kWhiteColor)),
-                            SizedBox(width: getMediaQueryWidth(context, 0.01)),
-                            Icon(
-                              Icons.arrow_forward_rounded,
-                              size: getScreenArea(context, 0.00007),
-                            ),
-                          ],
-                        ),
-                      ),
+                    SubmitButtonWidget(
+                      buttonText: 'Login',
+                      onPressed: () {},
                     ),
                   ],
                 ),
