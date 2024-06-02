@@ -10,6 +10,7 @@ abstract class IFirebaseAuthRepository {
   Future<UserCredential> loginWithEmailAndPassword(String email, String password);
   Future<UserCredential> signUpWithEmailAndPassword(String name, String email, String password);
   Future<UserCredential> signInAnonymously();
+  Future<void> sendForgotPasswordLink(String email);
 }
 
 final class FirebaseAuthRepositoryImp implements IFirebaseAuthRepository {
@@ -29,4 +30,7 @@ final class FirebaseAuthRepositoryImp implements IFirebaseAuthRepository {
   @override
   Future<UserCredential> signUpWithEmailAndPassword(String name, String email, String password) =>
       iFirebaseAuthDataSource.signUpWithEmailAndPassword(name, email, password);
+
+  @override
+  Future<void> sendForgotPasswordLink(String email) => iFirebaseAuthDataSource.sendForgotPasswordLink(email);
 }

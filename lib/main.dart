@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
         // AllNewsScreen.id: (context) => const AllNewsScreen(), //* MaterialPageRoute
         LoginScreen.id: (context) => const LoginScreen(),
         // SignUpScreen.id: (context) => const SignUpScreen(), //* MaterialPageRoute
+        // ForgotPasswordScreen.id: (context) => const ForgotPasswordScreen(), //* MaterialPageRoute
       },
       home: const SplashScreen(),
     );

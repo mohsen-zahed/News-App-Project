@@ -197,10 +197,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               return current is SignUpLoading;
                             },
                             builder: (context, state) {
+                              bool isSubmitting = state is SignUpLoading;
                               return SubmitButtonWidget(
-                                isLoading: state is SignUpLoading,
+                                isLoading: isSubmitting,
                                 buttonText: 'SignUp',
                                 onPressed: () async {
+                                  setState(() {
+                                    isSubmitting = true;
+                                  });
                                   String name = _nameController.text.trim();
                                   String email = _emailController.text.trim();
                                   String password = _passwordController.text.trim();
@@ -218,6 +222,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   } else {
                                     helperFunctions.showSnackBar(context, 'Please fill the required fields!', 5500);
                                   }
+
+                                  setState(() {
+                                    isSubmitting = false;
+                                  });
                                 },
                               );
                             },

@@ -7,6 +7,7 @@ abstract class IFirebaseAuthDataSource {
   Future<UserCredential> loginWithEmailAndPassword(String email, String password);
   Future<UserCredential> signUpWithEmailAndPassword(String name, String email, String password);
   Future<UserCredential> signInAnonymously();
+  Future<void> sendForgotPasswordLink(String email);
 }
 
 class FirebaseDataSourceImp implements IFirebaseAuthDataSource {
@@ -55,5 +56,10 @@ class FirebaseDataSourceImp implements IFirebaseAuthDataSource {
       'savedNews': [],
     });
     return userCredential;
+  }
+
+  @override
+  Future<void> sendForgotPasswordLink(String email) async {
+    await auth.sendPasswordResetEmail(email: email);
   }
 }
