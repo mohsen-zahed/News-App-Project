@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailNode = FocusNode();
   final FocusNode _passwordNode = FocusNode();
-  bool showPassword = false;
+
   LoginBloc? loginBloc;
 
   @override
@@ -35,8 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _emailNode.dispose();
+    _passwordNode.dispose();
     loginBloc?.close();
   }
+
+  bool showPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginSuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in as ${state.userCredential.user!.email}', 4000);
             await Future.delayed(const Duration(seconds: 2));
-            print('object');
           } else if (state is LoginFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);
           }

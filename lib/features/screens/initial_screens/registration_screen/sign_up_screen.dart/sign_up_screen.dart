@@ -25,9 +25,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  final FocusNode _nameNode = FocusNode();
   final FocusNode _emailNode = FocusNode();
   final FocusNode _passwordNode = FocusNode();
   final FocusNode _confirmPasswordNode = FocusNode();
@@ -38,9 +40,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void dispose() {
     super.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _nameNode.dispose();
     _emailNode.dispose();
     _passwordNode.dispose();
     _confirmPasswordNode.dispose();
@@ -58,9 +62,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         signUpBloc = SignUpBloc(firebaseAuthRepository);
         streamSubscription = signUpBloc?.stream.listen((state) {
           if (state is SignUpFailed) {
-            helperFunctions.showSnackBar(context, state.errorMessage, 500);
+            helperFunctions.showSnackBar(context, state.errorMessage, 5500);
           } else if (state is SignUpSuccess) {
-            helperFunctions.showRapidSnackBar(context, 'You are signed in as ${state.userCredential.user!.email}');
+            helperFunctions.showRapidSnackBar(context, "You've been registered as ${state.userCredential.user!.email}");
             // Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
         });
@@ -91,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           //* TETCO NEWS image...
                           Center(
                             child: Container(
-                              padding: EdgeInsets.all(getScreenArea(context, 0.0001)),
+                              padding: EdgeInsets.all(getScreenArea(context, 0.00008)),
                               decoration: BoxDecoration(
                                 color: kWhiteColor,
                                 borderRadius: BorderRadius.circular(100),
@@ -102,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: getScreenArea(context, 0.00012)),
+                          SizedBox(height: getScreenArea(context, 0.0001)),
                           //* Registration text...
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.08)),
@@ -110,6 +114,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               'SignUp before continuing to application!',
                               style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: kWhiteColor, fontWeight: FontWeight.bold),
                             ),
+                          ),
+                          SizedBox(height: getScreenArea(context, 0.00005)),
+                          //* Name field...
+                          RegistrationTextFieldWidget(
+                            textInputType: TextInputType.text,
+                            hintText: 'Name *',
+                            prefixIcon: Icons.person,
+                            controller: _nameController,
+                            focusNode: _nameNode,
+                            onSumbit: (value) {
+                              // _emailNode.requestFocus(_passwordNode);
+                            },
                           ),
                           SizedBox(height: getScreenArea(context, 0.00005)),
                           //* Email field...
@@ -174,7 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _confirmPasswordController.clear();
                             },
                           ),
-                          SizedBox(height: getScreenArea(context, 0.00012)),
+                          SizedBox(height: getScreenArea(context, 0.0001)),
                           //* Button to submit...
                           BlocBuilder<SignUpBloc, SignUpState>(
                             buildWhen: (previous, current) {
@@ -185,17 +201,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 isLoading: state is SignUpLoading,
                                 buttonText: 'SignUp',
                                 onPressed: () async {
+                                  String name = _nameController.text.trim();
                                   String email = _emailController.text.trim();
                                   String password = _passwordController.text.trim();
                                   String confirmPassword = _confirmPasswordController.text.trim();
                                   if (email.isNotEmpty && password.isNotEmpty && confirmPassword.isNotEmpty) {
                                     if (password == confirmPassword) {
                                       BlocProvider.of<SignUpBloc>(context).add(SignUpButtonIsClicked(
-                                        email: _emailController.text.trim(),
-                                        password: _passwordController.text.trim(),
+                                        name: name,
+                                        email: email,
+                                        password: password,
                                       ));
                                     } else {
-                                      helperFunctions.showSnackBar(context, 'Confirm password should be as the same as password!', 5500);
+                                      helperFunctions.showSnackBar(context, 'Confirm password should be the same as your password!', 5500);
                                     }
                                   } else {
                                     helperFunctions.showSnackBar(context, 'Please fill the required fields!', 5500);
@@ -204,9 +222,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               );
                             },
                           ),
-                          SizedBox(height: getScreenArea(context, 0.00005)),
+                          SizedBox(height: getScreenArea(context, 0.00004)),
                           const OrDividerWidget(),
-                          SizedBox(height: getScreenArea(context, 0.00005)),
+                          SizedBox(height: getScreenArea(context, 0.00004)),
                           //* Button to SignUp with Google...
                           GoogleLoginButton(
                             onButtonTap: () {},

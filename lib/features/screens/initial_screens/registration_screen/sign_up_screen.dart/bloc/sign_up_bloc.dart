@@ -13,7 +13,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       if (event is SignUpButtonIsClicked) {
         emit(SignUpLoading());
         try {
-          final userCredential = await iFirebaseAuthRepository.signUpWithEmailAndPassword(event.email, event.password);
+          final userCredential = await iFirebaseAuthRepository.signUpWithEmailAndPassword(event.name, event.email, event.password);
           emit(SignUpSuccess(userCredential: userCredential));
         } on FirebaseAuthException catch (e) {
           emit(SignUpFailed(errorMessage: e.message!));

@@ -16,17 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           final userCredential = await iFirebaseAuthRepository.loginWithEmailAndPassword(event.email, event.password);
           emit(LoginSuccess(userCredential));
         } on FirebaseAuthException catch (e) {
-          if (e.code == 'invalid-email') {
-            emit(LoginFailed(errorMessage: 'Email address is not valid!'.toString()));
-          } else if (e.code == 'user-disabled') {
-            emit(LoginFailed(errorMessage: 'This user is no longer activated!'.toString()));
-          } else if (e.code == 'user-not-found') {
-            emit(LoginFailed(errorMessage: 'No user with this email was found!'.toString()));
-          } else if (e.code == 'wrong-password') {
-            emit(LoginFailed(errorMessage: 'Wrong password!'.toString()));
-          } else {
-            emit(LoginFailed(errorMessage: e.code.toString()));
-          }
+          emit(LoginFailed(errorMessage: e.message!));
         }
       }
     });
