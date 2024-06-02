@@ -2,7 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app/features/screens/initial_screens/onboarding_screen/onboarding_screen.dart';
+import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/login_screen.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,8 +24,18 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
       const Duration(seconds: 3),
-      () {
-        Navigator.pushNamed(context, OnboardingScreen.id);
+      () async {
+        await MySharedPreferencesPackage.instance.checkExistAny(hasSeenOnboarding).then((value) {
+          if (value) {
+            MySharedPreferencesPackage.instance.checkExistAny(isUserRegistered).then((value) {
+              value
+                  ? Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false)
+                  : Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);
+            });
+          } else {
+            Navigator.pushNamedAndRemoveUntil(context, OnboardingScreen.id, (route) => false);
+          }
+        });
       },
     );
   }

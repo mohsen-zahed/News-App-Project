@@ -14,6 +14,8 @@ import 'package:news_app/features/screens/initial_screens/registration_screen/lo
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/sign_up_screen.dart/sign_up_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -52,12 +54,16 @@ class _LoginScreenState extends State<LoginScreen> {
         loginBloc?.stream.listen((state) async {
           if (state is LoginSuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in as ${state.userCredential.user!.email}', 4000);
-            Future.delayed(const Duration(seconds: 3)).then((value) {
+            await MySharedPreferencesPackage.instance.saveToSharedPreferences(userInfoKey, state.userCredential, isUserRegistered, true);
+            await MySharedPreferencesPackage.instance.saveToSharedPreferences('', '', hasSeenOnboarding, true);
+            Future.delayed(const Duration(seconds: 2)).then((value) {
               Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
             });
           } else if (state is LoginAnonymouslySuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in Anonymously!', 4000);
-            Future.delayed(const Duration(seconds: 3)).then((value) {
+            await MySharedPreferencesPackage.instance.saveToSharedPreferences(userInfoKey, state.userCredential, isUserRegistered, true);
+            await MySharedPreferencesPackage.instance.saveToSharedPreferences('', '', hasSeenOnboarding, true);
+            Future.delayed(const Duration(seconds: 2)).then((value) {
               Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
             });
           } else if (state is LoginAnonymouslyFailed) {

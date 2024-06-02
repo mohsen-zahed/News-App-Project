@@ -15,6 +15,8 @@ import 'package:news_app/features/screens/initial_screens/registration_screen/lo
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/sign_up_screen.dart/bloc/sign_up_bloc.dart';
 import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -61,12 +63,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return BlocProvider<SignUpBloc>(
       create: (context) {
         signUpBloc = SignUpBloc(firebaseAuthRepository);
-        streamSubscription = signUpBloc?.stream.listen((state) {
+        streamSubscription = signUpBloc?.stream.listen((state) async {
           if (state is SignUpFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);
           } else if (state is SignUpSuccess) {
             helperFunctions.showRapidSnackBar(context, "You've been registered as ${state.userCredential.user!.email}");
-            Future.delayed(const Duration(seconds: 3)).then((value) {
+            await MySharedPreferencesPackage.instance.saveToSharedPreferences(userInfoKey, state.userCredential, isUserRegistered, true);
+            await MySharedPreferencesPackage.instance.saveToSharedPreferences('', '', hasSeenOnboarding, true);
+            Future.delayed(const Duration(seconds: 2)).then((value) {
               Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
             });
           }
