@@ -67,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           } else if (state is SignUpSuccess) {
             helperFunctions.showRapidSnackBar(context, "You've been registered as ${state.userCredential.user!.email}");
             Future.delayed(const Duration(seconds: 3)).then((value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
             });
           }
         });

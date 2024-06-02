@@ -53,12 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginSuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in as ${state.userCredential.user!.email}', 4000);
             Future.delayed(const Duration(seconds: 3)).then((value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
             });
           } else if (state is LoginAnonymouslySuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in Anonymously!', 4000);
             Future.delayed(const Duration(seconds: 3)).then((value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
             });
           } else if (state is LoginAnonymouslyFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);
