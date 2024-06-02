@@ -18,6 +18,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         } on FirebaseAuthException catch (e) {
           emit(LoginFailed(errorMessage: e.message!));
         }
+      } else if (event is LoginAnonymouslyIsClicked) {
+        emit(LoginAnonymouslyLoading());
+        try {
+          final userCredential = await iFirebaseAuthRepository.signInAnonymously();
+          emit(LoginAnonymouslySuccess(userCredential));
+        } on FirebaseAuthException catch (e) {
+          emit(LoginAnonymouslyFailed(errorMessage: e.message!));
+        }
       }
     });
   }

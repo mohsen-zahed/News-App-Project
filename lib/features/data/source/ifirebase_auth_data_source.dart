@@ -34,7 +34,22 @@ class FirebaseDataSourceImp implements IFirebaseAuthDataSource {
 
   @override
   Future<UserCredential> signInAnonymously() async {
+    var date = DateTime.now().toString();
+    var dateStamp = DateTime.parse(date);
+    var formattedDate = '${dateStamp.year}-${dateStamp.month}-${dateStamp.day}::${dateStamp.hour}-${dateStamp.minute}-${dateStamp.second}';
     final UserCredential userCredential = await auth.signInAnonymously();
+    final userId = userCredential.user?.uid;
+    await firestore.collection('users').doc(userId).set({
+      'id': userId,
+      'name': 'Anonymous',
+      'email': 'Anonymous',
+      'password': '--',
+      'joinedAt': formattedDate,
+      'accountCreatedOn': Timestamp.now(),
+      'profileImage': 'https://www.svgrepo.com/download/227887/news-reporter.svg',
+      'savedNews': [],
+    });
+
     return userCredential;
   }
 

@@ -15,3 +15,5 @@ final class LoginButtonIsClicked extends LoginEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+final class LoginAnonymouslyIsClicked extends LoginEvent{}

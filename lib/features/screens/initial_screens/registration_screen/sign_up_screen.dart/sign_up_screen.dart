@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/data/repository/ifirebase_auth_repository.dart';
+import 'package:news_app/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/have_or_dont_have_account_and_forgot_pass_texts.dart.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/google_login_button.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/or_divider_widget.dart';
@@ -65,7 +66,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);
           } else if (state is SignUpSuccess) {
             helperFunctions.showRapidSnackBar(context, "You've been registered as ${state.userCredential.user!.email}");
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Future.delayed(const Duration(seconds: 3)).then((value) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            });
           }
         });
         return signUpBloc!;
@@ -197,7 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               return current is SignUpLoading;
                             },
                             builder: (context, state) {
-                              bool isSubmitting = state is SignUpLoading;
+                              bool isSubmitting = state is! SignUpLoading ? true : false;
                               return SubmitButtonWidget(
                                 isLoading: isSubmitting,
                                 buttonText: 'SignUp',

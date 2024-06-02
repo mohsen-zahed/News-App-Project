@@ -23,3 +23,23 @@ final class LoginFailed extends LoginState {
 
   const LoginFailed({required this.errorMessage});
 }
+
+final class LoginAnonymouslyLoading extends LoginState {}
+
+final class LoginAnonymouslySuccess extends LoginState {
+  final UserCredential userCredential;
+
+  const LoginAnonymouslySuccess(this.userCredential);
+
+  @override
+  List<Object> get props => [userCredential];
+}
+
+final class LoginAnonymouslyFailed extends LoginState {
+  final String errorMessage;
+
+  const LoginAnonymouslyFailed({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
+}
