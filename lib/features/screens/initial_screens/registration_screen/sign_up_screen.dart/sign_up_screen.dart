@@ -13,7 +13,7 @@ import 'package:news_app/features/screens/initial_screens/registration_screen/lo
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/or_divider_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
-import 'package:news_app/features/bloc/bloc/sign_up_bloc.dart';
+import 'package:news_app/features/bloc/sign_up_bloc/bloc/sign_up_bloc.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
