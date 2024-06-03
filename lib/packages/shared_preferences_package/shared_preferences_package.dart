@@ -12,6 +12,8 @@ class MySharedPreferencesPackage {
   Future<bool> storeUserInfoAndRegistrationToLocale(String setInfoKey, dynamic setInfoValue, String setRegisteredKey, bool setRegisteredValue) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
+      print('$setInfoKey : $setInfoValue');
+      print('$setRegisteredKey : $setRegisteredValue');
       final bool infoSaved = await sharedPreferences.setString(setInfoKey, setInfoValue);
       final bool registrationSaved = await sharedPreferences.setBool(setRegisteredKey, setRegisteredValue);
       if (infoSaved && registrationSaved) {
@@ -28,6 +30,7 @@ class MySharedPreferencesPackage {
   Future<bool> storeOnboardingStatusToLocale(String setOnboardingKey, bool setOnboardingValue) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
+      print('$setOnboardingKey : $setOnboardingValue');
       final onboardingSaved = await sharedPreferences.setBool(setOnboardingKey, setOnboardingValue);
       if (onboardingSaved) {
         return true;

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
-import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app/features/data/repository/ibanner_repository.dart';
@@ -32,11 +31,16 @@ class _HomeScreenState extends State<HomeScreen> {
   ValueNotifier<int> listValueNotifier = ValueNotifier<int>(0);
 
   dynamic map;
-  UserCredential? userCredential;
+  late UserCredential userCredential;
+  late User user;
+  late dynamic userInfo;
   @override
   Widget build(BuildContext context) {
     map = ModalRoute.of(context)!.settings.arguments;
     userCredential = map['userCredential'];
+    user = map['user'];
+    userInfo = map['documentSnapshot'];
+    print(userInfo);
     return BlocProvider<HomeBloc>(
       create: (context) {
         homeBloc = HomeBloc(bannerRepository, newsRepository);
@@ -48,11 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Row(
             children: [
               CircleAvatar(
-                backgroundImage: CachedNetworkImageProvider(cnnIconTvPath),
+                backgroundImage: CachedNetworkImageProvider(userInfo['profileImage']),
+                maxRadius: getScreenArea(context, 0.00007),
               ),
-              Text(
-                'Welcome',
-                style: Theme.of(context).textTheme.titleLarge,
+              SizedBox(width: getScreenArea(context, 0.00003)),
+              Expanded(
+                child: Text(
+                  'Welcome, ${userInfo['name']}',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
             ],
           ),

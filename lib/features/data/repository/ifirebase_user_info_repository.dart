@@ -1,22 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:news_app/features/data/source/ifirebase_auth_data_source.dart';
+import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
 import 'package:news_app/packages/firebase_firestore_package/firebase_firestore_constants.dart';
 
-final firebaseAuthRepository = FirebaseAuthRepositoryImp(iFirebaseAuthDataSource: FirebaseDataSourceImp(auth: auth, firestore: cloudFirestore));
+final firebaseUserInfoRepository =
+    FirebaseUserInfoRepositoryImp(iFirebaseAuthDataSource: FirebaseUserInfoDataSourceImp(auth: auth, firestore: cloudFirestore));
 
-abstract class IFirebaseAuthRepository {
-  Future<UserCredential> signInWithGoogle();
-  Future<UserCredential> loginWithEmailAndPassword(String email, String password);
-  Future<UserCredential> signUpWithEmailAndPassword(String name, String email, String password);
-  Future<UserCredential> signInAnonymously();
-  Future<void> sendForgotPasswordLink(String email);
-}
+abstract class IFirebaseUserInfoRepository extends IFirebaseUserInfoDataSource {}
 
-final class FirebaseAuthRepositoryImp implements IFirebaseAuthRepository {
-  final IFirebaseAuthDataSource iFirebaseAuthDataSource;
+final class FirebaseUserInfoRepositoryImp implements IFirebaseUserInfoRepository {
+  final IFirebaseUserInfoDataSource iFirebaseAuthDataSource;
 
-  FirebaseAuthRepositoryImp({required this.iFirebaseAuthDataSource});
+  FirebaseUserInfoRepositoryImp({required this.iFirebaseAuthDataSource});
   @override
   Future<UserCredential> signInAnonymously() => iFirebaseAuthDataSource.signInAnonymously();
 
@@ -33,4 +28,15 @@ final class FirebaseAuthRepositoryImp implements IFirebaseAuthRepository {
 
   @override
   Future<void> sendForgotPasswordLink(String email) => iFirebaseAuthDataSource.sendForgotPasswordLink(email);
+
+  @override
+  Future<dynamic> getUserInfoFromFirebase(String uid) => iFirebaseAuthDataSource.getUserInfoFromFirebase(uid);
+
+  @override
+  Future<UserCredential> signUpWithGoogle() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<User?> getCurrentUser(UserCredential userCredential) => iFirebaseAuthDataSource.getCurrentUser(userCredential);
 }

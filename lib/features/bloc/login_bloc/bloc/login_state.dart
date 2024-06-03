@@ -11,8 +11,10 @@ final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
   final UserCredential userCredential;
+  final User? user;
+  final dynamic documentSnapshot;
 
-  const LoginSuccess(this.userCredential);
+  const LoginSuccess(this.userCredential, this.user, this.documentSnapshot);
 
   @override
   List<Object> get props => [userCredential];
@@ -28,8 +30,10 @@ final class LoginAnonymouslyLoading extends LoginState {}
 
 final class LoginAnonymouslySuccess extends LoginState {
   final UserCredential userCredential;
+  final User? user;
+  final List<dynamic> documentSnapshot;
 
-  const LoginAnonymouslySuccess(this.userCredential);
+  const LoginAnonymouslySuccess(this.userCredential, this.user, this.documentSnapshot);
 
   @override
   List<Object> get props => [userCredential];

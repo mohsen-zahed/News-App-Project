@@ -8,6 +8,7 @@ import 'package:news_app/features/screens/initial_screens/registration_screen/lo
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
 import 'package:news_app/utils/my_media_query.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,8 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // final _shared = SharedPreferences.getInstance().then((value) => value.remove(hasSeenOnboarding));
-    // final _shared1 = SharedPreferences.getInstance().then((value) => value.remove(isUserRegistered));
+    // final _shared = SharedPreferences.getInstance().then((value) => value.remove(hasSeenOnboardingKey));
+    // final _shared1 = SharedPreferences.getInstance().then((value) => value.remove(isRegisteredKey));
     // final _shared2 = SharedPreferences.getInstance().then((value) => value.remove(userInfoKey));
     Timer(
       const Duration(seconds: 3),

@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/features/data/repository/ifirebase_auth_repository.dart';
+import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 
 part 'forgot_password_event.dart';
 part 'forgot_password_state.dart';
 
 class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
-  final IFirebaseAuthRepository iFirebaseAuthRepository;
+  final IFirebaseUserInfoRepository iFirebaseAuthRepository;
   ForgotPasswordBloc(this.iFirebaseAuthRepository) : super(ForgotPasswordLoading()) {
     on<ForgotPasswordEvent>((event, emit) {
       if (event is ForgotPasswordButtonIsClicked) {

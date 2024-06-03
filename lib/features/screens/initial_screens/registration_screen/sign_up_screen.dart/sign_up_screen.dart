@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
-import 'package:news_app/features/data/repository/ifirebase_auth_repository.dart';
+import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/have_or_dont_have_account_and_forgot_pass_texts.dart.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/google_login_button.dart';
@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<SignUpBloc>(
       create: (context) {
-        signUpBloc = SignUpBloc(firebaseAuthRepository);
+        signUpBloc = SignUpBloc(firebaseUserInfoRepository);
         streamSubscription = signUpBloc?.stream.listen((state) async {
           if (state is SignUpFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);
@@ -72,7 +72,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
                 .then((value) {
               Future.delayed(const Duration(seconds: 2)).then((value) {
-                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': value});
+                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
+                  'userCredential': state.userCredential,
+                  'user': state.user,
+                  'documentSnapshot': state.documentSnapshot,
+                });
               });
             }).onError((error, stackTrace) {
               helperFunctions.showRapidSnackBar(context, error.toString());

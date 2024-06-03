@@ -120,3 +120,12 @@ void showInfinitTimeSnackBar(BuildContext context, String message) {
 //**
 //** Connectivity Functions ends here ***//
 
+//** Data Functions starts here ***//
+//**
+String getFormattedChristianDate() {
+  var date = DateTime.now().toString();
+  var dateStamp = DateTime.parse(date);
+  return '${dateStamp.year}-${dateStamp.month}-${dateStamp.day}::${dateStamp.hour}-${dateStamp.minute}-${dateStamp.second}';
+}
+//**
+//** Data Functions ends here ***//

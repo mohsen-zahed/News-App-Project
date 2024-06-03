@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
-import 'package:news_app/features/data/repository/ifirebase_auth_repository.dart';
+import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/bloc/forgot_password_bloc/bloc/forgot_password_bloc.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
@@ -40,7 +40,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<ForgotPasswordBloc>(
       create: (context) {
-        forgotPasswordBloc = ForgotPasswordBloc(firebaseAuthRepository);
+        forgotPasswordBloc = ForgotPasswordBloc(firebaseUserInfoRepository);
         forgotPassStreamSubscription = forgotPasswordBloc?.stream.listen((state) async {
           if (state is ForgotPasswordSentSuccess) {
             await Future.delayed(const Duration(seconds: 2)).then((value) {

@@ -11,8 +11,10 @@ final class SignUpLoading extends SignUpState {}
 
 final class SignUpSuccess extends SignUpState {
   final UserCredential userCredential;
+  final User? user;
+  final dynamic documentSnapshot;
 
-  const SignUpSuccess({required this.userCredential});
+  const SignUpSuccess(this.userCredential, this.user, this.documentSnapshot);
 }
 
 final class SignUpFailed extends SignUpState {

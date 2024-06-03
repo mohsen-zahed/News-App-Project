@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/bloc/login_bloc/bloc/login_bloc.dart';
-import 'package:news_app/features/data/repository/ifirebase_auth_repository.dart';
+import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/forgot_password_screen/forgot_password_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/have_or_dont_have_account_and_forgot_pass_texts.dart.dart';
@@ -28,8 +28,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController(text: 'amirehsanzahedi@gmail.com');
+  final TextEditingController _passwordController = TextEditingController(text: '12344321');
   final FocusNode _emailNode = FocusNode();
   final FocusNode _passwordNode = FocusNode();
 
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
       create: (context) {
-        loginBloc = LoginBloc(firebaseAuthRepository);
+        loginBloc = LoginBloc(firebaseUserInfoRepository);
         streamSubscription = loginBloc?.stream.listen((state) async {
           if (state is LoginSuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in as ${state.userCredential.user!.email}', 4000);
@@ -62,9 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
                 .then((value) async {
               await Future.delayed(const Duration(seconds: 2)).then((value) {
-                print('credential is: ${state.userCredential}');
-                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': state.userCredential});
-                print('credential is: ${value}');
+                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
+                  'userCredential': state.userCredential,
+                  'user': state.user,
+                  'documentSnapshot': state.documentSnapshot,
+                });
               });
             }).onError((error, stackTrace) {
               helperFunctions.showSnackBar(context, error.toString(), 4000);
@@ -75,8 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
                 .then((value) async {
               await Future.delayed(const Duration(seconds: 2)).then((value) {
-                print('credential is: ${state.userCredential}');
-                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': state.userCredential});
+                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
+                  'userCredential': state.userCredential,
+                  'user': state.user,
+                  'documentSnapshot': state.documentSnapshot,
+                });
               });
             }).onError((error, stackTrace) {
               helperFunctions.showSnackBar(context, error.toString(), 4000);
