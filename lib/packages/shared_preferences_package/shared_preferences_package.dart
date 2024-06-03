@@ -9,12 +9,12 @@ class MySharedPreferencesPackage {
     return _instance!;
   }
 
-  Future<bool> saveToSharedPreferences(String setStringKey, dynamic setStringValue, String setBookKey, bool setBoolValue) async {
+  Future<bool> storeUserInfoAndRegistrationToLocale(String setInfoKey, dynamic setInfoValue, String setRegisteredKey, bool setRegisteredValue) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
-      final bool stringSaved = await sharedPreferences.setString(setStringKey, setStringValue.toString());
-      final bool boolSaved = await sharedPreferences.setBool(setBookKey, setBoolValue);
-      if (stringSaved && boolSaved) {
+      final bool infoSaved = await sharedPreferences.setString(setInfoKey, setInfoValue);
+      final bool registrationSaved = await sharedPreferences.setBool(setRegisteredKey, setRegisteredValue);
+      if (infoSaved && registrationSaved) {
         return true;
       } else {
         return false;
@@ -25,26 +25,49 @@ class MySharedPreferencesPackage {
     }
   }
 
-  Future<dynamic> loadFromSharedPreferences(String getBoolKey) async {
+  Future<bool> storeOnboardingStatusToLocale(String setOnboardingKey, bool setOnboardingValue) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    final bool isExisted;
     try {
-      isExisted = sharedPreferences.getBool(getBoolKey)!;
-      if (isExisted) {
-        return sharedPreferences.getString(getBoolKey);
+      final onboardingSaved = await sharedPreferences.setBool(setOnboardingKey, setOnboardingValue);
+      if (onboardingSaved) {
+        return true;
       } else {
-        return 'Nothing found!';
+        return false;
       }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<dynamic> loadUserInfoFromLocale(String userInfoKey) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    try {
+      return sharedPreferences.getString(userInfoKey);
     } catch (e) {
       return 'Something wrong happened';
     }
   }
 
-  Future<bool> checkExistAny(String getBoolKey) async {
+  Future<bool> loadRegistrationStatusFromLocale(String userRegistrationStatusKey) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final bool isExisted;
     try {
-      isExisted = sharedPreferences.getBool(getBoolKey)!;
+      isExisted = sharedPreferences.getBool(userRegistrationStatusKey)!;
+      if (isExisted) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> loadOnboardingStatusFromLocale(String userOnboardingStatusKey) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final bool isExisted;
+    try {
+      isExisted = sharedPreferences.getBool(userOnboardingStatusKey)!;
       if (isExisted) {
         return true;
       } else {

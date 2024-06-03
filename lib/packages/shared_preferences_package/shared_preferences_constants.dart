@@ -1,3 +1,3 @@
-const String isUserRegistered = 'isUserRegistered';
+const String isRegisteredKey = 'isUserRegistered';
 const String userInfoKey = 'userInfo';
-const String hasSeenOnboarding = 'hasSeenOnboarding';
+const String hasSeenOnboardingKey = 'hasSeenOnboarding';

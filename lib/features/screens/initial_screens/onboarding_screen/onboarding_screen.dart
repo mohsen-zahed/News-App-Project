@@ -4,6 +4,8 @@ import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/screens/initial_screens/onboarding_screen/widgets/custom_onboarding_button.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/login_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
 import 'package:news_app/packages/smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
@@ -86,7 +88,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   buttonText: index == 2 ? 'Enter' : 'Next',
                   onPressed: () {
                     if (index == 2) {
-                      Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);
+                      MySharedPreferencesPackage.instance.storeOnboardingStatusToLocale(hasSeenOnboardingKey, true).then((value) async {
+                        await Future.delayed(const Duration(seconds: 1))
+                            .then((value) => Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false));
+                      }).onError((error, stackTrace) {
+                        helperFunctions.showSnackBar(context, error.toString(), 4000);
+                      });
                     }
                     _controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
                   },

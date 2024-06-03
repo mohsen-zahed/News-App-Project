@@ -13,7 +13,7 @@ import 'package:news_app/features/screens/initial_screens/registration_screen/lo
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/or_divider_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/sign_up_screen.dart/bloc/sign_up_bloc.dart';
+import 'package:news_app/features/bloc/bloc/sign_up_bloc.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
@@ -68,10 +68,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);
           } else if (state is SignUpSuccess) {
             helperFunctions.showRapidSnackBar(context, "You've been registered as ${state.userCredential.user!.email}");
-            await MySharedPreferencesPackage.instance.saveToSharedPreferences(userInfoKey, state.userCredential, isUserRegistered, true);
-            await MySharedPreferencesPackage.instance.saveToSharedPreferences('', '', hasSeenOnboarding, true);
-            Future.delayed(const Duration(seconds: 2)).then((value) {
-              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
+            await MySharedPreferencesPackage.instance
+                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
+                .then((value) {
+              Future.delayed(const Duration(seconds: 2)).then((value) {
+                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': value});
+              });
+            }).onError((error, stackTrace) {
+              helperFunctions.showRapidSnackBar(context, error.toString());
             });
           }
         });

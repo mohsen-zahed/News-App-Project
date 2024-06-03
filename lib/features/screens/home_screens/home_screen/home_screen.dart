@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app/features/data/repository/ibanner_repository.dart';
@@ -28,8 +31,12 @@ class _HomeScreenState extends State<HomeScreen> {
   late HomeBloc homeBloc;
   ValueNotifier<int> listValueNotifier = ValueNotifier<int>(0);
 
+  dynamic map;
+  UserCredential? userCredential;
   @override
   Widget build(BuildContext context) {
+    map = ModalRoute.of(context)!.settings.arguments;
+    userCredential = map['userCredential'];
     return BlocProvider<HomeBloc>(
       create: (context) {
         homeBloc = HomeBloc(bannerRepository, newsRepository);
@@ -38,9 +45,16 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Welcome',
-            style: Theme.of(context).textTheme.titleLarge,
+          title: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(cnnIconTvPath),
+              ),
+              Text(
+                'Welcome',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ],
           ),
           actions: [
             //* Search icon button....
@@ -191,47 +205,45 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-
-
 // SingleChildScrollView(
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     children: [
-                  //       //* Entire horizontal scroll view with indicators... (Column)
-                  //       HorizontalBreakingNewsSliderWidget(
-                  //         onViewAllTap: () {},
-                  //         bannersModelList: state.bannersList,
-                  //       ),
-                  //       SizedBox(height: getMediaQueryHeight(context, 0.03)),
-                  //       //* Horizontal categories with vertical recommendations widget...
-                  //       Column(
-                  //         children: [
-                  //           //* Categories widget...
-                  //           HorizontalCategoriesWidget(listValueNotifier: listValueNotifier),
-                  //           SizedBox(height: getMediaQueryHeight(context, 0.015)),
-                  //           //* Entire news categories vertical listView... (Padding)
-                  //           ValueListenableBuilder(
-                  //             valueListenable: listValueNotifier,
-                  //             builder: (context, value, child) => VerticalRecommendationsListWidget(
-                  //               onViewAllTap: () {
-                  //                 Navigator.push(
-                  //                   context,
-                  //                   CupertinoPageRoute(
-                  //                     builder: (context) => AllNewsScreen(allNewsList: allNewsList),
-                  //                   ),
-                  //                 );
-                  //               },
-                  //               newsList: value == 0
-                  //                   ? state.allNewsList
-                  //                   : value == 1
-                  //                       ? state.wallStreetList
-                  //                       : value == 2
-                  //                           ? state.technologyList
-                  //                           : state.businessNewsList,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
+//   child: Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     children: [
+//       //* Entire horizontal scroll view with indicators... (Column)
+//       HorizontalBreakingNewsSliderWidget(
+//         onViewAllTap: () {},
+//         bannersModelList: state.bannersList,
+//       ),
+//       SizedBox(height: getMediaQueryHeight(context, 0.03)),
+//       //* Horizontal categories with vertical recommendations widget...
+//       Column(
+//         children: [
+//           //* Categories widget...
+//           HorizontalCategoriesWidget(listValueNotifier: listValueNotifier),
+//           SizedBox(height: getMediaQueryHeight(context, 0.015)),
+//           //* Entire news categories vertical listView... (Padding)
+//           ValueListenableBuilder(
+//             valueListenable: listValueNotifier,
+//             builder: (context, value, child) => VerticalRecommendationsListWidget(
+//               onViewAllTap: () {
+//                 Navigator.push(
+//                   context,
+//                   CupertinoPageRoute(
+//                     builder: (context) => AllNewsScreen(allNewsList: allNewsList),
+//                   ),
+//                 );
+//               },
+//               newsList: value == 0
+//                   ? state.allNewsList
+//                   : value == 1
+//                       ? state.wallStreetList
+//                       : value == 2
+//                           ? state.technologyList
+//                           : state.businessNewsList,
+//             ),
+//           ),
+//         ],
+//       ),
+//     ],
+//   ),
+// );

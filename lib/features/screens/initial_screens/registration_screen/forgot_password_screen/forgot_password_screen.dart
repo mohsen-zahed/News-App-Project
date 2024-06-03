@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/data/repository/ifirebase_auth_repository.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/forgot_password_screen/bloc/forgot_password_bloc.dart';
+import 'package:news_app/features/bloc/forgot_password_bloc/bloc/forgot_password_bloc.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
 import 'package:news_app/helpers/helper_functions.dart';

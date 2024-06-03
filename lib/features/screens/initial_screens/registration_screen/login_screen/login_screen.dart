@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -5,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/features/bloc/login_bloc/bloc/login_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_auth_repository.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/home_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/forgot_password_screen/forgot_password_screen.dart';
-import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/bloc/login_bloc.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/have_or_dont_have_account_and_forgot_pass_texts.dart.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/registration_text_field_widget.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/widgets/submit_button_widget.dart';
@@ -33,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final FocusNode _passwordNode = FocusNode();
 
   LoginBloc? loginBloc;
+  StreamSubscription? streamSubscription;
 
   @override
   void dispose() {
@@ -42,29 +44,42 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailNode.dispose();
     _passwordNode.dispose();
     loginBloc?.close();
+    streamSubscription?.cancel();
   }
 
   bool showPassword = false;
+  bool isStored = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LoginBloc>(
       create: (context) {
         loginBloc = LoginBloc(firebaseAuthRepository);
-        loginBloc?.stream.listen((state) async {
+        streamSubscription = loginBloc?.stream.listen((state) async {
           if (state is LoginSuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in as ${state.userCredential.user!.email}', 4000);
-            await MySharedPreferencesPackage.instance.saveToSharedPreferences(userInfoKey, state.userCredential, isUserRegistered, true);
-            await MySharedPreferencesPackage.instance.saveToSharedPreferences('', '', hasSeenOnboarding, true);
-            Future.delayed(const Duration(seconds: 2)).then((value) {
-              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
+            await MySharedPreferencesPackage.instance
+                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
+                .then((value) async {
+              await Future.delayed(const Duration(seconds: 2)).then((value) {
+                print('credential is: ${state.userCredential}');
+                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': state.userCredential});
+                print('credential is: ${value}');
+              });
+            }).onError((error, stackTrace) {
+              helperFunctions.showSnackBar(context, error.toString(), 4000);
             });
           } else if (state is LoginAnonymouslySuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in Anonymously!', 4000);
-            await MySharedPreferencesPackage.instance.saveToSharedPreferences(userInfoKey, state.userCredential, isUserRegistered, true);
-            await MySharedPreferencesPackage.instance.saveToSharedPreferences('', '', hasSeenOnboarding, true);
-            Future.delayed(const Duration(seconds: 2)).then((value) {
-              Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false);
+            await MySharedPreferencesPackage.instance
+                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
+                .then((value) async {
+              await Future.delayed(const Duration(seconds: 2)).then((value) {
+                print('credential is: ${state.userCredential}');
+                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': state.userCredential});
+              });
+            }).onError((error, stackTrace) {
+              helperFunctions.showSnackBar(context, error.toString(), 4000);
             });
           } else if (state is LoginAnonymouslyFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);

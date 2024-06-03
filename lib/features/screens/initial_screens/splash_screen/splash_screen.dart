@@ -22,15 +22,22 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // final _shared = SharedPreferences.getInstance().then((value) => value.remove(hasSeenOnboarding));
+    // final _shared1 = SharedPreferences.getInstance().then((value) => value.remove(isUserRegistered));
+    // final _shared2 = SharedPreferences.getInstance().then((value) => value.remove(userInfoKey));
     Timer(
       const Duration(seconds: 3),
       () async {
-        await MySharedPreferencesPackage.instance.checkExistAny(hasSeenOnboarding).then((value) {
+        await MySharedPreferencesPackage.instance.loadOnboardingStatusFromLocale(hasSeenOnboardingKey).then((value) {
           if (value) {
-            MySharedPreferencesPackage.instance.checkExistAny(isUserRegistered).then((value) {
-              value
-                  ? Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false)
-                  : Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);
+            MySharedPreferencesPackage.instance.loadRegistrationStatusFromLocale(isRegisteredKey).then((value) {
+              if (value) {
+                MySharedPreferencesPackage.instance.loadUserInfoFromLocale(userInfoKey).then(
+                      (value) => Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': value}),
+                    );
+              } else {
+                Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);
+              }
             });
           } else {
             Navigator.pushNamedAndRemoveUntil(context, OnboardingScreen.id, (route) => false);
