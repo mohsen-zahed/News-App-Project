@@ -16,6 +16,7 @@ import 'package:news_app/features/screens/home_screens/search_screen/search_scre
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_divider.dart';
+import 'package:news_app/widgets/screen_loading_widget.dart';
 import 'package:news_app/widgets/try_again_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: GestureDetector(
             onTap: () {
-              Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ProfileScreen(userInfo: userInfo)));
+              Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ProfileScreen(userId: userInfo['id'])));
             },
             child: Row(
               children: [
@@ -115,18 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 if (state is HomeLoading) {
-                  return SizedBox(
-                    height: getMediaQueryHeight(context),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(width: double.infinity),
-                        const CupertinoActivityIndicator(),
-                        const SizedBox(height: 10),
-                        Text('Loading News...', style: Theme.of(context).textTheme.labelMedium),
-                      ],
-                    ),
+                  return const ScreenLoadingWidget(
+                    loadingText: 'Loading news...',
                   );
                 } else if (state is HomeSuccess) {
                   if (allNewsListsHome.isNotEmpty) {
@@ -213,6 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 
 // SingleChildScrollView(
 //   child: Column(

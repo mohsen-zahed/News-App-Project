@@ -33,4 +33,10 @@ class MyFirebaseFirestorePackage {
   Future<User?> getCurrentUserFromFirebase() async {
     return FirebaseAuth.instance.currentUser;
   }
+
+  Future<void> updateUserImageInFirebase(String userId, String imageUrl) async {
+    FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'profileImage': imageUrl,
+    });
+  }
 }

@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
-import 'package:news_app/packages/firebase_firestore_package/firebase_firestore_constants.dart';
+import 'package:news_app/packages/firebase_firestore_package/firebase_firestore_package.dart';
+import 'package:news_app/packages/image_picker_package/image_picker_package.dart';
 
-final firebaseUserInfoRepository =
-    FirebaseUserInfoRepositoryImp(iFirebaseAuthDataSource: FirebaseUserInfoDataSourceImp(auth: auth, firestore: cloudFirestore));
+final firebaseUserInfoRepository = FirebaseUserInfoRepositoryImp(
+    iFirebaseAuthDataSource:
+        FirebaseUserInfoDataSourceImp(auth: auth, firestore: MyFirebaseFirestorePackage.instance, imagePicker: MyImagePickerPackage.instance));
 
 abstract class IFirebaseUserInfoRepository extends IFirebaseUserInfoDataSource {}
 
@@ -39,4 +41,10 @@ final class FirebaseUserInfoRepositoryImp implements IFirebaseUserInfoRepository
 
   @override
   Future<User?> getCurrentUser(UserCredential userCredential) => iFirebaseAuthDataSource.getCurrentUser(userCredential);
+
+  @override
+  Future<void> signOutUser() => iFirebaseAuthDataSource.signOutUser();
+
+  @override
+  Future<String> updateUserImage(String name, String id) => iFirebaseAuthDataSource.updateUserImage(name, id);
 }

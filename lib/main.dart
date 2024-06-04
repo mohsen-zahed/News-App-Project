@@ -24,6 +24,7 @@ void main() async {
       appId: '1:936903577118:android:6ac496e27095903fdc680f',
       messagingSenderId: '936903577118',
       projectId: 'tetconewsappproject',
+      storageBucket: 'tetconewsappproject.appspot.com',
     ),
   );
   await EasyLocalization.ensureInitialized();
