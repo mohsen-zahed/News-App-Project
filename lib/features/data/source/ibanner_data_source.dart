@@ -17,7 +17,7 @@ class BannerDataSourceImp implements IBannerDataSource {
   @override
   Future<List<BannersNewsModel>> getBannersNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       if (response.data != null && response.data is Map<String, dynamic>) {
         final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName);
         // box.clear();
@@ -44,8 +44,8 @@ class BannerDataSourceImp implements IBannerDataSource {
           continue;
         }
       }
-      print('sourceFolder_net_status: ${connectionStatusListener.isInternetConnected}');
-      print('sourceFolder: loaded from api');
+      debugPrint('sourceFolder_net_status: ${connectionStatusListener.isInternetConnected}');
+      debugPrint('sourceFolder: loaded from api');
       return bannersNewsList;
     } else {
       final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName).values.toList();
@@ -53,8 +53,8 @@ class BannerDataSourceImp implements IBannerDataSource {
       for (var element in box) {
         offlineNewsList.add(element);
       }
-      print('sourceFolder_net_status: ${connectionStatusListener.isInternetConnected}');
-      print('sourceFolder: loaded from database');
+      debugPrint('sourceFolder_net_status: ${connectionStatusListener.isInternetConnected}');
+      debugPrint('sourceFolder: loaded from database');
       return offlineNewsList;
     }
   }

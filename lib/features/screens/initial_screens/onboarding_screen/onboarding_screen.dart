@@ -86,11 +86,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 CustomOnboardingButton(
                   controller: _controller,
                   buttonText: index == 2 ? 'Enter' : 'Next',
-                  onPressed: () {
+                  onPressed: () async {
                     if (index == 2) {
-                      MySharedPreferencesPackage.instance.storeOnboardingStatusToLocale(hasSeenOnboardingKey, true).then((value) async {
-                        await Future.delayed(const Duration(seconds: 1))
-                            .then((value) => Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false));
+                      await MySharedPreferencesPackage.instance.storeOnboardingStatusToLocale(hasSeenOnboardingKey, true).then((value) async {
+                        Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);
                       }).onError((error, stackTrace) {
                         helperFunctions.showSnackBar(context, error.toString(), 4000);
                       });

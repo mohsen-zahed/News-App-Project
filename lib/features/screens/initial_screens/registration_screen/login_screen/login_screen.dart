@@ -59,13 +59,11 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state is LoginSuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in as ${state.userCredential.user!.email}', 4000);
             await MySharedPreferencesPackage.instance
-                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
+                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.documentSnapshot, isRegisteredKey, true)
                 .then((value) async {
               await Future.delayed(const Duration(seconds: 2)).then((value) {
                 Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
-                  'userCredential': state.userCredential,
-                  'user': state.user,
-                  'documentSnapshot': state.documentSnapshot,
+                  'userData': state.documentSnapshot,
                 });
               });
             }).onError((error, stackTrace) {
@@ -74,13 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is LoginAnonymouslySuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in Anonymously!', 4000);
             await MySharedPreferencesPackage.instance
-                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
+                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.documentSnapshot, isRegisteredKey, true)
                 .then((value) async {
               await Future.delayed(const Duration(seconds: 2)).then((value) {
                 Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
-                  'userCredential': state.userCredential,
-                  'user': state.user,
-                  'documentSnapshot': state.documentSnapshot,
+                  'userData': state.documentSnapshot,
                 });
               });
             }).onError((error, stackTrace) {

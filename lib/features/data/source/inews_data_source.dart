@@ -26,7 +26,7 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<GeneralNewsModel>> getAllNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       //* To store in local database for accessing later with no connection...
       if (response.data != null || response.data.isNotEmpty) {
         final box = Hive.box<GeneralNewsModel>(generalNewsModelBoxName);
@@ -73,7 +73,7 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<WallStreetNewsModel>> getWallStreetNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       //* To store in local database for accessing later with no connection...
       if (response.data != null || response.data.isNotEmpty) {
         final box = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName);
@@ -121,7 +121,7 @@ class NewsDataSource implements INewsDataSource {
   Future<List<TechnologyNewsModel>> getTechnologyNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response = await httpClient
-          .get('https://newsapi.org/v2/everything?q=apple&from=2024-05-21&to=2024-05-21&sortBy=popularity&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+          .get('https://newsapi.org/v2/everything?q=apple&from=2024-05-21&to=2024-05-21&sortBy=popularity&apiKey=3f1e9b5d74f7402b9515b7e859482502');
 
       //* To store in local database for accessing later with no connection...
       if (response.data != null || response.data.isNotEmpty) {
@@ -170,7 +170,7 @@ class NewsDataSource implements INewsDataSource {
   Future<List<BusinessNewsModel>> getBusinessNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response =
-          await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+          await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=3f1e9b5d74f7402b9515b7e859482502');
 
       //* To store in local database for accessing later with no connection...
       if (response.data != null || response.data.isNotEmpty) {

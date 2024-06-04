@@ -25,7 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         await initNoInternetListener();
         await Future.delayed(const Duration(seconds: 1));
         try {
-          final bannersResult = await iBannerRepository.getAllBanners();
+          final bannersResult = await iBannerRepository.getBannersNews();
           final technologyResult = await iNewsRepository.getTechnologyNews();
           final wallStreetResult = await iNewsRepository.getWallStreetNews();
           final businessResult = await iNewsRepository.getBusinessNews();

@@ -29,12 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
       const Duration(seconds: 3),
       () async {
-        await MySharedPreferencesPackage.instance.loadOnboardingStatusFromLocale(hasSeenOnboardingKey).then((value) {
+        await MySharedPreferencesPackage.instance.loadOnboardingStatusFromLocale(hasSeenOnboardingKey).then((value) async {
           if (value) {
-            MySharedPreferencesPackage.instance.loadRegistrationStatusFromLocale(isRegisteredKey).then((value) {
+            await MySharedPreferencesPackage.instance.loadRegistrationStatusFromLocale(isRegisteredKey).then((value) async {
               if (value) {
-                MySharedPreferencesPackage.instance.loadUserInfoFromLocale(userInfoKey).then(
-                      (value) => Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userCredential': value}),
+                await MySharedPreferencesPackage.instance.loadUserInfoFromLocale(userInfoKey).then(
+                      (value) => Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {'userData': value}),
                     );
               } else {
                 Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);

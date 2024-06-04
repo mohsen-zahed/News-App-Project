@@ -8,7 +8,7 @@ class HorizontalCategoriesWidget extends StatefulWidget {
   const HorizontalCategoriesWidget({
     super.key,
     required this.listValueNotifier,
-    this.selectedIndex,
+    required this.selectedIndex,
   });
 
   final ValueNotifier<int> listValueNotifier;

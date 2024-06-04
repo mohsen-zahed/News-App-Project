@@ -28,10 +28,10 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController(text: 'Amir');
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController(text: '12344321');
+  final TextEditingController _confirmPasswordController = TextEditingController(text: '12344321');
   final FocusNode _nameNode = FocusNode();
   final FocusNode _emailNode = FocusNode();
   final FocusNode _passwordNode = FocusNode();
@@ -69,17 +69,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
           } else if (state is SignUpSuccess) {
             helperFunctions.showRapidSnackBar(context, "You've been registered as ${state.userCredential.user!.email}");
             await MySharedPreferencesPackage.instance
-                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.userCredential, isRegisteredKey, true)
+                .storeUserInfoAndRegistrationToLocale(userInfoKey, state.documentSnapshot, isRegisteredKey, true)
                 .then((value) {
-              Future.delayed(const Duration(seconds: 2)).then((value) {
-                Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
-                  'userCredential': state.userCredential,
-                  'user': state.user,
-                  'documentSnapshot': state.documentSnapshot,
+              if (value) {
+                Future.delayed(const Duration(seconds: 2)).then((value) {
+                  Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
+                    'documentSnapshot': state.documentSnapshot,
+                  });
                 });
-              });
+              } else {
+                helperFunctions.showRapidSnackBar(context, "Something went wrong");
+              }
             }).onError((error, stackTrace) {
-              helperFunctions.showRapidSnackBar(context, error.toString());
+              helperFunctions.showRapidSnackBar(context, 'error.toString()');
             });
           }
         });

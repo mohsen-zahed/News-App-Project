@@ -31,7 +31,7 @@ final class LoginAnonymouslyLoading extends LoginState {}
 final class LoginAnonymouslySuccess extends LoginState {
   final UserCredential userCredential;
   final User? user;
-  final List<dynamic> documentSnapshot;
+  final dynamic documentSnapshot;
 
   const LoginAnonymouslySuccess(this.userCredential, this.user, this.documentSnapshot);
 

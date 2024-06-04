@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,16 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
   ValueNotifier<int> listValueNotifier = ValueNotifier<int>(0);
 
   dynamic map;
-  late UserCredential userCredential;
-  late User user;
   late dynamic userInfo;
   @override
   Widget build(BuildContext context) {
     map = ModalRoute.of(context)!.settings.arguments;
-    userCredential = map['userCredential'];
-    user = map['user'];
-    userInfo = map['documentSnapshot'];
-    print(userInfo);
+    userInfo = map['userData'];
     return BlocProvider<HomeBloc>(
       create: (context) {
         homeBloc = HomeBloc(bannerRepository, newsRepository);

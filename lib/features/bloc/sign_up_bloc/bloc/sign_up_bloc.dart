@@ -19,7 +19,23 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           final user = await iFirebaseAuthRepository.getCurrentUser(userCredential);
           emit(SignUpSuccess(userCredential, user, documentSnapshot));
         } on FirebaseAuthException catch (e) {
-          emit(SignUpFailed(errorMessage: e.message!));
+          if (e.code == 'weak-password') {
+            emit(const SignUpFailed(errorMessage: 'Enter a strong password!'));
+          } else if (e.code == 'email-already-in-use') {
+            emit(const SignUpFailed(errorMessage: 'This email address is already in use!'));
+          } else if (e.code == 'invalid-email') {
+            emit(const SignUpFailed(errorMessage: 'Invalid email address, double check and try again!'));
+          } else if (e.code == 'operation-not-allowed') {
+            emit(const SignUpFailed(errorMessage: 'Sorry, but sign up is not allowed at this time!'));
+          } else if (e.code == 'user-disabled') {
+            emit(const SignUpFailed(errorMessage: 'User disabled!'));
+          } else if (e.code == 'user-not-found') {
+            emit(const SignUpFailed(errorMessage: 'No user found with this email address!'));
+          } else if (e.code == 'wrong-password') {
+            emit(const SignUpFailed(errorMessage: 'Password is wrong, double check and try again!'));
+          } else {
+            emit(SignUpFailed(errorMessage: e.message!));
+          }
         }
       }
     });

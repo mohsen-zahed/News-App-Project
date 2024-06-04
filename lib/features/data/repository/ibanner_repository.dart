@@ -4,14 +4,12 @@ import 'package:news_app/packages/dio_package/dio_package.dart';
 
 final bannerRepository = BannerRepository(iBannerDataSource: BannerDataSourceImp(httpClient: httpClient));
 
-abstract class IBannerRepository {
-  Future<List<BannersNewsModel>> getAllBanners();
-}
+abstract class IBannerRepository extends IBannerDataSource {}
 
 class BannerRepository implements IBannerRepository {
   final IBannerDataSource iBannerDataSource;
 
   BannerRepository({required this.iBannerDataSource});
   @override
-  Future<List<BannersNewsModel>> getAllBanners() => iBannerDataSource.getBannersNews();
+  Future<List<BannersNewsModel>> getBannersNews() => iBannerDataSource.getBannersNews();
 }

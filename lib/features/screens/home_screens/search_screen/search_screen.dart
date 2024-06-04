@@ -34,7 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             SearchField(searchTextEditingController: searchTextEditingController, searchNotifier: searchNotifier),
             const CustomDivider(),
-            HorizontalCategoriesWidget(listValueNotifier: tabNotifier),
+            HorizontalCategoriesWidget(listValueNotifier: tabNotifier,selectedIndex: 0),
             const CustomDivider(),
             SearchResultBody(tabNotifier: tabNotifier, searchNotifier: searchNotifier, widget: widget),
           ],
