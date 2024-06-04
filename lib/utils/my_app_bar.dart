@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-AppBar myAppBar(BuildContext context, String appBarName) {
+AppBar myAppBar({required BuildContext context, required Widget child, List<Widget>? actions}) {
   return AppBar(
-    title: Text(appBarName),
+    title: child,
+    actions: actions ?? [],
   );
 }

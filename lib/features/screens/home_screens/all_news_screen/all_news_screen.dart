@@ -31,7 +31,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar(context, 'Explore All News'),
+      appBar: myAppBar(context: context, child: const Text('Explore All News')),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

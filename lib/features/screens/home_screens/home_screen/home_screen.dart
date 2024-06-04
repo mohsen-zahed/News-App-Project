@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/lists.dart';
@@ -10,6 +11,7 @@ import 'package:news_app/features/data/repository/inews_repository.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/all_news_screen.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_two_cards_vertical_with_title_text.dart';
+import 'package:news_app/features/screens/home_screens/profile_screen/profile_screen.dart';
 import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/utils/my_media_query.dart';
@@ -43,20 +45,25 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: CachedNetworkImageProvider(userInfo['profileImage']),
-                maxRadius: getScreenArea(context, 0.00007),
-              ),
-              SizedBox(width: getScreenArea(context, 0.00003)),
-              Expanded(
-                child: Text(
-                  'Welcome, ${userInfo['name']}',
-                  style: Theme.of(context).textTheme.titleLarge,
+          title: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ProfileScreen(userInfo: userInfo)));
+            },
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: CachedNetworkImageProvider(userInfo['profileImage']),
+                  maxRadius: getScreenArea(context, 0.00007),
                 ),
-              ),
-            ],
+                SizedBox(width: getScreenArea(context, 0.00003)),
+                Expanded(
+                  child: Text(
+                    'Welcome, ${userInfo['name']}',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+              ],
+            ),
           ),
           actions: [
             //* Search icon button....
