@@ -13,6 +13,7 @@ import 'package:news_app/features/screens/home_screens/home_screen/widgets/horiz
 import 'package:news_app/features/screens/home_screens/profile_screen/profile_screen.dart';
 import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_divider.dart';
 import 'package:news_app/widgets/screen_loading_widget.dart';
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     map = ModalRoute.of(context)!.settings.arguments;
     userInfo = map['userData'];
+    globalUserId = userInfo['id'];
     return BlocProvider<HomeBloc>(
       create: (context) {
         homeBloc = HomeBloc(bannerRepository, newsRepository);
@@ -72,7 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
             GestureDetector(
               onTap: () {
                 if (allNewsListAllScreen.isNotEmpty) {
-                  Navigator.push(context, CupertinoPageRoute(builder: (context) => SearchScreen(searchList: allNewsListAllScreen)));
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => SearchScreen(searchList: allNewsListAllScreen)),
+                  );
                 }
               },
               child: Container(

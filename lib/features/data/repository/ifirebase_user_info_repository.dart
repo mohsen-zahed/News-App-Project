@@ -6,7 +6,7 @@ import 'package:news_app/packages/image_picker_package/image_picker_package.dart
 
 final firebaseUserInfoRepository = FirebaseUserInfoRepositoryImp(
     iFirebaseAuthDataSource:
-        FirebaseUserInfoDataSourceImp(auth: auth, firestore: MyFirebaseFirestorePackage.instance, imagePicker: MyImagePickerPackage.instance));
+        FirebaseUserInfoDataSourceImp(auth: auth, myFirestore: MyFirebaseFirestorePackage.instance, myImagePicker: MyImagePickerPackage.instance));
 
 abstract class IFirebaseUserInfoRepository extends IFirebaseUserInfoDataSource {}
 
@@ -47,4 +47,10 @@ final class FirebaseUserInfoRepositoryImp implements IFirebaseUserInfoRepository
 
   @override
   Future<String> updateUserImage(String name, String id) => iFirebaseAuthDataSource.updateUserImage(name, id);
+
+  @override
+  Future<void> storeToUserSavedList(String userId, String id) => iFirebaseAuthDataSource.storeToUserSavedList(userId, id);
+
+  @override
+  Future<void> removeFromUserSavedList(String userId, String id) => iFirebaseAuthDataSource.removeFromUserSavedList(userId, id);
 }

@@ -13,15 +13,17 @@ abstract class IFirebaseUserInfoDataSource {
   Future<dynamic> getUserInfoFromFirebase(String uid);
   Future<User?> getCurrentUser(UserCredential userCredential);
   Future<void> signOutUser();
-  Future<String> updateUserImage(String name, String id);
+  Future<String> updateUserImage(String name, String userId);
+  Future<void> storeToUserSavedList(String userId, String id);
+  Future<void> removeFromUserSavedList(String userId, String id);
 }
 
 class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
   final FirebaseAuth auth;
-  final MyFirebaseFirestorePackage firestore;
-  final MyImagePickerPackage imagePicker;
+  final MyFirebaseFirestorePackage myFirestore;
+  final MyImagePickerPackage myImagePicker;
 
-  FirebaseUserInfoDataSourceImp({required this.firestore, required this.auth, required this.imagePicker});
+  FirebaseUserInfoDataSourceImp({required this.myFirestore, required this.auth, required this.myImagePicker});
 
   @override
   Future<UserCredential> signInWithGoogle() async {
@@ -80,7 +82,17 @@ class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
 
   @override
   Future<String> updateUserImage(String name, String id) async {
-    final imageUrl = await imagePicker.pickUserImageFromGallery(name, id);
+    final imageUrl = await myImagePicker.pickUserImageFromGallery(name, id);
     return imageUrl;
+  }
+
+  @override
+  Future<void> storeToUserSavedList(String userId, String id) async {
+    await myFirestore.storeToUserSavedList(userId, id);
+  }
+
+  @override
+  Future<void> removeFromUserSavedList(String userId, String id) async {
+    await myFirestore.removeFromUserSavedList(userId, id);
   }
 }

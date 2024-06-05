@@ -35,8 +35,20 @@ class MyFirebaseFirestorePackage {
   }
 
   Future<void> updateUserImageInFirebase(String userId, String imageUrl) async {
-    FirebaseFirestore.instance.collection('users').doc(userId).update({
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
       'profileImage': imageUrl,
+    });
+  }
+
+  Future<void> storeToUserSavedList(String userId, String newsId) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'savedNews': FieldValue.arrayUnion([newsId]),
+    });
+  }
+
+  Future<void> removeFromUserSavedList(String userId, String newsId) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'savedNews': FieldValue.arrayRemove([newsId]),
     });
   }
 }

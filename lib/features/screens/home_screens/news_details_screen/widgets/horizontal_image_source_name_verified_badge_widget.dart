@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/features/bloc/news_details_bloc/bloc/bookmark_button_bloc.dart';
+import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
@@ -20,12 +23,6 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
         Container(
           width: getScreenArea(context, 0.00015),
           height: getScreenArea(context, 0.00015),
-          margin: EdgeInsets.fromLTRB(
-            getMediaQueryWidth(context, 0.025),
-            0,
-            getMediaQueryWidth(context, 0.025),
-            0,
-          ),
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(100)),
             image: DecorationImage(
@@ -33,6 +30,9 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+        ),
+        SizedBox(
+          width: getScreenArea(context, 0.00003),
         ),
         Expanded(
           child: Column(
@@ -70,6 +70,96 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        BlocBuilder<BookmarkButtonBloc, BookmarkButtonState>(
+          builder: (context, state) {
+            if (state is BookmarkButtonInitial) {
+              return GestureDetector(
+                onTap: () {
+                  BlocProvider.of<BookmarkButtonBloc>(context).add(
+                    BookmarkButtonIsClicked(
+                      itemId: generalNewsModel.title,
+                      userId: globalUserId,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.bookmark_border_rounded,
+                  size: getScreenArea(context, 0.000085),
+                ),
+              );
+            } else if (state is BookmarkButtonLoading || state is RemoveBookmarkButtonLoading) {
+              return GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.bookmark_border_rounded,
+                  size: getScreenArea(context, 0.000085),
+                ),
+              );
+            } else if (state is BookmarkButtonSuccess) {
+              return GestureDetector(
+                onTap: () {
+                  BlocProvider.of<BookmarkButtonBloc>(context).add(
+                    RemoveBookmarkButtonIsClicked(
+                      itemId: generalNewsModel.title,
+                      userId: globalUserId,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.bookmark,
+                  size: getScreenArea(context, 0.000085),
+                ),
+              );
+            } else if (state is RemoveBookmarkButtonSuccess) {
+              return GestureDetector(
+                onTap: () {
+                  BlocProvider.of<BookmarkButtonBloc>(context).add(
+                    RemoveBookmarkButtonIsClicked(
+                      itemId: generalNewsModel.title,
+                      userId: globalUserId,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.bookmark_border_rounded,
+                  size: getScreenArea(context, 0.000085),
+                ),
+              );
+            } else if (state is BookmarkButtonFailed) {
+              return GestureDetector(
+                onTap: () {
+                  BlocProvider.of<BookmarkButtonBloc>(context).add(
+                    BookmarkButtonIsClicked(
+                      itemId: generalNewsModel.title,
+                      userId: globalUserId,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.bookmark,
+                  size: getScreenArea(context, 0.000085),
+                ),
+              );
+            } else if (state is RemoveBookmarkButtonFailed) {
+              return GestureDetector(
+                onTap: () {
+                  BlocProvider.of<BookmarkButtonBloc>(context).add(
+                    BookmarkButtonIsClicked(
+                      itemId: generalNewsModel.title,
+                      userId: globalUserId,
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.bookmark_outline_rounded,
+                  size: getScreenArea(context, 0.000085),
+                ),
+              );
+            } else {
+              throw 'state not supported';
+            }
+          },
         ),
       ],
     );
