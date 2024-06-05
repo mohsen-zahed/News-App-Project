@@ -10,7 +10,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final IFirebaseUserInfoRepository iFirebaseAuthRepository;
   ProfileBloc(this.iFirebaseAuthRepository) : super(ProfileScreenLoading()) {
     on<ProfileEvent>((event, emit) async {
-      if (event is ProfileScreenStarted || event is ProfileScreenRefresh) {
+      if (event is ProfileScreenStarted || event is ProfileScreenRefresh || event is ProfileImageChangeIsClicked) {
         emit(ProfileScreenLoading());
         String userId = '';
         if (event is ProfileScreenStarted) {
@@ -19,20 +19,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           userId = event.userId;
         }
         try {
+          if (event is ProfileImageChangeIsClicked) {
+            try {
+              emit(ProfileChangeImageLoading());
+              final image = await iFirebaseAuthRepository.updateUserImage(event.previousImageUrl, userId);
+              emit(ProfileChangeImageSucess(imageUrl: image));
+            } catch (e) {
+              emit(ProfileChangeImageFailed(previousImageUrl: event.previousImageUrl));
+            }
+          }
           final userInfo = await iFirebaseAuthRepository.getUserInfoFromFirebase(userId);
           emit(ProfileScreenSuccess(userInfo: userInfo));
         } on FirebaseException catch (e) {
           emit(ProfileScreenFailed(
             errorMessage: e.message.toString(),
           ));
-        }
-      } else if (event is ProfileImageChangeIsClicked) {
-        emit(ProfileChangeImageLoading());
-        try {
-          final imageUrl = await iFirebaseAuthRepository.updateUserImage(event.userName, event.userId);
-          emit(ProfileChangeImageSucess(imageUrl: imageUrl));
-        } catch (e) {
-          emit(ProfileChangeImageFailed(previousImageUrl: event.previousImageUrl));
         }
       }
     });

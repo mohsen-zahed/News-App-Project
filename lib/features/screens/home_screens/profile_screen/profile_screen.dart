@@ -28,65 +28,23 @@ class ProfileScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is ProfileScreenLoading) {
                 return const ScreenLoadingWidget(
-                  loadingText: 'Loading...',
+                  loadingText: 'Loading profile...',
                 );
               } else if (state is ProfileScreenSuccess) {
                 return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: getScreenArea(context, 0.00006),
-                      ),
+                      SizedBox(height: getScreenArea(context, 0.00006)),
                       Stack(
                         children: [
-                          BlocBuilder<ProfileBloc, ProfileState>(
-                            builder: (context, imageState) {
-                              if (imageState is ProfileChangeImageLoading) {
-                                return Container(
-                                  width: getScreenArea(context, 0.0005),
-                                  height: getScreenArea(context, 0.0005),
-                                  padding: EdgeInsets.all(getScreenArea(context, 0.000005)),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(
-                                      color: kSecondaryColor,
-                                      width: 3,
-                                    ),
-                                  ),
-                                  child: const Center(child: CircularProgressIndicator()),
-                                );
-                              } else if (imageState is ProfileChangeImageSucess) {
-                                return ProfileImageWidget(
-                                  userImage: imageState.imageUrl,
-                                  onCameraTap: () {},
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: imageState.imageUrl)),
-                                    );
-                                  },
-                                );
-                              } else if (imageState is ProfileChangeImageFailed) {
-                                return ProfileImageWidget(
-                                  userImage: imageState.previousImageUrl,
-                                  onCameraTap: () {},
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: imageState.previousImageUrl)),
-                                    );
-                                  },
-                                );
-                              } else {
-                                return ProfileImageWidget(
-                                  userImage: state.userInfo['profileImage'],
-                                  onCameraTap: () {},
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: state.userInfo['profileImage'])),
-                                    );
-                                  },
-                                );
-                              }
+                          ProfileImageWidget(
+                            userImage: state.userInfo['profileImage'],
+                            onCameraTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: state.userInfo['profileImage'])),
+                              );
                             },
                           ),
                           Positioned(
@@ -165,10 +123,15 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 );
               } else if (state is ProfileScreenFailed) {
-                return TryAgainWidget(errorMessage: state.errorMessage, onTryAgainPressed: () {}, buttonText: 'Try again');
+                return TryAgainWidget(
+                    errorMessage: state.errorMessage,
+                    onTryAgainPressed: () {
+                      BlocProvider.of<ProfileBloc>(context).add(ProfileScreenRefresh(userId: userId));
+                    },
+                    buttonText: 'Try again');
               } else {
                 return TryAgainWidget(
-                  errorMessage: 'Screen does not response at the moment, please try again later!',
+                  errorMessage: 'Screen does not respond at the moment, please try again later!',
                   onTryAgainPressed: () {
                     BlocProvider.of<ProfileBloc>(context).add(ProfileScreenRefresh(userId: userId));
                   },
