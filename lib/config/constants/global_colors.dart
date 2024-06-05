@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 // Global Colors...
 const Color kTransparentColor = Colors.transparent;
 const Color kWhiteColor = Colors.white;
+Color kWhiteColorOp1 = Colors.white.withOpacity(0.1);
+Color kWhiteColorOp2 = Colors.white.withOpacity(0.2);
 Color kWhiteColorOp3 = Colors.white.withOpacity(0.3);
+Color kWhiteColorOp4 = Colors.white.withOpacity(0.4);
+Color kWhiteColorOp5 = Colors.white.withOpacity(0.5);
+Color kWhiteColorOp6 = Colors.white.withOpacity(0.6);
+Color kWhiteColorOp7 = Colors.white.withOpacity(0.7);
+Color kWhiteColorOp8 = Colors.white.withOpacity(0.8);
+Color kWhiteColorOp9 = Colors.white.withOpacity(0.9);
 const Color kBlackColor = Colors.black;
 Color kBlackColorOp1 = Colors.black.withOpacity(0.1);
 Color kBlackColorOp3 = Colors.black.withOpacity(0.3);

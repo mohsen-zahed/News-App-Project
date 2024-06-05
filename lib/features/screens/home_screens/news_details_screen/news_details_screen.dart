@@ -33,31 +33,60 @@ class NewsDetailsScreen extends StatelessWidget {
           ),
           //* The rest of the screen containing news....
           SliverToBoxAdapter(
-            child: Container(
-              height: screenHeight - appBarHeight,
-              padding: EdgeInsets.symmetric(
-                vertical: getMediaQueryHeight(context, 0.02),
-                horizontal: getMediaQueryWidth(context, 0.035),
-              ),
-              decoration: BoxDecoration(
-                color: helperFunctions.isThemeLightMode(context) ? kWhiteColor : kDarkBackgroundColor,
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              ),
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HorizontalImageSourceNameVerifiedBadgeWidget(generalNewsModel: newsList),
-                    const SizedBox(height: 10),
-                    Text(
-                      '${newsList.description} ${newsList.content}\n${newsList.description} ${newsList.content}\n${newsList.description} ${newsList.content}',
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(wordSpacing: 1.5, letterSpacing: .5),
-                      textAlign: TextAlign.justify,
+            child: Stack(
+              children: [
+                Container(
+                  height: screenHeight - appBarHeight,
+                  padding: EdgeInsets.symmetric(
+                    vertical: getMediaQueryHeight(context, 0.02),
+                    horizontal: getMediaQueryWidth(context, 0.035),
+                  ),
+                  decoration: BoxDecoration(
+                    color: helperFunctions.isThemeLightMode(context) ? kWhiteColor : kDarkBackgroundColor,
+                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  ),
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        HorizontalImageSourceNameVerifiedBadgeWidget(generalNewsModel: newsList),
+                        SizedBox(height: getMediaQueryHeight(context, 0.015)),
+                        Text(
+                          '${newsList.description} ${newsList.content}\n${newsList.description} ${newsList.content}\n${newsList.description} ${newsList.content}',
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(wordSpacing: 1.5, letterSpacing: .5),
+                          textAlign: TextAlign.justify,
+                        ),
+                        SizedBox(height: getScreenArea(context, 0.00005)),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    width: getMediaQueryWidth(context),
+                    height: getMediaQueryHeight(context, 0.1),
+                    decoration: BoxDecoration(
+                      // color: kTransparentColor,
+                      gradient: LinearGradient(
+                        colors: [
+                          kWhiteColor,
+                          kWhiteColor,
+                          kWhiteColorOp8,
+                          kWhiteColorOp5,
+                          kWhiteColorOp1,
+                          kTransparentColor,
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
