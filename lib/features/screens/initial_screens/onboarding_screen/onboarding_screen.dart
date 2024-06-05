@@ -27,6 +27,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          //* Whole screen is divided into 3 sections... image, texts and nextButton...
+          //* Image sections...
           Expanded(
             flex: 6,
             child: PageView.builder(
@@ -44,6 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
           const SizedBox(height: 20),
+          //* Texts section...
           Expanded(
             flex: 2,
             child: Column(
@@ -73,21 +76,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
           const SizedBox(height: 30),
+          //* Next button section...
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                //* Animated page indicator...
                 MySmoothPageIndicator.pageIndicator(
                   controller: _controller,
                   count: onboardingList.length,
                   dotColor: helperFunctions.isThemeLightMode(context) ? kSecondaryColor : kPrimaryColor,
                   activeDotColor: helperFunctions.isThemeLightMode(context) ? kPrimaryColor : kSecondaryColor,
                 ),
+                //* Next button...
                 CustomOnboardingButton(
                   controller: _controller,
                   buttonText: index == 2 ? 'Enter' : 'Next',
                   onPressed: () async {
                     if (index == 2) {
+                      //* Storing onboarding status to locale shared preferences...
                       await MySharedPreferencesPackage.instance.storeOnboardingStatusToLocale(hasSeenOnboardingKey, true).then((value) async {
                         Navigator.pushNamedAndRemoveUntil(context, LoginScreen.id, (route) => false);
                       }).onError((error, stackTrace) {

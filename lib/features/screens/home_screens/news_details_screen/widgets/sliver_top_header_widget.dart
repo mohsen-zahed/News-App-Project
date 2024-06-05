@@ -28,7 +28,9 @@ class SliverTopHeaderWidget extends SliverPersistentHeaderDelegate {
       child: Stack(
         fit: StackFit.expand,
         children: [
+          //* Top news image box...
           CustomCachedNetworkImage(borderRadius: 10, imageUrl: newsListModel.imageUrl),
+          //* Slight dark shadow on image...
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -39,20 +41,27 @@ class SliverTopHeaderWidget extends SliverPersistentHeaderDelegate {
               ),
             ),
           ),
+          //* Two vertical texts... title with author and publishedAt
           Positioned(
             left: getMediaQueryWidth(context, 0.035),
+            right: getMediaQueryWidth(context, 0.035),
             bottom: getMediaQueryHeight(context, 0.03),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: getMediaQueryWidth(context, 0.95)),
-                  child: Text(newsListModel.title, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: kWhiteColor)),
+                //* Title text...
+                Text(
+                  '${newsListModel.title}',
+                  style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: kWhiteColor),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
+                //* Author and publishedAt texts...
                 Text(
                   '${newsListModel.author} • ${newsListModel.publishedAt}',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(color: kGreyColor),
+                  maxLines: 1,
                 ),
               ],
             ),

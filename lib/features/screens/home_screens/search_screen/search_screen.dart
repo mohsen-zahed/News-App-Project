@@ -32,10 +32,13 @@ class _SearchScreenState extends State<SearchScreen> {
       body: SafeArea(
         child: Column(
           children: [
+            //* Search box...
             SearchField(searchTextEditingController: searchTextEditingController, searchNotifier: searchNotifier),
             const CustomDivider(),
-            HorizontalCategoriesWidget(listValueNotifier: tabNotifier,selectedIndex: 0),
+            //* News tab bar...
+            HorizontalCategoriesWidget(listValueNotifier: tabNotifier, selectedIndex: 0),
             const CustomDivider(),
+            //* Rest of the screen to show search results...
             SearchResultBody(tabNotifier: tabNotifier, searchNotifier: searchNotifier, widget: widget),
           ],
         ),

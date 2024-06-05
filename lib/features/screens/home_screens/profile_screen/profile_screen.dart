@@ -38,6 +38,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: getScreenArea(context, 0.00006)),
                       Stack(
                         children: [
+                          //* Profile image avatar...
                           ProfileImageWidget(
                             userImage: state.userInfo['profileImage'],
                             onCameraTap: () {},
@@ -47,6 +48,7 @@ class ProfileScreen extends StatelessWidget {
                               );
                             },
                           ),
+                          //* Camera icon to change profile image...
                           Positioned(
                             bottom: 0,
                             right: getScreenArea(context, 0.00008),
@@ -81,6 +83,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: getScreenArea(context, 0.00006),
                       ),
+                      //* User name text...
                       Text(
                         state.userInfo['name'],
                         style: Theme.of(context).textTheme.headlineSmall!.copyWith(),
@@ -88,6 +91,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: getScreenArea(context, 0.00001),
                       ),
+                      //* Email text with user email...
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -103,6 +107,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: getScreenArea(context, 0.00015),
                       ),
+                      //* Bookmark list tile...
                       ProfileListTileWidget(
                         title: 'Bookmarked News',
                         icon: Icons.bookmark_border_rounded,
@@ -111,6 +116,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: getScreenArea(context, 0.0001),
                       ),
+                      //* Logout list tile...
                       ProfileListTileWidget(
                         title: 'LogOut',
                         icon: Icons.logout_rounded,
@@ -123,6 +129,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 );
               } else if (state is ProfileScreenFailed) {
+                //* Widget when state fails...
                 return TryAgainWidget(
                     errorMessage: state.errorMessage,
                     onTryAgainPressed: () {
@@ -130,6 +137,7 @@ class ProfileScreen extends StatelessWidget {
                     },
                     buttonText: 'Try again');
               } else {
+                //* Widget when state fails for any reason...
                 return TryAgainWidget(
                   errorMessage: 'Screen does not respond at the moment, please try again later!',
                   onTryAgainPressed: () {

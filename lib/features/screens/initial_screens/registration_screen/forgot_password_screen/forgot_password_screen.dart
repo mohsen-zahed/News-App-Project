@@ -54,6 +54,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       },
       child: Scaffold(
         body: SingleChildScrollView(
+          //* Whole container containing background image...
           child: Container(
             width: getMediaQueryWidth(context),
             height: getMediaQueryHeight(context),
@@ -64,6 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 fit: BoxFit.cover,
               ),
             ),
+            //* Blur effect...
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: SafeArea(
@@ -72,6 +74,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: getScreenArea(context, 0.0002)),
+                      //* App logo icon...
                       Center(
                         child: Container(
                           padding: EdgeInsets.all(getScreenArea(context, 0.0001)),
@@ -86,6 +89,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       ),
                       SizedBox(height: getScreenArea(context, 0.0002)),
+                      //* Guidance text...
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.08)),
                         child: Text(
@@ -94,6 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       ),
                       SizedBox(height: getScreenArea(context, 0.00005)),
+                      //* Email text field...
                       RegistrationTextFieldWidget(
                         hintText: 'Email address *',
                         textInputType: TextInputType.emailAddress,
@@ -105,6 +110,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       SizedBox(height: getScreenArea(context, 0.0003)),
                       BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
                         builder: (context, state) {
+                          //* Button to submit form...
                           return SubmitButtonWidget(
                             isLoading: state is ForgotPasswordLoading,
                             buttonText: 'Send',

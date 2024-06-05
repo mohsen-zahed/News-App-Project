@@ -45,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          //* AppBar here...
+          //* Profile image with user name...
           title: GestureDetector(
             onTap: () {
               Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ProfileScreen(userId: userInfo['id'])));
@@ -71,8 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 if (allNewsListAllScreen.isNotEmpty) {
                   Navigator.push(context, CupertinoPageRoute(builder: (context) => SearchScreen(searchList: allNewsListAllScreen)));
-                } else {
-                  helperFunctions.showSnackBar(context, '${listOfAllNewsListsHome.toString()} is Empty!', 1000);
                 }
               },
               child: Container(
@@ -119,13 +119,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     loadingText: 'Loading news...',
                   );
                 } else if (state is HomeSuccess) {
+                  //* Here I've seperated the list into two other lists, one for home screen
+                  //* another one for search screen and all news screen...
+                  //* The one for home screen only contains 3 lists except allNewsList which is not needed here...
+                  //* The one for search and all news screens contains all lists...
                   if (listOfAllNewsListsHome.isNotEmpty) {
                     listOfAllNewsListsHome.clear();
                   }
                   if (allNewsListAllScreen.isNotEmpty) {
                     allNewsListAllScreen.clear();
                   }
-
                   for (var i = 0; i < state.props.length; i++) {
                     if (i == 0 || i == 1) {
                       continue;
@@ -176,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else if (state is HomeFailed) {
+                  //* When screen fails to load up due to a exception...
                   return TryAgainWidget(
                     errorMessage: state.exception,
                     buttonText: 'Try again',
@@ -184,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 } else {
+                  //* When screen fails to load up due to any reason...
                   return TryAgainWidget(
                     errorMessage: "Sorry, we're having trouble loading the content. Please try again later.",
                     buttonText: 'Try again',

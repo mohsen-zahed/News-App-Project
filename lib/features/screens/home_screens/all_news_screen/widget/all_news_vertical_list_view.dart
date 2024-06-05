@@ -24,6 +24,7 @@ class AllNewsVerticalListView extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: searchNotifier,
         builder: (context, value, child) => ValueListenableBuilder(
+          //* Search algorithm similar to the one in the search_screen...
           valueListenable: tabNotifier,
           builder: (context, value, child) {
             List<dynamic> items = [];

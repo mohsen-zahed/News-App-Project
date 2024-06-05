@@ -31,6 +31,7 @@ class _HorizontalCategoriesWidgetState extends State<HorizontalCategoriesWidget>
 
   @override
   Widget build(BuildContext context) {
+    //* The whole box invisible space container...
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.03)),
@@ -38,6 +39,7 @@ class _HorizontalCategoriesWidgetState extends State<HorizontalCategoriesWidget>
         children: [
           ...List.generate(
             NewsCategories.values.length,
+            //* Every single box containing category name...
             (index) => Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -61,6 +63,7 @@ class _HorizontalCategoriesWidgetState extends State<HorizontalCategoriesWidget>
                     color: widget.listValueNotifier.value == index ? kPrimaryColor : kTransparentColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  //* Category name text...
                   child: Center(
                     child: Text(
                       NewsCategories.values[index].name,

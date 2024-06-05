@@ -24,6 +24,7 @@ class SearchResultBody extends StatelessWidget {
         builder: (context, value, child) => ValueListenableBuilder(
           valueListenable: searchNotifier,
           builder: (context, value, child) {
+            //* Search algorithm similar to one in the all_news_screen...
             List<dynamic> items = [];
             List<dynamic> searchNewsList = widget.searchList[tabNotifier.value];
             if (searchNotifier.value.isNotEmpty) {
@@ -58,6 +59,7 @@ class SearchResultBody extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, CupertinoPageRoute(builder: (context) => NewsDetailsScreen(newsList: items[index])));
                     },
+                    //* Single card widget horizontally...
                     child: SingleHorizontalNewsWidget(
                       newsModel: items[index],
                     ),

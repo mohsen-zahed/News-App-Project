@@ -36,6 +36,7 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            //* Search box...
             AllNewsSearchBar(
               onSearchChanged: (value) {
                 setState(() {
@@ -45,11 +46,13 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
               searchNotifier: _searchNotifier,
             ),
             SizedBox(height: getMediaQueryHeight(context, 0.02)),
+            //* Categories tab bar...
             HorizontalCategoriesWidget(
               listValueNotifier: _tabNotifier,
               selectedIndex: widget.index ?? 0,
             ),
             SizedBox(height: getMediaQueryHeight(context, 0.02)),
+            //* The space for displaying all news...
             AllNewsVerticalListView(
               tabNotifier: _tabNotifier,
               searchNotifier: _searchNotifier,

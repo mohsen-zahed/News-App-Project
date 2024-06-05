@@ -55,6 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider<LoginBloc>(
       create: (context) {
         loginBloc = LoginBloc(firebaseUserInfoRepository);
+        //* Here I am listening to state in order to show snackbar and navigate user to next screen....
+        //* Because user can login with email or anonymously
+        //* we have two sections, one for loging in with email and another one for anonymous login...
+        //* Starts here...
         streamSubscription = loginBloc?.stream.listen((state) async {
           if (state is LoginSuccess) {
             helperFunctions.showSnackBar(context, 'Your are logged in as ${state.userCredential.user!.email}', 4000);
@@ -87,11 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is LoginFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 5500);
           }
+          //* Ends here...
         });
         return loginBloc!;
       },
       child: Scaffold(
         body: SingleChildScrollView(
+          //* Container containing entire screen with image on background...
           child: Container(
             width: getMediaQueryWidth(context),
             height: getMediaQueryHeight(context),
@@ -103,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             child: BackdropFilter(
+              //* Blur effect...
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: SafeArea(
                 child: SingleChildScrollView(
@@ -110,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: getScreenArea(context, 0.0002)),
+                      //* App logo icon...
                       Center(
                         child: Container(
                           padding: EdgeInsets.all(getScreenArea(context, 0.0001)),
@@ -124,6 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: getScreenArea(context, 0.0002)),
+                      //* Guidance text to login...
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.08)),
                         child: Text(
@@ -132,6 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: getScreenArea(context, 0.00005)),
+                      //* Email text field...
                       RegistrationTextFieldWidget(
                         hintText: 'Username or email *',
                         textInputType: TextInputType.emailAddress,
@@ -141,6 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onSumbit: (value) {},
                       ),
                       SizedBox(height: getScreenArea(context, 0.00005)),
+                      //* Password text field...
                       RegistrationTextFieldWidget(
                         onShowPasswordTap: () {
                           setState(() {
@@ -156,6 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         isObsecured: showPassword,
                       ),
                       SizedBox(height: getScreenArea(context, 0.00002)),
+                      //* Switch between login/sign-up text...
                       HaveOrDontHaveAccountAndForgotPassTexts(
                         onAccountTextsTap: () {
                           Navigator.push(
@@ -175,6 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: getScreenArea(context, 0.0003)),
                       BlocBuilder<LoginBloc, LoginState>(
                         builder: (context, state) {
+                          //* Button to submit form...
                           return SubmitButtonWidget(
                             isLoading: state is LoginLoading ? true : false,
                             buttonText: 'Login',
@@ -198,6 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onTap: () {
                                 BlocProvider.of<LoginBloc>(context).add(LoginAnonymouslyIsClicked());
                               },
+                              //* Anonymous login text...
                               child: Text(
                                 'Continue Anonymously',
                                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(

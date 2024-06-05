@@ -63,8 +63,8 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  width: getMediaQueryWidth(context, 0.035),
-                                  height: getMediaQueryWidth(context, 0.035),
+                                  width: getScreenArea(context, 0.00006),
+                                  height: getScreenArea(context, 0.00006),
                                   margin: EdgeInsets.fromLTRB(
                                     getMediaQueryWidth(context, 0),
                                     0,
@@ -83,15 +83,15 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                                   constraints: BoxConstraints(maxWidth: getMediaQueryWidth(context, 0.35)),
                                   child: Text(
                                     newsModel.source,
-                                    style: Theme.of(context).textTheme.labelMedium!.copyWith(),
+                                    style: Theme.of(context).textTheme.labelMedium!.copyWith(fontSize: getScreenArea(context, 0.000035)),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 const SizedBox(width: 3),
                                 Image.asset(
                                   verifiedIconPath,
-                                  width: getMediaQueryWidth(context, 0.03),
-                                  height: getMediaQueryWidth(context, 0.03),
+                                  width: getScreenArea(context, 0.000035),
+                                  height: getScreenArea(context, 0.000035),
                                   fit: BoxFit.cover,
                                 ),
                               ],
