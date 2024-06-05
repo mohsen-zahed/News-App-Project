@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/data/models/banners_news_model.dart';
+import 'package:news_app/features/screens/home_screens/news_details_screen/news_details_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -33,14 +35,13 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
   }
 
   void _startAutoScroll() {
-    // Set up a timer to automatically scroll to the next page
     _timer = Timer.periodic(
-      const Duration(seconds: 5),
+      const Duration(seconds: 10),
       (timer) {
         _currentPage = ((_currentPage + 1) % widget.bannersModelList.length).round();
         _controller.animateToPage(
           _currentPage,
-          duration: const Duration(milliseconds: 800),
+          duration: const Duration(milliseconds: 1000),
           curve: Curves.easeInOut,
         );
       },
@@ -49,7 +50,6 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
 
   @override
   void dispose() {
-    // Dispose timer and page controller
     _timer?.cancel();
     _controller.dispose();
     super.dispose();
@@ -68,7 +68,7 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
               Text('Breaking News', style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold)),
               GestureDetector(
                 onTap: widget.onViewAllTap,
-                child: Text('View all', style: Theme.of(context).textTheme.labelLarge!.copyWith(color: kBlueColor, fontWeight: FontWeight.w700)),
+                child: Text('', style: Theme.of(context).textTheme.labelLarge!.copyWith(color: kBlueColor, fontWeight: FontWeight.w700)),
               ),
             ],
           ),
@@ -82,100 +82,105 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
             itemCount: widget.bannersModelList.length,
             itemBuilder: (context, index) {
               //* Main image holder box...
-              return Container(
-                margin: EdgeInsets.fromLTRB(
-                  getMediaQueryWidth(context, 0.025),
-                  0,
-                  getMediaQueryWidth(context, 0.025),
-                  0,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(widget.bannersModelList[index].imageUrl),
-                    fit: BoxFit.cover,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (context) => NewsDetailsScreen(newsList: widget.bannersModelList[index])));
+                },
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                    getMediaQueryWidth(context, 0.025),
+                    0,
+                    getMediaQueryWidth(context, 0.025),
+                    0,
                   ),
-                ),
-                //* Content inside the image holder box...
-                child: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: bannerGradientColors,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(widget.bannersModelList[index].imageUrl),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  //* Content inside the image holder box...
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: bannerGradientColors,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getMediaQueryWidth(context, 0.03),
-                        vertical: getMediaQueryHeight(context, 0.015),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: getMediaQueryWidth(context, 0.03),
+                          vertical: getMediaQueryHeight(context, 0.015),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: kWhiteColor,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Text(
+                                'Sports',
+                                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                      color: kPrimaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              color: kWhiteColor,
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Text(
-                              'Sports',
-                              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: kPrimaryColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: getMediaQueryWidth(context, 0.08),
-                                    height: getMediaQueryWidth(context, 0.08),
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(50)),
-                                      image: DecorationImage(
-                                        image: CachedNetworkImageProvider(cnnIconTvPath),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: getMediaQueryWidth(context, 0.08),
+                                      height: getMediaQueryWidth(context, 0.08),
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                                        image: DecorationImage(
+                                          image: CachedNetworkImageProvider(cnnIconTvPath),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    widget.bannersModelList[index].sourceName,
-                                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          color: kWhiteColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                widget.bannersModelList[index].description,
-                                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                      color: kWhiteColor,
-                                      fontWeight: FontWeight.bold,
-                                      overflow: TextOverflow.ellipsis,
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      widget.bannersModelList[index].source,
+                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            color: kWhiteColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
-                                maxLines: 2,
-                              ),
-                            ],
-                          ),
-                        ],
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  widget.bannersModelList[index].description,
+                                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                        color: kWhiteColor,
+                                        fontWeight: FontWeight.bold,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                  maxLines: 2,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

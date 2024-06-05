@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
-import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/full_screen_image.dart';
+import 'package:news_app/widgets/full_screen_image.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class NewsImageWidget extends StatelessWidget {

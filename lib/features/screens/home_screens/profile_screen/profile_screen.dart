@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/profile_screen_bloc/bloc/profile_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
-import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/full_screen_image.dart';
+import 'package:news_app/widgets/full_screen_image.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_image_widget.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_list_tile_widget.dart';
 import 'package:news_app/utils/my_media_query.dart';

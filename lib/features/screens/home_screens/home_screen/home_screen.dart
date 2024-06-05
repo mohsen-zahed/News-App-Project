@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/lists.dart';
@@ -70,10 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
             //* Search icon button....
             GestureDetector(
               onTap: () {
-                if (allNewsListsHome.isNotEmpty) {
-                  Navigator.push(context, CupertinoPageRoute(builder: (context) => SearchScreen(searchList: allNewsListsHome)));
+                if (allNewsListAllScreen.isNotEmpty) {
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => SearchScreen(searchList: allNewsListAllScreen)));
                 } else {
-                  helperFunctions.showSnackBar(context, '${allNewsListsHome.toString()} is Empty!', 1000);
+                  helperFunctions.showSnackBar(context, '${listOfAllNewsListsHome.toString()} is Empty!', 1000);
                 }
               },
               child: Container(
@@ -120,8 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     loadingText: 'Loading news...',
                   );
                 } else if (state is HomeSuccess) {
-                  if (allNewsListsHome.isNotEmpty) {
-                    allNewsListsHome.clear();
+                  if (listOfAllNewsListsHome.isNotEmpty) {
+                    listOfAllNewsListsHome.clear();
                   }
                   if (allNewsListAllScreen.isNotEmpty) {
                     allNewsListAllScreen.clear();
@@ -131,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (i == 0 || i == 1) {
                       continue;
                     }
-                    allNewsListsHome.add(state.props[i]);
+                    listOfAllNewsListsHome.add(state.props[i]);
                   }
                   for (var i = 0; i < state.props.length; i++) {
                     if (i == 0) {
@@ -154,16 +153,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: getMediaQueryHeight(context, 0.015)),
                         //* Entire news categories vertical PageView...
                         ...List.generate(
-                          allNewsListsHome.length,
+                          listOfAllNewsListsHome.length,
                           (index) => Column(
                             children: [
                               HorizontalTwoCardsVerticalWithTitleText(
-                                newsList: allNewsListsHome,
+                                newsList: listOfAllNewsListsHome,
                                 titleText: newsTitles[index],
                                 comingIndex: index,
-                                onSingleCardTap: () {
-                                  Navigator.push(context, CupertinoPageRoute(builder: (context) => AllNewsScreen(allNewsList: allNewsListAllScreen)));
-                                },
                                 onViewAllTap: () {
                                   Navigator.push(
                                     context,

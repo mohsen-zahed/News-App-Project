@@ -7,40 +7,40 @@ class BannersNewsModel {
   @HiveField(0)
   String title;
   @HiveField(1)
-  String description;
+  String author;
   @HiveField(2)
-  String content;
+  String description;
   @HiveField(3)
-  String newsLink;
+  String content;
   @HiveField(4)
   String imageUrl;
   @HiveField(5)
-  String publishedDate;
+  String publishedAt;
   @HiveField(6)
-  String sourceName;
+  String source;
   @HiveField(7)
-  String sourceUrl;
+  String url;
 
   BannersNewsModel({
-    required this.content,
-    required this.description,
-    required this.imageUrl,
-    required this.newsLink,
-    required this.publishedDate,
-    required this.sourceName,
-    required this.sourceUrl,
+    required this.source,
+    required this.author,
     required this.title,
+    required this.description,
+    required this.url,
+    required this.imageUrl,
+    required this.publishedAt,
+    required this.content,
   });
 
   BannersNewsModel.fromJson(Map<String, dynamic> json)
       : title = json['title'] ?? '',
+        author = json['author'],
         description = json['description'] ?? '',
         content = json['content'] ?? '',
-        newsLink = json['url'] ?? '',
+        url = json['url'] ?? '',
         imageUrl = json['urlToImage'] ?? imageDownloadFailed,
-        publishedDate = json['publishedAt'] ?? '',
-        sourceName = json['source']['name'] ?? '',
-        sourceUrl = json['source']['url'] ?? '';
+        publishedAt = json['publishedAt'] ?? '',
+        source = json['source']['name'] ?? '';
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is BannersNewsModel && runtimeType == other.runtimeType && title == other.title;

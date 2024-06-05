@@ -17,14 +17,14 @@ class BannersNewsModelAdapter extends TypeAdapter<BannersNewsModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BannersNewsModel(
-      content: fields[2] as String,
-      description: fields[1] as String,
-      imageUrl: fields[4] as String,
-      newsLink: fields[3] as String,
-      publishedDate: fields[5] as String,
-      sourceName: fields[6] as String,
-      sourceUrl: fields[7] as String,
+      source: fields[6] as String,
+      author: fields[1] as String,
       title: fields[0] as String,
+      description: fields[2] as String,
+      url: fields[7] as String,
+      imageUrl: fields[4] as String,
+      publishedAt: fields[5] as String,
+      content: fields[3] as String,
     );
   }
 
@@ -35,19 +35,19 @@ class BannersNewsModelAdapter extends TypeAdapter<BannersNewsModel> {
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
-      ..write(obj.description)
+      ..write(obj.author)
       ..writeByte(2)
-      ..write(obj.content)
+      ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.newsLink)
+      ..write(obj.content)
       ..writeByte(4)
       ..write(obj.imageUrl)
       ..writeByte(5)
-      ..write(obj.publishedDate)
+      ..write(obj.publishedAt)
       ..writeByte(6)
-      ..write(obj.sourceName)
+      ..write(obj.source)
       ..writeByte(7)
-      ..write(obj.sourceUrl);
+      ..write(obj.url);
   }
 
   @override

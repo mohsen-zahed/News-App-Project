@@ -24,7 +24,7 @@ class BannerDataSourceImp implements IBannerDataSource {
         String? imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
         if (response.data != null || response.data.isNotEmpty) {
           final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName);
-          box.clear();
+          // box.clear();
           try {
             if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
               debugPrint('Hive imageType is not valid: $imageType');
@@ -52,6 +52,8 @@ class BannerDataSourceImp implements IBannerDataSource {
             debugPrint(e.toString());
             continue;
           }
+          debugPrint('Connected, loading from API!');
+          //* Ends here...
         } else {
           //* Offline process when response is null or empty...
           final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName).values.toList();
@@ -59,6 +61,8 @@ class BannerDataSourceImp implements IBannerDataSource {
           for (var element in box) {
             offlineBannersNewsList.add(element);
           }
+
+          debugPrint('Connected but null or empty response, loading from database!');
           return offlineBannersNewsList;
           //* Ends here...
         }
@@ -72,6 +76,7 @@ class BannerDataSourceImp implements IBannerDataSource {
       for (var element in box) {
         offlineBannersNewsList.add(element);
       }
+      debugPrint('Not connected, loading from database!');
       return offlineBannersNewsList;
       //* Ends here...
     }

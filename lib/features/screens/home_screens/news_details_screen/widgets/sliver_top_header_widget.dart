@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:news_app/config/constants/global_colors.dart';
-import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/full_screen_image.dart';
+import 'package:news_app/widgets/full_screen_image.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/packages/cached_network_image_package/custom_cached_network_image.dart';
 
-class TopHeaderWidget extends SliverPersistentHeaderDelegate {
+class SliverTopHeaderWidget extends SliverPersistentHeaderDelegate {
   final dynamic newsListModel;
 
   @override
@@ -14,7 +14,7 @@ class TopHeaderWidget extends SliverPersistentHeaderDelegate {
   @override
   final double minExtent;
 
-  const TopHeaderWidget({
+  const SliverTopHeaderWidget({
     required this.newsListModel,
     required this.maxExtent,
     required this.minExtent,

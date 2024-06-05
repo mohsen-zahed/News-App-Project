@@ -22,7 +22,7 @@ class NewsDetailsScreen extends StatelessWidget {
         slivers: [
           //* The top header containing image....
           SliverPersistentHeader(
-            delegate: TopHeaderWidget(
+            delegate: SliverTopHeaderWidget(
               newsListModel: newsList,
               maxExtent: appBarHeight,
               minExtent: statusBarHeight,
@@ -53,6 +53,7 @@ class NewsDetailsScreen extends StatelessWidget {
                     Text(
                       '${newsList.description} ${newsList.content}\n${newsList.description} ${newsList.content}\n${newsList.description} ${newsList.content}',
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(wordSpacing: 1.5, letterSpacing: .5),
+                      textAlign: TextAlign.justify,
                     ),
                   ],
                 ),

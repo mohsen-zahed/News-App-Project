@@ -27,7 +27,7 @@ enum NewsCategories {
   business,
 }
 
-List<dynamic> allNewsListsHome = [];
+List<dynamic> listOfAllNewsListsHome = [];
 List<dynamic> allNewsListAllScreen = [];
 
 List<String> newsTitles = ['Wall Street Journal', 'Technology News', 'Business News'];

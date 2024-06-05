@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
+import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/single_horizontal_news_widget.dart';
+import 'package:news_app/features/screens/home_screens/news_details_screen/news_details_screen.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
 class HorizontalTwoCardsVerticalWithTitleText extends StatelessWidget {
@@ -8,14 +11,12 @@ class HorizontalTwoCardsVerticalWithTitleText extends StatelessWidget {
   final GestureTapCallback onViewAllTap;
   final int comingIndex;
   final String titleText;
-  final GestureTapCallback onSingleCardTap;
   const HorizontalTwoCardsVerticalWithTitleText({
     super.key,
     required this.newsList,
     required this.onViewAllTap,
     required this.titleText,
     required this.comingIndex,
-    required this.onSingleCardTap,
   });
 
   @override
@@ -48,7 +49,12 @@ class HorizontalTwoCardsVerticalWithTitleText extends StatelessWidget {
                   ...List.generate(
                     2,
                     (index) => GestureDetector(
-                      onTap: onSingleCardTap,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => NewsDetailsScreen(newsList: listOfAllNewsListsHome[comingIndex][startIndex + index])));
+                      },
                       child: SingleHorizontalNewsWidget(
                         newsModel: newsList[comingIndex][startIndex + index],
                       ),
