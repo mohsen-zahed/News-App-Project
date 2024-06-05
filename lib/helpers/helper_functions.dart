@@ -42,18 +42,21 @@ class HelperFunctions {
 
 //** File Functions starts here ***//
 //**
-  String getFileType(String filePath) {
-    String filename = filePath.split('/').last;
+  String getFileType(String? filePath) {
+    if (filePath != null) {
+      String filename = filePath.split('/').last;
+      // Split the filename by '.' and get the last segment
+      String imagePath = filename.split('.').last.toLowerCase();
 
-    // Split the filename by '.' and get the last segment
-    String imagePath = filename.split('.').last.toLowerCase();
-
-    if (imagePath.contains('jpg') || imagePath.contains('jpeg') || imagePath.contains('png') || imagePath.contains('JPEG')) {
-      return filePath;
-    } else if (imagePath.contains('webp')) {
-      return imageDownloadFailed;
+      if (imagePath.contains('jpg') || imagePath.contains('jpeg') || imagePath.contains('png') || imagePath.contains('JPEG')) {
+        return filePath;
+      } else if (imagePath.contains('webp')) {
+        return imageDownloadFailed;
+      } else {
+        return imageDownloadFailed;
+      }
     } else {
-      return imageDownloadFailed;
+      return '';
     }
   }
 //**

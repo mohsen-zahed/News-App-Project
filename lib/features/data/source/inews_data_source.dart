@@ -26,34 +26,50 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<GeneralNewsModel>> getAllNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
-      //* To store in local database for accessing later with no connection...
-      if (response.data != null || response.data.isNotEmpty) {
-        final box = Hive.box<GeneralNewsModel>(generalNewsModelBoxName);
-        // box.clear();
-        for (var element in (response.data['articles'] as List)) {
-          var generalNewsModel = GeneralNewsModel.fromJson(element);
-          if (!box.values.contains(generalNewsModel)) {
-            box.add(generalNewsModel);
-          }
-        }
-      }
-      //* Ends here...
-      //* Online process occures here...
+      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
       final List<GeneralNewsModel> allNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
-        try {
-          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
-
-          if (imageType.contains('webp') || imageType.contains('gif')) {
-            debugPrint('imageType is not valid: $imageType');
+        //* To store in local database for accessing later with no connection...
+        String? imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+        if (response.data != null || response.data.isNotEmpty) {
+          final box = Hive.box<GeneralNewsModel>(generalNewsModelBoxName);
+          // box.clear();
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('Hive imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              var generalNewsModel = GeneralNewsModel.fromJson(response.data['articles'][i]);
+              if (!box.values.contains(generalNewsModel)) {
+                box.add(generalNewsModel);
+              }
+            }
+          } catch (e) {
+            debugPrint('Hive box continue: $e');
             continue;
-          } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
-            allNewsList.add(GeneralNewsModel.fromJson(response.data['articles'][i]));
           }
-        } catch (e) {
-          debugPrint(e.toString());
-          continue;
+          //* Ends here...
+          //* Online process occures here...
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              allNewsList.add(GeneralNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+            continue;
+          }
+        } else {
+          //* Offline process when response is null or empty...
+          final box = Hive.box<GeneralNewsModel>(generalNewsModelBoxName).values.toList();
+          List<GeneralNewsModel> offlineGeneralNewsList = [];
+          for (var element in box) {
+            offlineGeneralNewsList.add(element);
+          }
+          return offlineGeneralNewsList;
+          //* Ends here...
         }
       }
       return allNewsList;
@@ -73,46 +89,62 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<WallStreetNewsModel>> getWallStreetNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
-      //* To store in local database for accessing later with no connection...
-      if (response.data != null || response.data.isNotEmpty) {
-        final box = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName);
-        // box.clear();
-        for (var element in (response.data['articles'] as List)) {
-          var wallStreetNewsModel = WallStreetNewsModel.fromJson(element);
-          if (!box.values.contains(wallStreetNewsModel)) {
-            box.add(wallStreetNewsModel);
-          }
-        }
-      }
-      //* Ends here...
-      //* Online process occures here...
-      final List<WallStreetNewsModel> wallStreetList = [];
+      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final List<WallStreetNewsModel> wallStreetNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
-        try {
-          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
-
-          if (imageType.contains('webp') || imageType.contains('gif')) {
-            debugPrint('imageType is not valid: $imageType');
+        //* To store in local database for accessing later with no connection...
+        String? imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+        if (response.data != null || response.data.isNotEmpty) {
+          final box = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName);
+          // box.clear();
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('Hive imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              var wallStreetNewsModel = WallStreetNewsModel.fromJson(response.data['articles'][i]);
+              if (!box.values.contains(wallStreetNewsModel)) {
+                box.add(wallStreetNewsModel);
+              }
+            }
+          } catch (e) {
+            debugPrint('Hive box continue: $e');
             continue;
-          } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
-            wallStreetList.add(WallStreetNewsModel.fromJson(response.data['articles'][i]));
           }
-        } catch (e) {
-          debugPrint(e.toString());
-          continue;
+          //* Ends here...
+          //* Online process occures here...
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              wallStreetNewsList.add(WallStreetNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+            continue;
+          }
+        } else {
+          //* Offline process when response is null or empty...
+          final box = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName).values.toList();
+          List<WallStreetNewsModel> offlineWallStreetNewsList = [];
+          for (var element in box) {
+            offlineWallStreetNewsList.add(element);
+          }
+          return offlineWallStreetNewsList;
+          //* Ends here...
         }
       }
-      return wallStreetList;
+      return wallStreetNewsList;
       //* Ends here...
     } else {
       //* Offline process when user is not connected...
       final box = Hive.box<WallStreetNewsModel>(wallStreetNewsModelBoxName).values.toList();
-      List<WallStreetNewsModel> offlineWallStreetList = [];
+      List<WallStreetNewsModel> offlineWallStreetNewsList = [];
       for (var element in box) {
-        offlineWallStreetList.add(element);
+        offlineWallStreetNewsList.add(element);
       }
-      return offlineWallStreetList;
+      return offlineWallStreetNewsList;
       //* Ends here...
     }
   }
@@ -121,48 +153,63 @@ class NewsDataSource implements INewsDataSource {
   Future<List<TechnologyNewsModel>> getTechnologyNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response = await httpClient
-          .get('https://newsapi.org/v2/everything?q=apple&from=2024-05-21&to=2024-05-21&sortBy=popularity&apiKey=3f1e9b5d74f7402b9515b7e859482502');
-
-      //* To store in local database for accessing later with no connection...
-      if (response.data != null || response.data.isNotEmpty) {
-        final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName);
-        // box.clear();
-        for (var element in (response.data['articles'] as List)) {
-          var technologyNewsModel = TechnologyNewsModel.fromJson(element);
-          if (!box.values.contains(technologyNewsModel)) {
-            box.add(technologyNewsModel);
-          }
-        }
-      }
-      //* Ends here...
-      //* Online process occures here...
-      final List<TechnologyNewsModel> technologyList = [];
+          .get('https://newsapi.org/v2/everything?q=apple&from=2024-06-04&to=2024-06-04&sortBy=popularity&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final List<TechnologyNewsModel> technologyNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
-        try {
-          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
-
-          if (imageType.contains('webp') || imageType.contains('gif')) {
-            debugPrint('imageType is not valid: $imageType');
+        //* To store in local database for accessing later with no connection...
+        String? imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+        if (response.data != null || response.data.isNotEmpty) {
+          final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName);
+          // box.clear();
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('Hive imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              var technologyNewsModel = TechnologyNewsModel.fromJson(response.data['articles'][i]);
+              if (!box.values.contains(technologyNewsModel)) {
+                box.add(technologyNewsModel);
+              }
+            }
+          } catch (e) {
+            debugPrint('Hive box continue: $e');
             continue;
-          } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
-            technologyList.add(TechnologyNewsModel.fromJson(response.data['articles'][i]));
           }
-        } catch (e) {
-          debugPrint(e.toString());
-          continue;
+          //* Ends here...
+          //* Online process occures here...
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              technologyNewsList.add(TechnologyNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+            continue;
+          }
+        } else {
+          //* Offline process when response is null or empty...
+          final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName).values.toList();
+          List<TechnologyNewsModel> offlineTechnologyNewsList = [];
+          for (var element in box) {
+            offlineTechnologyNewsList.add(element);
+          }
+          return offlineTechnologyNewsList;
+          //* Ends here...
         }
       }
-      return technologyList;
+      return technologyNewsList;
       //* Ends here...
     } else {
       //* Offline process when user is not connected...
       final box = Hive.box<TechnologyNewsModel>(technologyNewsModelBoxName).values.toList();
-      List<TechnologyNewsModel> offlineTechnologyList = [];
+      List<TechnologyNewsModel> offlineTechnologyNewsList = [];
       for (var element in box) {
-        offlineTechnologyList.add(element);
+        offlineTechnologyNewsList.add(element);
       }
-      return offlineTechnologyList;
-      //* Ends here
+      return offlineTechnologyNewsList;
+      //* Ends here...
     }
   }
 
@@ -170,47 +217,62 @@ class NewsDataSource implements INewsDataSource {
   Future<List<BusinessNewsModel>> getBusinessNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response =
-          await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=3f1e9b5d74f7402b9515b7e859482502');
-
-      //* To store in local database for accessing later with no connection...
-      if (response.data != null || response.data.isNotEmpty) {
-        final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName);
-        // box.clear();
-        for (var element in (response.data['articles'] as List)) {
-          var businessNewsModel = BusinessNewsModel.fromJson(element);
-          if (!box.values.contains(businessNewsModel)) {
-            box.add(businessNewsModel);
-          }
-        }
-      }
-      //* Ends here...
-      //* Online process occures here...
-      final List<BusinessNewsModel> businessList = [];
+          await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final List<BusinessNewsModel> businessNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
-        try {
-          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
-
-          if (imageType.contains('webp') || imageType.contains('gif')) {
-            debugPrint('imageType is not valid: $imageType');
+        //* To store in local database for accessing later with no connection...
+        String? imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+        if (response.data != null || response.data.isNotEmpty) {
+          final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName);
+          // box.clear();
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('Hive imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              var businessNewsModel = BusinessNewsModel.fromJson(response.data['articles'][i]);
+              if (!box.values.contains(businessNewsModel)) {
+                box.add(businessNewsModel);
+              }
+            }
+          } catch (e) {
+            debugPrint('Hive box continue: $e');
             continue;
-          } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
-            businessList.add(BusinessNewsModel.fromJson(response.data['articles'][i]));
           }
-        } catch (e) {
-          debugPrint(e.toString());
-          continue;
+          //* Ends here...
+          //* Online process occures here...
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              businessNewsList.add(BusinessNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+            continue;
+          }
+        } else {
+          //* Offline process when response is null or empty...
+          final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName).values.toList();
+          List<BusinessNewsModel> offlineBusinessNewsList = [];
+          for (var element in box) {
+            offlineBusinessNewsList.add(element);
+          }
+          return offlineBusinessNewsList;
+          //* Ends here...
         }
       }
-      return businessList;
+      return businessNewsList;
       //* Ends here...
     } else {
       //* Offline process when user is not connected...
       final box = Hive.box<BusinessNewsModel>(businessNewsModelBoxName).values.toList();
-      List<BusinessNewsModel> offlineBusinessList = [];
+      List<BusinessNewsModel> offlineBusinessNewsList = [];
       for (var element in box) {
-        offlineBusinessList.add(element);
+        offlineBusinessNewsList.add(element);
       }
-      return offlineBusinessList;
+      return offlineBusinessNewsList;
       //* Ends here...
     }
   }

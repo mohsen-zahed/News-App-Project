@@ -17,45 +17,63 @@ class BannerDataSourceImp implements IBannerDataSource {
   @override
   Future<List<BannersNewsModel>> getBannersNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=3f1e9b5d74f7402b9515b7e859482502');
-      if (response.data != null && response.data is Map<String, dynamic>) {
-        final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName);
-        // box.clear();
-        for (var element in (response.data['articles'] as List)) {
-          var bannersNewsModel = BannersNewsModel.fromJson(element);
-          if (!box.values.contains(bannersNewsModel)) {
-            box.add(bannersNewsModel);
-          }
-        }
-      }
-      List<BannersNewsModel> bannersNewsList = [];
+      final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final List<BannersNewsModel> bannersNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
-        try {
-          String imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
-
-          if (imageType.contains('webp') || imageType.contains('gif')) {
-            debugPrint('imageType is not valid: $imageType');
+        //* To store in local database for accessing later with no connection...
+        String? imageType = helperFunctions.getFileType(response.data['articles'][i]['urlToImage']);
+        if (response.data != null || response.data.isNotEmpty) {
+          final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName);
+          box.clear();
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('Hive imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              var bannersNewsModel = BannersNewsModel.fromJson(response.data['articles'][i]);
+              if (!box.values.contains(bannersNewsModel)) {
+                box.add(bannersNewsModel);
+              }
+            }
+          } catch (e) {
+            debugPrint('Hive box continue: $e');
             continue;
-          } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
-            bannersNewsList.add(BannersNewsModel.fromJson(response.data['articles'][i]));
           }
-        } on ImageChunkEvent catch (e) {
-          debugPrint(e.toString());
-          continue;
+          //* Ends here...
+          //* Online process occures here...
+          try {
+            if (imageType == '' || imageType.contains('webp') || imageType.contains('gif')) {
+              debugPrint('imageType is not valid: $imageType');
+              continue;
+            } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
+              bannersNewsList.add(BannersNewsModel.fromJson(response.data['articles'][i]));
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+            continue;
+          }
+        } else {
+          //* Offline process when response is null or empty...
+          final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName).values.toList();
+          List<BannersNewsModel> offlineBannersNewsList = [];
+          for (var element in box) {
+            offlineBannersNewsList.add(element);
+          }
+          return offlineBannersNewsList;
+          //* Ends here...
         }
       }
-      debugPrint('sourceFolder_net_status: ${connectionStatusListener.isInternetConnected}');
-      debugPrint('sourceFolder: loaded from api');
       return bannersNewsList;
+      //* Ends here...
     } else {
+      //* Offline process when user is not connected...
       final box = Hive.box<BannersNewsModel>(bannersNewsModelBoxName).values.toList();
-      List<BannersNewsModel> offlineNewsList = [];
+      List<BannersNewsModel> offlineBannersNewsList = [];
       for (var element in box) {
-        offlineNewsList.add(element);
+        offlineBannersNewsList.add(element);
       }
-      debugPrint('sourceFolder_net_status: ${connectionStatusListener.isInternetConnected}');
-      debugPrint('sourceFolder: loaded from database');
-      return offlineNewsList;
+      return offlineBannersNewsList;
+      //* Ends here...
     }
   }
 }
