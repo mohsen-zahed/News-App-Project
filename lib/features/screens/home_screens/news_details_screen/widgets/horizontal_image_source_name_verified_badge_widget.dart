@@ -4,23 +4,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/bloc/news_details_bloc/bloc/bookmark_button_bloc.dart';
-import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
-class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
+class HorizontalImageSourceNameVerifiedBadgeWidget extends StatefulWidget {
   const HorizontalImageSourceNameVerifiedBadgeWidget({
     super.key,
     required this.generalNewsModel,
     required this.savedNewsList,
   });
 
-  final dynamic savedNewsList;
+  final List<dynamic> savedNewsList;
   final dynamic generalNewsModel;
 
   @override
+  State<HorizontalImageSourceNameVerifiedBadgeWidget> createState() => _HorizontalImageSourceNameVerifiedBadgeWidgetState();
+}
+
+class _HorizontalImageSourceNameVerifiedBadgeWidgetState extends State<HorizontalImageSourceNameVerifiedBadgeWidget> {
+  @override
   Widget build(BuildContext context) {
-    firebaseUserInfoRepository.getUserSavedList(globalUserId);
     return Row(
       children: [
         //* News source tv icon...
@@ -49,7 +52,7 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
                   Flexible(
                     //* News source name...
                     child: Text(
-                      '${generalNewsModel.source}',
+                      '${widget.generalNewsModel.source}',
                       style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -67,7 +70,7 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
               ),
               //* News author text...
               Text(
-                'By ${generalNewsModel.author}',
+                'By ${widget.generalNewsModel.author}',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(color: kGreyColor),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -75,28 +78,29 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
             ],
           ),
         ),
+
         BlocBuilder<BookmarkButtonBloc, BookmarkButtonState>(
           builder: (context, state) {
-            List userSavedNewsList = savedNewsList;
+            bool isSaved = widget.savedNewsList.any((element) => element['title'] == widget.generalNewsModel.title);
             if (state is BookmarkButtonInitial) {
               return GestureDetector(
                 onTap: () {
-                  !userSavedNewsList.contains(generalNewsModel.title)
+                  !isSaved
                       ? BlocProvider.of<BookmarkButtonBloc>(context).add(
                           BookmarkButtonIsClicked(
-                            itemId: generalNewsModel.title,
+                            newsId: widget.generalNewsModel,
                             userId: globalUserId,
                           ),
                         )
                       : BlocProvider.of<BookmarkButtonBloc>(context).add(
                           RemoveBookmarkButtonIsClicked(
                             userId: globalUserId,
-                            itemId: generalNewsModel.title,
+                            newsId: widget.generalNewsModel,
                           ),
                         );
                 },
                 child: Icon(
-                  userSavedNewsList.contains(generalNewsModel.title) ? Icons.bookmark : Icons.bookmark_border_rounded,
+                  isSaved ? Icons.bookmark : Icons.bookmark_border_rounded,
                   size: getScreenArea(context, 0.000085),
                 ),
               );
@@ -105,7 +109,7 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
                 onTap: () {
                   BlocProvider.of<BookmarkButtonBloc>(context).add(
                     RemoveBookmarkButtonIsClicked(
-                      itemId: generalNewsModel.title,
+                      newsId: widget.generalNewsModel,
                       userId: globalUserId,
                     ),
                   );
@@ -120,7 +124,7 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
                 onTap: () {
                   BlocProvider.of<BookmarkButtonBloc>(context).add(
                     RemoveBookmarkButtonIsClicked(
-                      itemId: generalNewsModel.title,
+                      newsId: widget.generalNewsModel,
                       userId: globalUserId,
                     ),
                   );
@@ -135,7 +139,7 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
                 onTap: () {
                   BlocProvider.of<BookmarkButtonBloc>(context).add(
                     BookmarkButtonIsClicked(
-                      itemId: generalNewsModel.title,
+                      newsId: widget.generalNewsModel,
                       userId: globalUserId,
                     ),
                   );
@@ -150,7 +154,7 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
                 onTap: () {
                   BlocProvider.of<BookmarkButtonBloc>(context).add(
                     BookmarkButtonIsClicked(
-                      itemId: generalNewsModel.title,
+                      newsId: widget.generalNewsModel,
                       userId: globalUserId,
                     ),
                   );

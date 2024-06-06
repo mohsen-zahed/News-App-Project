@@ -9,16 +9,27 @@ sealed class BookmarkButtonEvent extends Equatable {
 
 final class BookmarkButtonIsClicked extends BookmarkButtonEvent {
   final String userId;
-  final String itemId;
+  final dynamic newsId;
 
-  const BookmarkButtonIsClicked({required this.userId, required this.itemId});
+  const BookmarkButtonIsClicked({required this.userId, required this.newsId});
   @override
-  List<Object> get props => [userId, itemId];
+  List<Object> get props => [userId, newsId];
 }
 
 final class RemoveBookmarkButtonIsClicked extends BookmarkButtonEvent {
   final String userId;
-  final String itemId;
+  final dynamic newsId;
 
-  const RemoveBookmarkButtonIsClicked({required this.userId, required this.itemId});
+  const RemoveBookmarkButtonIsClicked({required this.userId, required this.newsId});
+  @override
+  List<Object> get props => [userId, newsId];
+}
+
+final class RemoveBookmarkReadingListButtonIsClicked extends BookmarkButtonEvent {
+  final String userId;
+  final dynamic newsId;
+
+  const RemoveBookmarkReadingListButtonIsClicked({required this.userId, required this.newsId});
+  @override
+  List<Object> get props => [userId, newsId];
 }

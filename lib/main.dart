@@ -80,6 +80,7 @@ class MyApp extends StatelessWidget {
         // SignUpScreen.id: (context) => const SignUpScreen(), //* MaterialPageRoute
         // ForgotPasswordScreen.id: (context) => const ForgotPasswordScreen(), //* MaterialPageRoute
         // ProfileScreen.id: (context) => const ProfileScreen(), //* MaterialPageRoute
+        // ReadingListScreen.id: (context) => const ReadingListScreen(), //* MaterialPageRoute
       },
       home: const SplashScreen(),
     );

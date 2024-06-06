@@ -132,3 +132,29 @@ String getFormattedChristianDate() {
 }
 //**
 //** Data Functions ends here ***//
+
+Map<String, dynamic> newsModelToMap(dynamic model) {
+  return {
+    'source': model.source,
+    'author': model.author,
+    'title': model.title,
+    'description': model.description,
+    'url': model.url,
+    'imageUrl': model.imageUrl,
+    'publishedAt': model.publishedAt,
+    'content': model.content,
+  };
+}
+
+Map<String, dynamic> newsModelToMapMap(dynamic model) {
+  return {
+    'source': model['source'],
+    'author': model['author'],
+    'title': model['title'],
+    'description': model['description'],
+    'url': model['url'],
+    'imageUrl': model['imageUrl'],
+    'publishedAt': model['publishedAt'],
+    'content': model['content'],
+  };
+}

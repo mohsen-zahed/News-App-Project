@@ -13,6 +13,11 @@ import 'package:news_app/utils/my_media_query.dart';
 
 class NewsDetailsScreen extends StatefulWidget {
   final dynamic newsList;
+  //* Because data comes in Map<String, dynamic> format only from ReadingListScreen, I have set a condition
+  //* to check if user is coming from ReadingListScreen or not...
+  //* If they are, then I have set comingFromReadingListScreen to true, else comingFromReadingListScreen is false
+  //* This is for newsList is dynamic => <List> and only from ReadingListScreen it comes as Map<String, dynamic>
+  //* so accessing data from Lists and Maps is different, that's why...
   const NewsDetailsScreen({super.key, required this.newsList});
 
   @override
@@ -37,15 +42,23 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
     return BlocProvider<BookmarkButtonBloc>(
       create: (context) {
         bloc = BookmarkButtonBloc(firebaseUserInfoRepository);
-        streamSubscription = bloc?.stream.listen((state) {
+        streamSubscription = bloc?.stream.listen((state) async {
           if (state is BookmarkButtonSuccess) {
-            helperFunctions.showSnackBar(context, 'Item added to reading list successfully', 3000);
+            await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+              helperFunctions.showSnackBar(context, 'Item added to reading list successfully', 3000);
+            });
           } else if (state is RemoveBookmarkButtonSuccess) {
-            helperFunctions.showSnackBar(context, 'Item removed from reading list successfully', 3000);
+            await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+              helperFunctions.showSnackBar(context, 'Item removed from reading list successfully', 3000);
+            });
           } else if (state is BookmarkButtonFailed) {
-            helperFunctions.showSnackBar(context, 'Could not add item right now', 3000);
+            await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+              helperFunctions.showSnackBar(context, 'Could not add item right now', 3000);
+            });
           } else if (state is RemoveBookmarkButtonFailed) {
-            helperFunctions.showSnackBar(context, 'Could not remove item right now', 3000);
+            await Future.delayed(const Duration(milliseconds: 300)).then((value) {
+              helperFunctions.showSnackBar(context, 'Could not remove item right now', 3000);
+            });
           }
         });
         return bloc!;
@@ -88,7 +101,6 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                           ValueListenableBuilder(
                             valueListenable: FirebaseUserInfoDataSourceImp.savedListNotifier,
                             builder: (context, value, child) {
-                              print('savedListNotifierValue: $value');
                               return HorizontalImageSourceNameVerifiedBadgeWidget(
                                 generalNewsModel: widget.newsList,
                                 savedNewsList: value,
@@ -97,7 +109,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                           ),
                           SizedBox(height: getScreenArea(context, 0.00003)),
                           Text(
-                            '${widget.newsList.description} ${widget.newsList.content}\n${widget.newsList.description} ${widget.newsList.content}\n${widget.newsList.description} ${widget.newsList.content}',
+                            '${widget.newsList.description} ${widget.newsList.content}\n${widget.newsList.description} ${widget.newsList.content}\n${widget.newsList.description} ${widget.newsList.content}\n${widget.newsList.description} ${widget.newsList.content}',
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(wordSpacing: 1.5, letterSpacing: .5),
                             textAlign: TextAlign.justify,
                           ),

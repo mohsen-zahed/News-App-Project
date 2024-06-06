@@ -49,11 +49,16 @@ final class FirebaseUserInfoRepositoryImp implements IFirebaseUserInfoRepository
   Future<String> updateUserImage(String name, String id) => iFirebaseAuthDataSource.updateUserImage(name, id);
 
   @override
-  Future<void> storeToUserSavedList(String userId, String id) => iFirebaseAuthDataSource.storeToUserSavedList(userId, id);
+  Future<void> storeToUserSavedList(String userId, dynamic newsId) => iFirebaseAuthDataSource.storeToUserSavedList(userId, newsId);
 
   @override
-  Future<void> removeFromUserSavedList(String userId, String id) => iFirebaseAuthDataSource.removeFromUserSavedList(userId, id);
+  Future<void> removeFromUserSavedList(String userId, dynamic newsId) => iFirebaseAuthDataSource.removeFromUserSavedList(userId, newsId);
 
   @override
-  Future getUserSavedList(String userId) => iFirebaseAuthDataSource.getUserSavedList(userId);
+  Future<dynamic> getUserSavedList(String userId) => iFirebaseAuthDataSource.getUserSavedList(userId);
+
+  @override
+  Future<void> removeFromUserSavedListMap(String userId, newsId) async {
+    await iFirebaseAuthDataSource.removeFromUserSavedListMap(userId, newsId);
+  }
 }

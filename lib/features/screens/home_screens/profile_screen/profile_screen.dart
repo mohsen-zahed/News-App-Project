@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/profile_screen_bloc/bloc/profile_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
+import 'package:news_app/features/screens/home_screens/reading_list_screen/reading_list_screen.dart';
 import 'package:news_app/widgets/full_screen_image.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_image_widget.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_list_tile_widget.dart';
@@ -109,9 +111,11 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       //* Bookmark list tile...
                       ProfileListTileWidget(
-                        title: 'Bookmarked News',
+                        title: 'Reading list',
                         icon: Icons.bookmark_border_rounded,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const ReadingListScreen()));
+                        },
                       ),
                       SizedBox(
                         height: getScreenArea(context, 0.0001),

@@ -7,9 +7,11 @@ import 'package:news_app/packages/cached_network_image_package/custom_cached_net
 
 class SingleHorizontalNewsWidget extends StatelessWidget {
   final dynamic newsModel;
+  final bool? comingFromReadingListScreen;
   const SingleHorizontalNewsWidget({
     super.key,
     required this.newsModel,
+    this.comingFromReadingListScreen = false,
   });
 
   @override
@@ -27,7 +29,10 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                 Expanded(
                   child: SizedBox(
                     height: getMediaQueryHeight(context),
-                    child: CustomCachedNetworkImage(borderRadius: 10, imageUrl: newsModel.imageUrl),
+                    child: CustomCachedNetworkImage(
+                      borderRadius: 10,
+                      imageUrl: comingFromReadingListScreen == false ? newsModel.imageUrl : newsModel['imageUrl'],
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -41,7 +46,7 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                       children: [
                         //* News author...
                         Text(
-                          'By ${newsModel.author}',
+                          'By ${comingFromReadingListScreen == false ? newsModel.author : newsModel['author']}',
                           style: Theme.of(context).textTheme.titleSmall!.copyWith(color: kGreyColorShade500),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -49,7 +54,7 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                         //* News description...
                         Expanded(
                           child: Text(
-                            newsModel.description,
+                            comingFromReadingListScreen == false ? newsModel.description : newsModel['description'],
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
@@ -82,7 +87,7 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                                 ConstrainedBox(
                                   constraints: BoxConstraints(maxWidth: getMediaQueryWidth(context, 0.35)),
                                   child: Text(
-                                    newsModel.source,
+                                    comingFromReadingListScreen == false ? newsModel.source : newsModel['source'],
                                     style: Theme.of(context).textTheme.labelMedium!.copyWith(fontSize: getScreenArea(context, 0.000035)),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -99,7 +104,7 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
                             const SizedBox(height: 5),
                             //* Publish date...
                             Text(
-                              newsModel.publishedAt,
+                              comingFromReadingListScreen == false ? newsModel.publishedAt : newsModel['publishedAt'],
                               style: Theme.of(context).textTheme.labelSmall!.copyWith(color: kGreyColorShade400),
                             ),
                           ],

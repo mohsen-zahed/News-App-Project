@@ -15,13 +15,14 @@ abstract class IFirebaseUserInfoDataSource {
   Future<User?> getCurrentUser(UserCredential userCredential);
   Future<void> signOutUser();
   Future<String> updateUserImage(String name, String userId);
-  Future<void> storeToUserSavedList(String userId, String id);
-  Future<void> removeFromUserSavedList(String userId, String id);
+  Future<void> storeToUserSavedList(String userId, dynamic newsId);
+  Future<void> removeFromUserSavedList(String userId, dynamic newsId);
+  Future<void> removeFromUserSavedListMap(String userId, dynamic newsId);
   Future<dynamic> getUserSavedList(String userId);
 }
 
 class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
-  static ValueNotifier<dynamic> savedListNotifier = ValueNotifier<dynamic>([]);
+  static ValueNotifier<List<dynamic>> savedListNotifier = ValueNotifier<List<dynamic>>([]);
   final FirebaseAuth auth;
   final MyFirebaseFirestorePackage myFirestore;
   final MyImagePickerPackage myImagePicker;
@@ -90,13 +91,13 @@ class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
   }
 
   @override
-  Future<void> storeToUserSavedList(String userId, String id) async {
-    await myFirestore.storeToUserSavedList(userId, id);
+  Future<void> storeToUserSavedList(String userId, dynamic newsId) async {
+    await myFirestore.storeToUserSavedList(userId, newsId);
   }
 
   @override
-  Future<void> removeFromUserSavedList(String userId, String id) async {
-    await myFirestore.removeFromUserSavedList(userId, id);
+  Future<void> removeFromUserSavedList(String userId, dynamic newsId) async {
+    await myFirestore.removeFromUserSavedList(userId, newsId);
   }
 
   @override
@@ -104,5 +105,10 @@ class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
     final result = await myFirestore.getSavedNewsListFromFirebase(userId);
     savedListNotifier.value = result;
     return result;
+  }
+
+  @override
+  Future<void> removeFromUserSavedListMap(String userId, dynamic newsId) async {
+    await myFirestore.removeFromUserSavedListMap(userId, newsId);
   }
 }

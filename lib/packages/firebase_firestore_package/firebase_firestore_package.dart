@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/firebase_firestore_package/firebase_firestore_constants.dart';
 
 class MyFirebaseFirestorePackage {
@@ -40,20 +41,29 @@ class MyFirebaseFirestorePackage {
     });
   }
 
-  Future<void> storeToUserSavedList(String userId, String newsId) async {
+  Future<void> storeToUserSavedList(String userId, dynamic newsId) async {
+    final Map<String, dynamic> newsData = newsModelToMap(newsId);
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'savedNews': FieldValue.arrayUnion([newsId]),
+      'savedNews': FieldValue.arrayUnion([newsData]),
     });
   }
 
-  Future<void> removeFromUserSavedList(String userId, String newsId) async {
+  Future<void> removeFromUserSavedList(String userId, dynamic newsId) async {
+    final Map<String, dynamic> newsData = newsModelToMap(newsId);
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'savedNews': FieldValue.arrayRemove([newsId]),
+      'savedNews': FieldValue.arrayRemove([newsData]),
     });
   }
 
   Future<dynamic> getSavedNewsListFromFirebase(String userId) async {
     final response = await FirebaseFirestore.instance.collection('users').doc(userId).get();
     return response.get('savedNews');
+  }
+
+  Future<void> removeFromUserSavedListMap(String userId, dynamic newsId) async {
+    final Map<String, dynamic> newsData = newsModelToMapMap(newsId);
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'savedNews': FieldValue.arrayRemove([newsData]),
+    });
   }
 }

@@ -46,166 +46,169 @@ class _HomeScreenState extends State<HomeScreen> {
         homeBloc.add(HomeStarted(userId: globalUserId));
         return homeBloc;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          //* AppBar here...
-          //* Profile image with user name...
-          title: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ProfileScreen(userId: userInfo['id'])));
-            },
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(userInfo['profileImage']),
-                  maxRadius: getScreenArea(context, 0.00007),
-                ),
-                SizedBox(width: getScreenArea(context, 0.00003)),
-                Expanded(
-                  child: Text(
-                    'Welcome, ${userInfo['name']}',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            //* Search icon button....
-            GestureDetector(
+      child: PopScope(
+        onPopInvoked: (didPop) => Future.value(false),
+        child: Scaffold(
+          appBar: AppBar(
+            //* AppBar here...
+            //* Profile image with user name...
+            title: GestureDetector(
               onTap: () {
-                if (allNewsListAllScreen.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => SearchScreen(searchList: allNewsListAllScreen)),
-                  );
-                }
+                Navigator.of(context).push(CupertinoPageRoute(builder: (context) => ProfileScreen(userId: userInfo['id'])));
               },
-              child: Container(
-                padding: const EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
-                ),
-                child: const Icon(CupertinoIcons.search),
-              ),
-            ),
-            const SizedBox(width: 10),
-            //* Notifications icon button....
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                padding: const EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
-                ),
-                child: const Icon(CupertinoIcons.bell),
-              ),
-            ),
-            SizedBox(width: getMediaQueryWidth(context, 0.035)),
-          ],
-        ),
-        body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              helperFunctions.showConfirmationDialogBox(
-                context,
-                'Current data might replace with new one!\nContinue anyway?',
-                onConfirm: () {
-                  homeBloc.add(HomeStarted(userId: globalUserId));
-                },
-                onCancel: () {},
-              );
-            },
-            child: BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
-                if (state is HomeLoading) {
-                  return const ScreenLoadingWidget(
-                    loadingText: 'Loading news...',
-                  );
-                } else if (state is HomeSuccess) {
-                  //* Storing SavedNewsList fetched from Firebase to local variable...
-                  savedNewsList = state.savedItemsList;
-                  //* Here I've seperated the list into two other lists, one for home screen
-                  //* another one for search screen and all news screen...
-                  //* The one for home screen only contains 3 lists except allNewsList which is not needed here...
-                  //* The one for search and all news screens contains all lists...
-                  if (listOfAllNewsListsHome.isNotEmpty) {
-                    listOfAllNewsListsHome.clear();
-                  }
-                  if (allNewsListAllScreen.isNotEmpty) {
-                    allNewsListAllScreen.clear();
-                  }
-                  for (var i = 0; i < state.props.length; i++) {
-                    if (i == 0 || i == 1) {
-                      continue;
-                    }
-                    listOfAllNewsListsHome.add(state.props[i]);
-                  }
-                  for (var i = 0; i < state.props.length; i++) {
-                    if (i == 0) {
-                      continue;
-                    }
-                    allNewsListAllScreen.add(state.props[i]);
-                  }
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //* Entire horizontal scroll view with indicators... (Column)
-                        HorizontalBreakingNewsSliderWidget(
-                          onViewAllTap: () {},
-                          bannersModelList: state.bannersList,
-                        ),
-                        SizedBox(height: getMediaQueryHeight(context, 0.015)),
-                        //* Horizontal categories with vertical recommendations widget...
-                        const CustomDivider(),
-                        SizedBox(height: getMediaQueryHeight(context, 0.015)),
-                        //* Entire news categories vertical PageView...
-                        ...List.generate(
-                          listOfAllNewsListsHome.length,
-                          (index) => Column(
-                            children: [
-                              HorizontalTwoCardsVerticalWithTitleText(
-                                newsList: listOfAllNewsListsHome,
-                                titleText: newsTitles[index],
-                                comingIndex: index,
-                                onViewAllTap: () {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(builder: (context) => AllNewsScreen(allNewsList: allNewsListAllScreen, index: index + 1)),
-                                  );
-                                },
-                              ),
-                              const CustomDivider(),
-                              SizedBox(height: getMediaQueryHeight(context, 0.02)),
-                            ],
-                          ),
-                        ),
-                      ],
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(userInfo['profileImage']),
+                    maxRadius: getScreenArea(context, 0.00007),
+                  ),
+                  SizedBox(width: getScreenArea(context, 0.00003)),
+                  Expanded(
+                    child: Text(
+                      'Welcome, ${userInfo['name']}',
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  );
-                } else if (state is HomeFailed) {
-                  //* When screen fails to load up due to a exception...
-                  return TryAgainWidget(
-                    errorMessage: state.exception,
-                    buttonText: 'Try again',
-                    onTryAgainPressed: () {
-                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh(userId: globalUserId));
-                    },
-                  );
-                } else {
-                  //* When screen fails to load up due to any reason...
-                  return TryAgainWidget(
-                    errorMessage: "Sorry, we're having trouble loading the content. Please try again later.",
-                    buttonText: 'Try again',
-                    onTryAgainPressed: () {
-                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh(userId: globalUserId));
-                    },
-                  );
-                }
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              //* Search icon button....
+              GestureDetector(
+                onTap: () {
+                  if (allNewsListAllScreen.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(builder: (context) => SearchScreen(searchList: allNewsListAllScreen)),
+                    );
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
+                  ),
+                  child: const Icon(CupertinoIcons.search),
+                ),
+              ),
+              const SizedBox(width: 10),
+              //* Notifications icon button....
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
+                  ),
+                  child: const Icon(CupertinoIcons.bell),
+                ),
+              ),
+              SizedBox(width: getMediaQueryWidth(context, 0.035)),
+            ],
+          ),
+          body: SafeArea(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                helperFunctions.showConfirmationDialogBox(
+                  context,
+                  'Current data might replace with new one!\nContinue anyway?',
+                  onConfirm: () {
+                    homeBloc.add(HomeStarted(userId: globalUserId));
+                  },
+                  onCancel: () {},
+                );
               },
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeLoading) {
+                    return const ScreenLoadingWidget(
+                      loadingText: 'Loading news...',
+                    );
+                  } else if (state is HomeSuccess) {
+                    //* Storing SavedNewsList fetched from Firebase to local variable...
+                    savedNewsList = state.savedItemsList;
+                    //* Here I've seperated the list into two other lists, one for home screen
+                    //* another one for search screen and all news screen...
+                    //* The one for home screen only contains 3 lists except allNewsList which is not needed here...
+                    //* The one for search and all news screens contains all lists...
+                    if (listOfAllNewsListsHome.isNotEmpty) {
+                      listOfAllNewsListsHome.clear();
+                    }
+                    if (allNewsListAllScreen.isNotEmpty) {
+                      allNewsListAllScreen.clear();
+                    }
+                    for (var i = 0; i < state.props.length; i++) {
+                      if (i == 0 || i == 1) {
+                        continue;
+                      }
+                      listOfAllNewsListsHome.add(state.props[i]);
+                    }
+                    for (var i = 0; i < state.props.length; i++) {
+                      if (i == 0) {
+                        continue;
+                      }
+                      allNewsListAllScreen.add(state.props[i]);
+                    }
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //* Entire horizontal scroll view with indicators... (Column)
+                          HorizontalBreakingNewsSliderWidget(
+                            onViewAllTap: () {},
+                            bannersModelList: state.bannersList,
+                          ),
+                          SizedBox(height: getMediaQueryHeight(context, 0.015)),
+                          //* Horizontal categories with vertical recommendations widget...
+                          const CustomDivider(),
+                          SizedBox(height: getMediaQueryHeight(context, 0.015)),
+                          //* Entire news categories vertical PageView...
+                          ...List.generate(
+                            listOfAllNewsListsHome.length,
+                            (index) => Column(
+                              children: [
+                                HorizontalTwoCardsVerticalWithTitleText(
+                                  newsList: listOfAllNewsListsHome,
+                                  titleText: newsTitles[index],
+                                  comingIndex: index,
+                                  onViewAllTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(builder: (context) => AllNewsScreen(allNewsList: allNewsListAllScreen, index: index + 1)),
+                                    );
+                                  },
+                                ),
+                                const CustomDivider(),
+                                SizedBox(height: getMediaQueryHeight(context, 0.02)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (state is HomeFailed) {
+                    //* When screen fails to load up due to a exception...
+                    return TryAgainWidget(
+                      errorMessage: state.exception,
+                      buttonText: 'Try again',
+                      onTryAgainPressed: () {
+                        BlocProvider.of<HomeBloc>(context).add(HomeRefresh(userId: globalUserId));
+                      },
+                    );
+                  } else {
+                    //* When screen fails to load up due to any reason...
+                    return TryAgainWidget(
+                      errorMessage: "Sorry, we're having trouble loading the content. Please try again later.",
+                      buttonText: 'Try again',
+                      onTryAgainPressed: () {
+                        BlocProvider.of<HomeBloc>(context).add(HomeRefresh(userId: globalUserId));
+                      },
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ),
