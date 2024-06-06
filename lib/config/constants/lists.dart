@@ -27,10 +27,17 @@ enum NewsCategories {
   business,
 }
 
+//* Used in home_screen.dart
 List<dynamic> listOfAllNewsListsHome = [];
+//* Used in home_screen.dart
 List<dynamic> allNewsListAllScreen = [];
 
+//* Used in home_screen.dart
 List<String> newsTitles = ['Wall Street Journal', 'Technology News', 'Business News'];
 
+//* Used in helpers folder...
 List<String> emailErrorList = [];
 List<String> passwordErrorList = [];
+
+//* Used in app globally...
+dynamic savedNewsList = [];

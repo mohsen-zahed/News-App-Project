@@ -26,7 +26,7 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<GeneralNewsModel>> getAllNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       final List<GeneralNewsModel> allNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
         //* To store in local database for accessing later with no connection...
@@ -89,7 +89,7 @@ class NewsDataSource implements INewsDataSource {
   @override
   Future<List<WallStreetNewsModel>> getWallStreetNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final response = await httpClient.get('https://newsapi.org/v2/everything?domains=wsj.com&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       final List<WallStreetNewsModel> wallStreetNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
         //* To store in local database for accessing later with no connection...
@@ -153,7 +153,7 @@ class NewsDataSource implements INewsDataSource {
   Future<List<TechnologyNewsModel>> getTechnologyNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response = await httpClient
-          .get('https://newsapi.org/v2/everything?q=apple&from=2024-06-04&to=2024-06-04&sortBy=popularity&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+          .get('https://newsapi.org/v2/everything?q=apple&from=2024-06-04&to=2024-06-04&sortBy=popularity&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       final List<TechnologyNewsModel> technologyNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
         //* To store in local database for accessing later with no connection...
@@ -217,7 +217,7 @@ class NewsDataSource implements INewsDataSource {
   Future<List<BusinessNewsModel>> getBusinessNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response =
-          await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+          await httpClient.get('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       final List<BusinessNewsModel> businessNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
         //* To store in local database for accessing later with no connection...

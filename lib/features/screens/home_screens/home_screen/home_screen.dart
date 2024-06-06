@@ -6,6 +6,7 @@ import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/lists.dart';
 import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app/features/data/repository/ibanner_repository.dart';
+import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/data/repository/inews_repository.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/all_news_screen.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
@@ -41,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
     globalUserId = userInfo['id'];
     return BlocProvider<HomeBloc>(
       create: (context) {
-        homeBloc = HomeBloc(bannerRepository, newsRepository);
-        homeBloc.add(HomeStarted());
+        homeBloc = HomeBloc(bannerRepository, newsRepository, firebaseUserInfoRepository);
+        homeBloc.add(HomeStarted(userId: globalUserId));
         return homeBloc;
       },
       child: Scaffold(
@@ -112,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 'Current data might replace with new one!\nContinue anyway?',
                 onConfirm: () {
-                  homeBloc.add(HomeStarted());
+                  homeBloc.add(HomeStarted(userId: globalUserId));
                 },
                 onCancel: () {},
               );
@@ -124,6 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     loadingText: 'Loading news...',
                   );
                 } else if (state is HomeSuccess) {
+                  //* Storing SavedNewsList fetched from Firebase to local variable...
+                  savedNewsList = state.savedItemsList;
                   //* Here I've seperated the list into two other lists, one for home screen
                   //* another one for search screen and all news screen...
                   //* The one for home screen only contains 3 lists except allNewsList which is not needed here...
@@ -189,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     errorMessage: state.exception,
                     buttonText: 'Try again',
                     onTryAgainPressed: () {
-                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
+                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh(userId: globalUserId));
                     },
                   );
                 } else {
@@ -198,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     errorMessage: "Sorry, we're having trouble loading the content. Please try again later.",
                     buttonText: 'Try again',
                     onTryAgainPressed: () {
-                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh());
+                      BlocProvider.of<HomeBloc>(context).add(HomeRefresh(userId: globalUserId));
                     },
                   );
                 }

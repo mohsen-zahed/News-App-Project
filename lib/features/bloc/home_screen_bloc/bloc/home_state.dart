@@ -15,6 +15,7 @@ final class HomeSuccess extends HomeState {
   final List<WallStreetNewsModel> wallStreetList;
   final List<TechnologyNewsModel> technologyList;
   final List<BusinessNewsModel> businessNewsList;
+  final dynamic savedItemsList;
 
   const HomeSuccess({
     required this.bannersList,
@@ -22,6 +23,7 @@ final class HomeSuccess extends HomeState {
     required this.wallStreetList,
     required this.technologyList,
     required this.businessNewsList,
+    required this.savedItemsList,
   });
   @override
   List<Object> get props => [bannersList, allNewsList, wallStreetList, technologyList, businessNewsList];

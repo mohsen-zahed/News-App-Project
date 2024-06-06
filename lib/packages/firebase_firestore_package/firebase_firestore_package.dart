@@ -51,4 +51,9 @@ class MyFirebaseFirestorePackage {
       'savedNews': FieldValue.arrayRemove([newsId]),
     });
   }
+
+  Future<dynamic> getSavedNewsListFromFirebase(String userId) async {
+    final response = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    return response.get('savedNews');
+  }
 }

@@ -17,7 +17,7 @@ class BannerDataSourceImp implements IBannerDataSource {
   @override
   Future<List<BannersNewsModel>> getBannersNews() async {
     if (connectionStatusListener.isInternetConnected) {
-      final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=afb0edfa40d24b0bbf81f80225b27b28');
+      final response = await httpClient.get('https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       final List<BannersNewsModel> bannersNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
         //* To store in local database for accessing later with no connection...

@@ -16,6 +16,7 @@ abstract class IFirebaseUserInfoDataSource {
   Future<String> updateUserImage(String name, String userId);
   Future<void> storeToUserSavedList(String userId, String id);
   Future<void> removeFromUserSavedList(String userId, String id);
+  Future<dynamic> getUserSavedList(String userId);
 }
 
 class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
@@ -94,5 +95,10 @@ class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
   @override
   Future<void> removeFromUserSavedList(String userId, String id) async {
     await myFirestore.removeFromUserSavedList(userId, id);
+  }
+
+  @override
+  Future<dynamic> getUserSavedList(String userId) async {
+    return await myFirestore.getSavedNewsListFromFirebase(userId);
   }
 }

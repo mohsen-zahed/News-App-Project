@@ -53,4 +53,7 @@ final class FirebaseUserInfoRepositoryImp implements IFirebaseUserInfoRepository
 
   @override
   Future<void> removeFromUserSavedList(String userId, String id) => iFirebaseAuthDataSource.removeFromUserSavedList(userId, id);
+
+  @override
+  Future getUserSavedList(String userId) => iFirebaseAuthDataSource.getUserSavedList(userId);
 }
