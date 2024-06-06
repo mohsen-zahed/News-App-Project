@@ -11,7 +11,6 @@ class BookmarkButtonBloc extends Bloc<BookmarkButtonEvent, BookmarkButtonState> 
   BookmarkButtonBloc(this.iFirebaseUserInfoRepository) : super(BookmarkButtonInitial()) {
     on<BookmarkButtonEvent>((event, emit) async {
       if (event is BookmarkButtonIsClicked) {
-        emit(BookmarkButtonLoading());
         try {
           await iFirebaseUserInfoRepository.storeToUserSavedList(event.userId, event.itemId);
           emit(BookmarkButtonSuccess());
@@ -19,7 +18,6 @@ class BookmarkButtonBloc extends Bloc<BookmarkButtonEvent, BookmarkButtonState> 
           emit(BookmarkButtonFailed(errorMessage: e.message.toString()));
         }
       } else if (event is RemoveBookmarkButtonIsClicked) {
-        emit(RemoveBookmarkButtonLoading());
         try {
           await iFirebaseUserInfoRepository.removeFromUserSavedList(event.userId, event.itemId);
           emit(RemoveBookmarkButtonSuccess());

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/news_details_bloc/bloc/bookmark_button_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
+import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/horizontal_image_source_name_verified_badge_widget.dart';
 import 'package:news_app/features/screens/home_screens/news_details_screen/widgets/sliver_top_header_widget.dart';
 import 'package:news_app/helpers/helper_functions.dart';
@@ -33,7 +34,6 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
     double screenHeight = getMediaQueryHeight(context);
     double statusBarHeight = getMediaQueryPaddingTop(context);
     double appBarHeight = screenHeight / 2;
-
     return BlocProvider<BookmarkButtonBloc>(
       create: (context) {
         bloc = BookmarkButtonBloc(firebaseUserInfoRepository);
@@ -85,7 +85,16 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          HorizontalImageSourceNameVerifiedBadgeWidget(generalNewsModel: widget.newsList),
+                          ValueListenableBuilder(
+                            valueListenable: FirebaseUserInfoDataSourceImp.savedListNotifier,
+                            builder: (context, value, child) {
+                              print('savedListNotifierValue: $value');
+                              return HorizontalImageSourceNameVerifiedBadgeWidget(
+                                generalNewsModel: widget.newsList,
+                                savedNewsList: value,
+                              );
+                            },
+                          ),
                           SizedBox(height: getScreenArea(context, 0.00003)),
                           Text(
                             '${widget.newsList.description} ${widget.newsList.content}\n${widget.newsList.description} ${widget.newsList.content}\n${widget.newsList.description} ${widget.newsList.content}',

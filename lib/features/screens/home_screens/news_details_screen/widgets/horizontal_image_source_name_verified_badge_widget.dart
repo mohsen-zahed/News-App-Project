@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/bloc/news_details_bloc/bloc/bookmark_button_bloc.dart';
+import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
@@ -11,12 +12,15 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
   const HorizontalImageSourceNameVerifiedBadgeWidget({
     super.key,
     required this.generalNewsModel,
+    required this.savedNewsList,
   });
 
+  final dynamic savedNewsList;
   final dynamic generalNewsModel;
 
   @override
   Widget build(BuildContext context) {
+    firebaseUserInfoRepository.getUserSavedList(globalUserId);
     return Row(
       children: [
         //* News source tv icon...
@@ -73,26 +77,26 @@ class HorizontalImageSourceNameVerifiedBadgeWidget extends StatelessWidget {
         ),
         BlocBuilder<BookmarkButtonBloc, BookmarkButtonState>(
           builder: (context, state) {
+            List userSavedNewsList = savedNewsList;
             if (state is BookmarkButtonInitial) {
               return GestureDetector(
                 onTap: () {
-                  BlocProvider.of<BookmarkButtonBloc>(context).add(
-                    BookmarkButtonIsClicked(
-                      itemId: generalNewsModel.title,
-                      userId: globalUserId,
-                    ),
-                  );
+                  !userSavedNewsList.contains(generalNewsModel.title)
+                      ? BlocProvider.of<BookmarkButtonBloc>(context).add(
+                          BookmarkButtonIsClicked(
+                            itemId: generalNewsModel.title,
+                            userId: globalUserId,
+                          ),
+                        )
+                      : BlocProvider.of<BookmarkButtonBloc>(context).add(
+                          RemoveBookmarkButtonIsClicked(
+                            userId: globalUserId,
+                            itemId: generalNewsModel.title,
+                          ),
+                        );
                 },
                 child: Icon(
-                  Icons.bookmark_border_rounded,
-                  size: getScreenArea(context, 0.000085),
-                ),
-              );
-            } else if (state is BookmarkButtonLoading || state is RemoveBookmarkButtonLoading) {
-              return GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.bookmark_border_rounded,
+                  userSavedNewsList.contains(generalNewsModel.title) ? Icons.bookmark : Icons.bookmark_border_rounded,
                   size: getScreenArea(context, 0.000085),
                 ),
               );

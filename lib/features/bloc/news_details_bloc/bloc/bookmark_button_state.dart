@@ -9,8 +9,6 @@ sealed class BookmarkButtonState extends Equatable {
 
 final class BookmarkButtonInitial extends BookmarkButtonState {}
 
-final class BookmarkButtonLoading extends BookmarkButtonState {}
-
 final class BookmarkButtonSuccess extends BookmarkButtonState {}
 
 final class BookmarkButtonFailed extends BookmarkButtonState {
@@ -20,8 +18,6 @@ final class BookmarkButtonFailed extends BookmarkButtonState {
   @override
   List<Object> get props => [errorMessage];
 }
-
-final class RemoveBookmarkButtonLoading extends BookmarkButtonState {}
 
 final class RemoveBookmarkButtonSuccess extends BookmarkButtonState {}
 

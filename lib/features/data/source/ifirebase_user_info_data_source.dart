@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/firebase_firestore_package/firebase_firestore_package.dart';
 import 'package:news_app/packages/image_picker_package/image_picker_package.dart';
@@ -20,6 +21,7 @@ abstract class IFirebaseUserInfoDataSource {
 }
 
 class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
+  static ValueNotifier<dynamic> savedListNotifier = ValueNotifier<dynamic>([]);
   final FirebaseAuth auth;
   final MyFirebaseFirestorePackage myFirestore;
   final MyImagePickerPackage myImagePicker;
@@ -99,6 +101,8 @@ class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
 
   @override
   Future<dynamic> getUserSavedList(String userId) async {
-    return await myFirestore.getSavedNewsListFromFirebase(userId);
+    final result = await myFirestore.getSavedNewsListFromFirebase(userId);
+    savedListNotifier.value = result;
+    return result;
   }
 }
