@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/images_paths.dart';
+import 'package:news_app/features/bloc/news_details_bloc/bloc/bookmark_button_bloc.dart';
+import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/widget/news_image_widget.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/widget/profile_image_with_name_and_follow_button_widget.dart';
+import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_divider.dart';
 
@@ -84,17 +88,43 @@ class AllNewsVerticalListView extends StatelessWidget {
                           //* News post like, comments, share, bookmark...
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.05)),
-                            child: Row(
-                              children: [
-                                const Icon(CupertinoIcons.bookmark),
-                                SizedBox(width: getMediaQueryWidth(context, 0.02)),
-                                const Icon(CupertinoIcons.share),
-                                const Spacer(),
-                                const Icon(Icons.chat_bubble_outline),
-                                SizedBox(width: getMediaQueryWidth(context, 0.03)),
-                                const Icon(CupertinoIcons.hand_thumbsup),
-                              ],
-                            ),
+                            child: ValueListenableBuilder(
+                                valueListenable: FirebaseUserInfoDataSourceImp.savedListNotifier,
+                                builder: (context, value, child) {
+                                  bool isSaved = value.any((element) => element['title'] == allNewsList[tabNotifier.value][index].title);
+                                  return Row(
+                                    children: [
+                                      BlocBuilder<BookmarkButtonBloc, BookmarkButtonState>(
+                                        builder: (context, state) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              !isSaved
+                                                  ? BlocProvider.of<BookmarkButtonBloc>(context).add(
+                                                      BookmarkButtonIsClicked(
+                                                        newsId: allNewsList[tabNotifier.value][index],
+                                                        userId: globalUserId,
+                                                      ),
+                                                    )
+                                                  : BlocProvider.of<BookmarkButtonBloc>(context).add(
+                                                      RemoveBookmarkButtonIsClicked(
+                                                        userId: globalUserId,
+                                                        newsId: allNewsList[tabNotifier.value][index],
+                                                      ),
+                                                    );
+                                            },
+                                            child: Icon(isSaved ? CupertinoIcons.bookmark_fill : CupertinoIcons.bookmark),
+                                          );
+                                        },
+                                      ),
+                                      SizedBox(width: getMediaQueryWidth(context, 0.02)),
+                                      const Icon(CupertinoIcons.share),
+                                      const Spacer(),
+                                      const Icon(Icons.chat_bubble_outline),
+                                      SizedBox(width: getMediaQueryWidth(context, 0.03)),
+                                      const Icon(CupertinoIcons.hand_thumbsup),
+                                    ],
+                                  );
+                                }),
                           ),
                         ],
                       ),

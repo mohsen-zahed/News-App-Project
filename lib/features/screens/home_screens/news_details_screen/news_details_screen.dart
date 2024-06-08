@@ -25,13 +25,13 @@ class NewsDetailsScreen extends StatefulWidget {
 }
 
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
-  BookmarkButtonBloc? bloc;
-  StreamSubscription? streamSubscription;
+  BookmarkButtonBloc? _bloc;
+  StreamSubscription? _streamSubscription;
   @override
   void dispose() {
     super.dispose();
-    bloc?.close();
-    streamSubscription?.cancel();
+    _bloc?.close();
+    _streamSubscription?.cancel();
   }
 
   @override
@@ -41,8 +41,8 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
     double appBarHeight = screenHeight / 2;
     return BlocProvider<BookmarkButtonBloc>(
       create: (context) {
-        bloc = BookmarkButtonBloc(firebaseUserInfoRepository);
-        streamSubscription = bloc?.stream.listen((state) async {
+        _bloc = BookmarkButtonBloc(firebaseUserInfoRepository);
+        _streamSubscription = _bloc?.stream.listen((state) async {
           if (state is BookmarkButtonSuccess) {
             await Future.delayed(const Duration(milliseconds: 300)).then((value) {
               helperFunctions.showSnackBar(context, 'Item added to reading list successfully', 3000);
@@ -61,7 +61,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
             });
           }
         });
-        return bloc!;
+        return _bloc!;
       },
       child: Scaffold(
         backgroundColor: kBlackColor,

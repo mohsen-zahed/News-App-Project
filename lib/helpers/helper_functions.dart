@@ -80,26 +80,27 @@ class HelperFunctions {
       );
   }
 
-  void showConfirmationDialogBox(BuildContext context, String confirmationText, {required Function onConfirm, required Function onCancel}) {
-    showDialog(
+  Future<T?> showConfirmationDialogBox<T>(BuildContext context, String confirmationText,
+      {required String titleText, required Function onConfirm, required Function onCancel}) {
+    return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Reload Screen?'),
+          title: Text(titleText),
           content: Text(confirmationText),
           actions: [
             TextButton(
               child: const Text('No'),
               onPressed: () {
                 onCancel();
-                Navigator.pop(context);
+                Navigator.of(context).pop(false);
               },
             ),
             TextButton(
               child: const Text('Yes'),
               onPressed: () {
                 onConfirm();
-                Navigator.pop(context);
+                Navigator.of(context).pop(true);
               },
             ),
           ],

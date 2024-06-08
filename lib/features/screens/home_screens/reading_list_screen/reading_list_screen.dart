@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/news_details_bloc/bloc/bookmark_button_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
@@ -22,21 +23,21 @@ class ReadingListScreen extends StatefulWidget {
 }
 
 class _ReadingListScreenState extends State<ReadingListScreen> {
-  BookmarkButtonBloc? bloc;
-  StreamSubscription? streamSubscription;
+  BookmarkButtonBloc? _bloc;
+  StreamSubscription? _streamSubscription;
   @override
   void dispose() {
     super.dispose();
-    bloc?.close();
-    streamSubscription?.cancel();
+    _bloc?.close();
+    _streamSubscription?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BookmarkButtonBloc>(
       create: (context) {
-        bloc = BookmarkButtonBloc(firebaseUserInfoRepository);
-        streamSubscription = bloc?.stream.listen((state) async {
+        _bloc = BookmarkButtonBloc(firebaseUserInfoRepository);
+        _streamSubscription = _bloc?.stream.listen((state) async {
           if (state is RemoveBookmarkButtonSuccess) {
             await Future.delayed(const Duration(milliseconds: 200)).then(
               (value) => helperFunctions.showSnackBar(context, 'Removed successfully', 2000),
@@ -47,7 +48,7 @@ class _ReadingListScreenState extends State<ReadingListScreen> {
             );
           }
         });
-        return bloc!;
+        return _bloc!;
       },
       child: Scaffold(
         appBar: myAppBar(context: context, child: const Text('My Reading List')),
@@ -55,18 +56,37 @@ class _ReadingListScreenState extends State<ReadingListScreen> {
           valueListenable: FirebaseUserInfoDataSourceImp.savedListNotifier,
           builder: (context, value, child) {
             final readingList = value.reversed.toList();
-
             return readingList.isNotEmpty
                 ? ListView.builder(
                     itemCount: readingList.length,
                     itemBuilder: (context, index) {
                       return Dismissible(
-                        key: GlobalKey(),
-                        onDismissed: (direction) {
-                          BlocProvider.of<BookmarkButtonBloc>(context).add(
-                            RemoveBookmarkReadingListButtonIsClicked(userId: globalUserId, newsId: readingList[index]),
+                        confirmDismiss: (direction) async {
+                          return await helperFunctions.showConfirmationDialogBox(
+                            context,
+                            '',
+                            titleText: 'Remove this item from Reading list?',
+                            onConfirm: () {
+                              BlocProvider.of<BookmarkButtonBloc>(context).add(
+                                RemoveBookmarkReadingListButtonIsClicked(userId: globalUserId, newsId: readingList[index]),
+                              );
+                            },
+                            onCancel: () {},
                           );
                         },
+                        key: GlobalKey(),
+                        background: Container(
+                          padding: EdgeInsets.symmetric(horizontal: getScreenArea(context, 0.0001)),
+                          color: kRedColorOp5,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(
+                              Icons.delete_forever_outlined,
+                              color: kRedColor,
+                              size: getScreenArea(context, 0.00013),
+                            ),
+                          ),
+                        ),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(CupertinoPageRoute(

@@ -113,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onRefresh: () async {
                 helperFunctions.showConfirmationDialogBox(
                   context,
+                  titleText: 'Reload Screen?',
                   'Current data might replace with new one!\nContinue anyway?',
                   onConfirm: () {
                     homeBloc.add(HomeStarted(userId: globalUserId));
