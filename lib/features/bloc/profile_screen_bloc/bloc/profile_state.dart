@@ -36,3 +36,17 @@ final class ProfileChangeImageFailed extends ProfileState {
 
   const ProfileChangeImageFailed({required this.previousImageUrl});
 }
+
+//* */
+
+final class ProfileSignOutLoading extends ProfileState {}
+
+final class ProfileSignOutSuccess extends ProfileState {}
+
+final class ProfileSignOutFailed extends ProfileState {
+  final String errorMessage;
+
+  const ProfileSignOutFailed({required this.errorMessage});
+  @override
+  List<Object> get props => [errorMessage];
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/images_paths.dart';
 import 'package:news_app/features/bloc/news_details_bloc/bloc/bookmark_button_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:news_app/features/data/source/ifirebase_user_info_data_source.da
 import 'package:news_app/features/screens/home_screens/all_news_screen/widget/news_image_widget.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/widget/profile_image_with_name_and_follow_button_widget.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
+import 'package:news_app/packages/share_plus_package/share_plus_package.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_divider.dart';
 
@@ -117,7 +119,13 @@ class AllNewsVerticalListView extends StatelessWidget {
                                         },
                                       ),
                                       SizedBox(width: getMediaQueryWidth(context, 0.02)),
-                                      const Icon(CupertinoIcons.share),
+                                      GestureDetector(
+                                          child: const Icon(CupertinoIcons.share),
+                                          onTap: () {
+                                            MySharePlusPackage.instance.shareApp(
+                                                '${allNewsList[tabNotifier.value][index].title}\n${allNewsList[tabNotifier.value][index].content}',
+                                                '${allNewsList[tabNotifier.value][index].title}');
+                                          }),
                                       const Spacer(),
                                       const Icon(Icons.chat_bubble_outline),
                                       SizedBox(width: getMediaQueryWidth(context, 0.03)),

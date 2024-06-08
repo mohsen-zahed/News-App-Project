@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
@@ -32,6 +33,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(ProfileScreenSuccess(userInfo: userInfo));
         } on FirebaseException catch (e) {
           emit(ProfileScreenFailed(
+            errorMessage: e.message.toString(),
+          ));
+        }
+      } else if (event is SignOutButtonIsClicked) {
+        try {
+          emit(ProfileSignOutLoading());
+          await iFirebaseAuthRepository.signOutUser();
+          emit(ProfileSignOutSuccess());
+        } on FirebaseAuthException catch (e) {
+          emit(ProfileSignOutFailed(
             errorMessage: e.message.toString(),
           ));
         }

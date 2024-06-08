@@ -93,4 +93,9 @@ class MySharedPreferencesPackage {
       return false;
     }
   }
+
+  Future<bool> clearSharedPreferences<T>() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return await sharedPreferences.clear();
+  }
 }

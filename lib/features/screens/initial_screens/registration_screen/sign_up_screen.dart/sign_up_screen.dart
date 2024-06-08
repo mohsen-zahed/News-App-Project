@@ -70,11 +70,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             helperFunctions.showRapidSnackBar(context, "You've been registered as ${state.userCredential.user!.email}");
             await MySharedPreferencesPackage.instance
                 .storeUserInfoAndRegistrationToLocale(userInfoKey, state.documentSnapshot, isRegisteredKey, true)
-                .then((value) {
+                .then((value) async {
               if (value) {
-                Future.delayed(const Duration(seconds: 2)).then((value) {
+                await Future.delayed(const Duration(seconds: 2)).then((value) {
                   Navigator.pushNamedAndRemoveUntil(context, HomeScreen.id, (route) => false, arguments: {
-                    'documentSnapshot': state.documentSnapshot,
+                    'userData': state.documentSnapshot,
                   });
                 });
               } else {
@@ -210,18 +210,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(height: getScreenArea(context, 0.0001)),
                           //* Button to submit...
                           BlocBuilder<SignUpBloc, SignUpState>(
-                            buildWhen: (previous, current) {
-                              return current is SignUpLoading;
-                            },
                             builder: (context, state) {
-                              bool isSubmitting = state is! SignUpLoading ? true : false;
                               return SubmitButtonWidget(
-                                isLoading: isSubmitting,
+                                isLoading: state is SignUpLoading ? true : false,
                                 buttonText: 'SignUp',
                                 onPressed: () async {
-                                  setState(() {
-                                    isSubmitting = true;
-                                  });
                                   String name = _nameController.text.trim();
                                   String email = _emailController.text.trim();
                                   String password = _passwordController.text.trim();
@@ -239,10 +232,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   } else {
                                     helperFunctions.showSnackBar(context, 'Please fill the required fields!', 5500);
                                   }
-
-                                  setState(() {
-                                    isSubmitting = false;
-                                  });
                                 },
                               );
                             },

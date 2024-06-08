@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,9 @@ import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/profile_screen_bloc/bloc/profile_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/screens/home_screens/reading_list_screen/reading_list_screen.dart';
+import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/login_screen.dart';
+import 'package:news_app/helpers/helper_functions.dart';
+import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
 import 'package:news_app/widgets/full_screen_image.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_image_widget.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_list_tile_widget.dart';
@@ -12,15 +17,44 @@ import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/screen_loading_widget.dart';
 import 'package:news_app/widgets/try_again_widget.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   final String userId;
   const ProfileScreen({super.key, required this.userId});
   static const String id = '/profile_screen';
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  ProfileBloc? _bloc;
+  StreamSubscription? _streamSubscription;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bloc?.close();
+    _streamSubscription?.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<ProfileBloc>(
-      create: (context) => ProfileBloc(firebaseUserInfoRepository)..add(ProfileScreenStarted(userId: userId)),
+      create: (context) {
+        _bloc = ProfileBloc(firebaseUserInfoRepository)..add(ProfileScreenStarted(userId: widget.userId));
+        _streamSubscription = _bloc?.stream.listen((state) async {
+          if (state is ProfileSignOutLoading) {
+            await MySharedPreferencesPackage.instance.clearSharedPreferences().then((value) {
+              helperFunctions.showSnackBar(context, "You've been signed out!", 2500);
+            });
+          } else if (state is ProfileSignOutSuccess) {
+            Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => const LoginScreen()));
+          } else if (state is ProfileSignOutFailed) {
+            helperFunctions.showSnackBar(context, state.errorMessage, 3000);
+          }
+        });
+        return _bloc!;
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text('My Profile'),
@@ -121,10 +155,16 @@ class ProfileScreen extends StatelessWidget {
                         height: getScreenArea(context, 0.0001),
                       ),
                       //* Logout list tile...
-                      ProfileListTileWidget(
-                        title: 'LogOut',
-                        icon: Icons.logout_rounded,
-                        onTap: () {},
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, state) {
+                          return ProfileListTileWidget(
+                            title: 'Sign out',
+                            icon: Icons.logout_rounded,
+                            onTap: () {
+                              BlocProvider.of<ProfileBloc>(context).add(SignOutButtonIsClicked());
+                            },
+                          );
+                        },
                       ),
                       SizedBox(
                         height: getScreenArea(context, 0.00015),
@@ -137,7 +177,7 @@ class ProfileScreen extends StatelessWidget {
                 return TryAgainWidget(
                     errorMessage: state.errorMessage,
                     onTryAgainPressed: () {
-                      BlocProvider.of<ProfileBloc>(context).add(ProfileScreenRefresh(userId: userId));
+                      BlocProvider.of<ProfileBloc>(context).add(ProfileScreenRefresh(userId: widget.userId));
                     },
                     buttonText: 'Try again');
               } else {
@@ -145,7 +185,7 @@ class ProfileScreen extends StatelessWidget {
                 return TryAgainWidget(
                   errorMessage: 'Screen does not respond at the moment, please try again later!',
                   onTryAgainPressed: () {
-                    BlocProvider.of<ProfileBloc>(context).add(ProfileScreenRefresh(userId: userId));
+                    BlocProvider.of<ProfileBloc>(context).add(ProfileScreenRefresh(userId: widget.userId));
                   },
                   buttonText: 'Try again',
                 );
