@@ -31,14 +31,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ProfileBloc? _bloc;
   StreamSubscription? _streamSubscription;
 
-
   @override
   void dispose() {
     super.dispose();
     _bloc?.close();
     _streamSubscription?.cancel();
   }
-
 
   @override
   Widget build(BuildContext context) {

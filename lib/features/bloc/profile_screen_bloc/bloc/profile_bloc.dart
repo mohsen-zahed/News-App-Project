@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 
@@ -36,6 +35,14 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(ProfileScreenFailed(
             errorMessage: e.message.toString(),
           ));
+        }
+      } else if (event is SignOutButtonIsClicked) {
+        try {
+          await iFirebaseAuthRepository.signOutUser();
+          emit(ProfileSignOutSuccess());
+          emit(ProfileScreenSuccess(userInfo: userInfo));
+        } catch (e) {
+          emit(const ProfileSignOutFailed(errorMessage: 'Could not log out righ now!'));
         }
       }
     });
