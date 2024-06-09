@@ -15,6 +15,7 @@ abstract class IFirebaseUserInfoDataSource {
   Future<User?> getCurrentUser(UserCredential userCredential);
   Future<void> signOutUser();
   Future<String> updateUserImage(String name, String userId, String previousImageUrl);
+  Future<String> getUserImageFF(String userId);
   Future<void> storeToUserSavedList(String userId, dynamic newsId);
   Future<void> removeFromUserSavedList(String userId, dynamic newsId);
   Future<void> removeFromUserSavedListMap(String userId, dynamic newsId);
@@ -90,6 +91,13 @@ class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
     final imageUrl = await myImagePicker.pickUserImageFromGallery(name, id, previousImageUrl);
     imageNotifier.value = imageUrl;
     return imageUrl;
+  }
+
+  @override
+  Future<String> getUserImageFF(String userId) async {
+    final profileImage = await myFirestore.getUserImageFF(userId);
+    imageNotifier.value = profileImage;
+    return profileImage;
   }
 
   @override

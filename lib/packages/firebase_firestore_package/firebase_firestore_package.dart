@@ -41,6 +41,11 @@ class MyFirebaseFirestorePackage {
     });
   }
 
+  Future<String> getUserImageFF(String userId) async {
+    final userInfo = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    return await userInfo.get('profileImage');
+  }
+
   Future<void> storeToUserSavedList(String userId, dynamic newsId) async {
     final Map<String, dynamic> newsData = newsModelToMap(newsId);
     await FirebaseFirestore.instance.collection('users').doc(userId).update({

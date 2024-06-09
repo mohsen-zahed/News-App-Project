@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             await Future.delayed(const Duration(milliseconds: 2000)).then((value) async {
               await MySharedPreferencesPackage.instance.clearSharedPreferencesByKey(userInfoKey);
               await MySharedPreferencesPackage.instance.clearSharedPreferencesByKey(isRegisteredKey).then((value) {
-                Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (context) => const LoginScreen()));
+                Navigator.pushReplacementNamed(context, LoginScreen.id);
                 helperFunctions.showSnackBar(context, "You've been logged out!", 2000);
               });
             });

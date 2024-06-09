@@ -40,6 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           final businessResult = await iNewsRepository.getBusinessNews();
           final allNewsResult = await iNewsRepository.getAllNews();
           final savedListFF = await iFirebaseUserInfoRepository.getUserSavedList(userId);
+          await iFirebaseUserInfoRepository.getUserImageFF(userId);
           emit(HomeSuccess(
             bannersList: bannersResult,
             technologyList: technologyResult,

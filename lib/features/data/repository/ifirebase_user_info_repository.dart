@@ -50,6 +50,9 @@ final class FirebaseUserInfoRepositoryImp implements IFirebaseUserInfoRepository
       iFirebaseAuthDataSource.updateUserImage(name, id, previousImageUrl);
 
   @override
+  Future<String> getUserImageFF(String userId) => iFirebaseAuthDataSource.getUserImageFF(userId);
+
+  @override
   Future<void> storeToUserSavedList(String userId, dynamic newsId) => iFirebaseAuthDataSource.storeToUserSavedList(userId, newsId);
 
   @override

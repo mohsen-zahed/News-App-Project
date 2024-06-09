@@ -153,7 +153,7 @@ class NewsDataSource implements INewsDataSource {
   Future<List<TechnologyNewsModel>> getTechnologyNews() async {
     if (connectionStatusListener.isInternetConnected) {
       final response = await httpClient
-          .get('https://newsapi.org/v2/everything?q=apple&from=2024-06-04&to=2024-06-04&sortBy=popularity&apiKey=3f1e9b5d74f7402b9515b7e859482502');
+          .get('https://newsapi.org/v2/everything?q=apple&from=2024-06-08&to=2024-06-08&sortBy=popularity&apiKey=3f1e9b5d74f7402b9515b7e859482502');
       final List<TechnologyNewsModel> technologyNewsList = [];
       for (var i = 0; i < (response.data['articles'] as List).length; i++) {
         //* To store in local database for accessing later with no connection...
