@@ -38,6 +38,9 @@ final class ProfileChangeImageFailed extends ProfileState {
 }
 
 //** */
+//* */
+
+final class ProfileSignOutLoading extends ProfileState {}
 
 final class ProfileSignOutSuccess extends ProfileState {}
 

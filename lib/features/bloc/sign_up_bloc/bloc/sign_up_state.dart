@@ -7,6 +7,8 @@ sealed class SignUpState extends Equatable {
   List<Object> get props => [];
 }
 
+final class SignUpInitial extends SignUpState {}
+
 final class SignUpLoading extends SignUpState {}
 
 final class SignUpSuccess extends SignUpState {

@@ -8,7 +8,7 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final IFirebaseUserInfoRepository iFirebaseAuthRepository;
-  LoginBloc(this.iFirebaseAuthRepository) : super(LoginLoading()) {
+  LoginBloc(this.iFirebaseAuthRepository) : super(LoginInitial()) {
     on<LoginEvent>((event, emit) async {
       if (event is LoginButtonIsClicked) {
         emit(LoginLoading());

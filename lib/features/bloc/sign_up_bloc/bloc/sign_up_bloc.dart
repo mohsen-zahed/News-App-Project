@@ -8,7 +8,7 @@ part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final IFirebaseUserInfoRepository iFirebaseAuthRepository;
-  SignUpBloc(this.iFirebaseAuthRepository) : super(SignUpLoading()) {
+  SignUpBloc(this.iFirebaseAuthRepository) : super(SignUpInitial()) {
     on<SignUpEvent>((event, emit) async {
       if (event is SignUpButtonIsClicked) {
         emit(SignUpLoading());

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/config/constants/lists.dart';
@@ -47,7 +48,22 @@ class _HomeScreenState extends State<HomeScreen> {
         return homeBloc;
       },
       child: PopScope(
-        onPopInvoked: (didPop) => Future.value(false),
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          if (didPop) {
+            return;
+          }
+          await helperFunctions.showConfirmationDialogBox(
+            context,
+            'Exit app?',
+            titleText: '',
+            onConfirm: () {
+              SystemNavigator.pop();
+            },
+            onCancel: () {},
+          );
+          ();
+        },
         child: Scaffold(
           appBar: AppBar(
             //* AppBar here...

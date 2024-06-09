@@ -107,4 +107,5 @@ class MySharedPreferencesPackage {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return await sharedPreferences.remove(key);
   }
+
 }
