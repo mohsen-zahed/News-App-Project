@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/profile_screen_bloc/bloc/profile_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
+import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/features/screens/home_screens/reading_list_screen/reading_list_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/login_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
@@ -75,49 +75,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: getScreenArea(context, 0.00006)),
-                      Stack(
-                        children: [
-                          //* Profile image avatar...
-                          ProfileImageWidget(
-                            userImage: state.userInfo['profileImage'],
-                            onCameraTap: () {},
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: state.userInfo['profileImage'])),
-                              );
-                            },
-                          ),
-                          //* Camera icon to change profile image...
-                          Positioned(
-                            bottom: 0,
-                            right: getScreenArea(context, 0.00008),
-                            child: GestureDetector(
-                              onTap: () async {
-                                BlocProvider.of<ProfileBloc>(context).add(
-                                  ProfileImageChangeIsClicked(
-                                    userName: state.userInfo['name'],
-                                    userId: state.userInfo['id'],
-                                    previousImageUrl: state.userInfo['profileImage'],
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(getScreenArea(context, 0.00002)),
-                                decoration: BoxDecoration(
-                                  color: kGreyColorShade300,
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.camera_enhance,
-                                    size: getScreenArea(context, 0.00006),
-                                    color: kGreyColorShade500,
-                                  ),
-                                ),
+                      ValueListenableBuilder(
+                        valueListenable: FirebaseUserInfoDataSourceImp.imageNotifier,
+                        builder: (context, value, child) => ProfileImageWidget(
+                          userImage: value,
+                          onCameraTap: () async {
+                            BlocProvider.of<ProfileBloc>(context).add(
+                              ProfileImageChangeIsClicked(
+                                userName: state.userInfo['name'],
+                                userId: state.userInfo['id'],
+                                previousImageUrl: state.userInfo['profileImage'],
                               ),
-                            ),
-                          ),
-                        ],
+                            );
+                          },
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: value)),
+                            );
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: getScreenArea(context, 0.00006),

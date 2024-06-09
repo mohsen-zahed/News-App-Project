@@ -14,7 +14,7 @@ abstract class IFirebaseUserInfoDataSource {
   Future<dynamic> getUserInfoFromFirebase(String uid);
   Future<User?> getCurrentUser(UserCredential userCredential);
   Future<void> signOutUser();
-  Future<String> updateUserImage(String name, String userId);
+  Future<String> updateUserImage(String name, String userId, String previousImageUrl);
   Future<void> storeToUserSavedList(String userId, dynamic newsId);
   Future<void> removeFromUserSavedList(String userId, dynamic newsId);
   Future<void> removeFromUserSavedListMap(String userId, dynamic newsId);
@@ -23,6 +23,7 @@ abstract class IFirebaseUserInfoDataSource {
 
 class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
   static ValueNotifier<List<dynamic>> savedListNotifier = ValueNotifier<List<dynamic>>([]);
+  static ValueNotifier<String> imageNotifier = ValueNotifier<String>('');
   final FirebaseAuth auth;
   final MyFirebaseFirestorePackage myFirestore;
   final MyImagePickerPackage myImagePicker;
@@ -85,8 +86,9 @@ class FirebaseUserInfoDataSourceImp implements IFirebaseUserInfoDataSource {
   }
 
   @override
-  Future<String> updateUserImage(String name, String id) async {
-    final imageUrl = await myImagePicker.pickUserImageFromGallery(name, id);
+  Future<String> updateUserImage(String name, String id, String previousImageUrl) async {
+    final imageUrl = await myImagePicker.pickUserImageFromGallery(name, id, previousImageUrl);
+    imageNotifier.value = imageUrl;
     return imageUrl;
   }
 

@@ -17,21 +17,47 @@ class ProfileImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: getScreenArea(context, 0.0005),
-        height: getScreenArea(context, 0.0005),
-        padding: EdgeInsets.all(getScreenArea(context, 0.000005)),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(
-            color: kSecondaryColor,
-            width: 3,
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            width: getScreenArea(context, 0.0005),
+            height: getScreenArea(context, 0.0005),
+            padding: EdgeInsets.all(getScreenArea(context, 0.000005)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                color: kSecondaryColor,
+                width: 3,
+              ),
+            ),
+            child: CustomCachedNetworkImage(borderRadius: 100, imageUrl: userImage),
           ),
         ),
-        child: CustomCachedNetworkImage(borderRadius: 100, imageUrl: userImage),
-      ),
+        //* Camera icon to change profile image...
+        Positioned(
+          bottom: 0,
+          right: getScreenArea(context, 0.00008),
+          child: GestureDetector(
+            onTap: onCameraTap,
+            child: Container(
+              padding: EdgeInsets.all(getScreenArea(context, 0.00002)),
+              decoration: BoxDecoration(
+                color: kGreyColorShade300,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.camera_enhance,
+                  size: getScreenArea(context, 0.00006),
+                  color: kGreyColorShade500,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

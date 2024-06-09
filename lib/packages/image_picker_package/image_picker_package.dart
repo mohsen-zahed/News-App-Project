@@ -12,7 +12,7 @@ class MyImagePickerPackage {
     return _instance!;
   }
 
-  Future<String> pickUserImageFromGallery(String userName, dynamic uid) async {
+  Future<String> pickUserImageFromGallery(String userName, dynamic uid, String previousImageUrl) async {
     ImagePicker picker = ImagePicker();
     var editPickedProfileImage = await picker.pickImage(source: ImageSource.gallery);
     var pickedImageFile = File(editPickedProfileImage?.path ?? '');
@@ -23,6 +23,6 @@ class MyImagePickerPackage {
       MyFirebaseFirestorePackage.instance.updateUserImageInFirebase(uid, imageDownloadLink);
       return imageDownloadLink;
     }
-    return '';
+    return previousImageUrl;
   }
 }

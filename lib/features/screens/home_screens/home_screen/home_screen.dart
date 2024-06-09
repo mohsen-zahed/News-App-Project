@@ -9,6 +9,7 @@ import 'package:news_app/features/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:news_app/features/data/repository/ibanner_repository.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/data/repository/inews_repository.dart';
+import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/all_news_screen.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_two_cards_vertical_with_title_text.dart';
@@ -74,9 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Row(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(userInfo['profileImage']),
-                    maxRadius: getScreenArea(context, 0.00007),
+                  ValueListenableBuilder(
+                    valueListenable: FirebaseUserInfoDataSourceImp.imageNotifier,
+                    builder: (context, value, child) => CircleAvatar(
+                      backgroundImage: CachedNetworkImageProvider(value),
+                      maxRadius: getScreenArea(context, 0.00007),
+                    ),
                   ),
                   SizedBox(width: getScreenArea(context, 0.00003)),
                   Expanded(
