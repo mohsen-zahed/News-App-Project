@@ -58,9 +58,13 @@ class MySharedPreferencesPackage {
   Future<dynamic> loadUserInfoFromLocale(String userInfoKey) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     try {
-      return jsonDecode(sharedPreferences.getString(userInfoKey)!);
+      final localeInfo = sharedPreferences.getString(userInfoKey);
+      if (localeInfo != null) {
+        return jsonDecode(localeInfo);
+      }
+      return null;
     } catch (e) {
-      return 'Something wrong happened';
+      return null;
     }
   }
 
@@ -92,5 +96,15 @@ class MySharedPreferencesPackage {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<bool> clearSharedPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return await sharedPreferences.clear();
+  }
+
+  Future<bool> clearSharedPreferencesByKey(String key) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return await sharedPreferences.remove(key);
   }
 }
