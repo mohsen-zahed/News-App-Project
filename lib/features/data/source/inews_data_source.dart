@@ -103,9 +103,8 @@ class NewsDataSource implements INewsDataSource {
               continue;
             } else if (imageType.contains('jpg') || imageType.contains('jpeg') || imageType.contains('png') || imageType.contains('JPEG')) {
               var wallStreetNewsModel = WallStreetNewsModel.fromJson(response.data['articles'][i]);
-              if (!box.values.contains(wallStreetNewsModel)) {
-                box.add(wallStreetNewsModel);
-              }
+
+              box.add(wallStreetNewsModel);
             }
           } catch (e) {
             debugPrint('Hive box continue: $e');
