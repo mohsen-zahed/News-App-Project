@@ -14,7 +14,6 @@ import 'package:news_app/features/screens/initial_screens/splash_screen/splash_s
 import 'package:news_app/packages/connectivity_plus_package/connection_controller.dart';
 import 'package:news_app/packages/hive_flutter_package/hive_flutter_package_constants.dart';
 import 'package:news_app/theme/theme.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initNoInternetListener();
@@ -81,6 +80,7 @@ class MyApp extends StatelessWidget {
         // ForgotPasswordScreen.id: (context) => const ForgotPasswordScreen(), //* MaterialPageRoute
         // ProfileScreen.id: (context) => const ProfileScreen(), //* MaterialPageRoute
         // ReadingListScreen.id: (context) => const ReadingListScreen(), //* MaterialPageRoute
+        // GoogleMapScreen.id: (context) => const GoogleMapScreen(), //* MaterialPageRoute
       },
       home: const SplashScreen(),
     );

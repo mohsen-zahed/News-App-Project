@@ -13,6 +13,7 @@ import 'package:news_app/features/data/repository/ifirebase_user_info_repository
 import 'package:news_app/features/data/repository/inews_repository.dart';
 import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/features/screens/home_screens/all_news_screen/all_news_screen.dart';
+import 'package:news_app/features/screens/home_screens/google_map_screen/google_map_screen.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_banner_slider_widget.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_two_cards_vertical_with_title_text.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/profile_screen.dart';
@@ -57,9 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocProvider<HomeBloc>(
       create: (context) {
         _homeBloc = HomeBloc(bannerRepository, newsRepository, firebaseUserInfoRepository, MyGeoLocatorPackage.instance);
-        _streamSubscription = _homeBloc?.stream.listen((state) {
+        _streamSubscription = _homeBloc?.stream.listen((state) async {
           if (state is GetLocationSuccess) {
-            helperFunctions.showSnackBar(context, state.position.toString(), 3000);
+            Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const GoogleMapScreen()));
+            await Future.delayed(const Duration(milliseconds: 1500)).then((value) {
+              helperFunctions.showSnackBar(context, state.position.toString(), 3000);
+            });
           } else if (state is GetLocationFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 3000);
           }
