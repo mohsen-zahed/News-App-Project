@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _homeBloc = HomeBloc(bannerRepository, newsRepository, firebaseUserInfoRepository, MyGeoLocatorPackage.instance);
         _streamSubscription = _homeBloc?.stream.listen((state) {
           if (state is GetLocationSuccess) {
-            helperFunctions.showSnackBar(context, 'Location fetched!', 3000);
+            helperFunctions.showSnackBar(context, state.position.toString(), 3000);
           } else if (state is GetLocationFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 3000);
           }
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(100),
                         color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
                       ),
-                      child: const Icon(CupertinoIcons.bell),
+                      child: const Icon(CupertinoIcons.location_solid),
                     ),
                   );
                 },

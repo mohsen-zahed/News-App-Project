@@ -39,7 +39,7 @@ final class HomeFailed extends HomeState {
 }
 
 final class GetLocationSuccess extends HomeState {
-  final Position position;
+  final dynamic position;
 
   const GetLocationSuccess({required this.position});
   @override
