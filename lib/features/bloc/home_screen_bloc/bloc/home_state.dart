@@ -37,3 +37,19 @@ final class HomeFailed extends HomeState {
   @override
   List<Object> get props => [exception];
 }
+
+final class GetLocationSuccess extends HomeState {
+  final Position position;
+
+  const GetLocationSuccess({required this.position});
+  @override
+  List<Object> get props => [position];
+}
+
+final class GetLocationFailed extends HomeState {
+  final String errorMessage;
+
+  const GetLocationFailed({required this.errorMessage});
+  @override
+  List<Object> get props => [errorMessage];
+}

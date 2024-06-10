@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ import 'package:news_app/features/screens/home_screens/profile_screen/profile_sc
 import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
+import 'package:news_app/packages/geolocator_package/geo_locator_package.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_divider.dart';
 import 'package:news_app/widgets/screen_loading_widget.dart';
@@ -32,8 +35,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late HomeBloc homeBloc;
+  HomeBloc? _homeBloc;
+  StreamSubscription? _streamSubscription;
+
   ValueNotifier<int> listValueNotifier = ValueNotifier<int>(0);
+
+  @override
+  void dispose() {
+    super.dispose();
+    _homeBloc?.close();
+    _streamSubscription?.cancel();
+  }
 
   dynamic map;
   late dynamic userInfo;
@@ -44,9 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
     globalUserId = userInfo['id'];
     return BlocProvider<HomeBloc>(
       create: (context) {
-        homeBloc = HomeBloc(bannerRepository, newsRepository, firebaseUserInfoRepository);
-        homeBloc.add(HomeStarted(userId: globalUserId));
-        return homeBloc;
+        _homeBloc = HomeBloc(bannerRepository, newsRepository, firebaseUserInfoRepository, MyGeoLocatorPackage.instance);
+        _streamSubscription = _homeBloc?.stream.listen((state) {
+          if (state is GetLocationSuccess) {
+            helperFunctions.showSnackBar(context, 'Location fetched!', 3000);
+          } else if (state is GetLocationFailed) {
+            helperFunctions.showSnackBar(context, state.errorMessage, 3000);
+          }
+        });
+        _homeBloc?.add(HomeStarted(userId: globalUserId));
+        return _homeBloc!;
       },
       child: PopScope(
         canPop: false,
@@ -128,16 +147,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(width: 10),
               //* Notifications icon button....
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
-                  ),
-                  child: const Icon(CupertinoIcons.bell),
-                ),
+              BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<HomeBloc>(context).add(GetLocationButtonIsClicked());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
+                      ),
+                      child: const Icon(CupertinoIcons.bell),
+                    ),
+                  );
+                },
               ),
               SizedBox(width: getMediaQueryWidth(context, 0.035)),
             ],
@@ -150,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   titleText: 'Reload Screen?',
                   'Current data might replace with new one!\nContinue anyway?',
                   onConfirm: () {
-                    homeBloc.add(HomeStarted(userId: globalUserId));
+                    _homeBloc?.add(HomeStarted(userId: globalUserId));
                   },
                   onCancel: () {},
                 );

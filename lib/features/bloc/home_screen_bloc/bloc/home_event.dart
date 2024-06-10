@@ -22,3 +22,5 @@ final class HomeRefresh extends HomeEvent {
   @override
   List<Object> get props => [userId];
 }
+
+final class GetLocationButtonIsClicked extends HomeEvent {}
