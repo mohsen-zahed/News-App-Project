@@ -55,8 +55,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     streamSubscription?.cancel();
   }
 
-  bool obsecurePass = true;
-  bool obsecureConfirmPass = true;
+  bool obscurePass = true;
+  bool obscureConfirmPass = true;
 
   @override
   Widget build(BuildContext context) {
@@ -161,14 +161,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           RegistrationTextFieldWidget(
                             onShowPasswordTap: () {
                               setState(() {
-                                obsecurePass = !obsecurePass;
+                                obscurePass = !obscurePass;
                               });
                             },
                             hintText: 'Password *',
                             prefixIcon: Icons.lock,
                             controller: _passwordController,
-                            suffixIcon: obsecurePass ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
-                            isObsecured: obsecurePass,
+                            suffixIcon: obscurePass ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
+                            isObsecured: obscurePass,
                             focusNode: _passwordNode,
                             onSumbit: (value) {
                               // _emailNode.requestFocus(_confirmPasswordNode);
@@ -179,14 +179,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           RegistrationTextFieldWidget(
                             onShowPasswordTap: () {
                               setState(() {
-                                obsecureConfirmPass = !obsecureConfirmPass;
+                                obscureConfirmPass = !obscureConfirmPass;
                               });
                             },
                             hintText: 'Confirm password *',
                             prefixIcon: Icons.lock,
                             controller: _confirmPasswordController,
-                            suffixIcon: obsecureConfirmPass ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
-                            isObsecured: obsecureConfirmPass,
+                            suffixIcon: obscureConfirmPass ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
+                            isObsecured: obscureConfirmPass,
                             focusNode: _confirmPasswordNode,
                             onSumbit: (value) {
                               // _confirmPasswordNode.unfocus();
