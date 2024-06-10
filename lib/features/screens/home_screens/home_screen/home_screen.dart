@@ -75,12 +75,22 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Row(
                 children: [
-                  ValueListenableBuilder(
-                    valueListenable: FirebaseUserInfoDataSourceImp.imageNotifier,
-                    builder: (context, value, child) => CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(value),
-                      maxRadius: getScreenArea(context, 0.00007),
-                    ),
+                  BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is HomeLoading) {
+                        return CircleAvatar(
+                          maxRadius: getScreenArea(context, 0.00007),
+                          backgroundColor: kPrimaryColor,
+                        );
+                      }
+                      return ValueListenableBuilder(
+                        valueListenable: FirebaseUserInfoDataSourceImp.imageNotifier,
+                        builder: (context, value, child) => CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(value),
+                          maxRadius: getScreenArea(context, 0.00007),
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(width: getScreenArea(context, 0.00003)),
                   Expanded(
