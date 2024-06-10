@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/utils/my_media_query.dart';
+import 'package:news_app/widgets/image_load_error_widget.dart';
 import 'package:photo_view/photo_view.dart';
 
 class FullScreenImage extends StatelessWidget {
@@ -23,6 +24,7 @@ class FullScreenImage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height,
                 child: PhotoView(
                   imageProvider: CachedNetworkImageProvider(imageUrl),
+                  errorBuilder: (context, error, stackTrace) => const ImageLoadErrorWidget(),
                   loadingBuilder: (context, event) => const Center(
                     child: CupertinoActivityIndicator(),
                   ),

@@ -54,9 +54,13 @@ class HorizontalTwoCardsVerticalWithTitleText extends StatelessWidget {
                     (index) => GestureDetector(
                       onTap: () {
                         Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => NewsDetailsScreen(newsList: listOfAllNewsListsHome[comingIndex][startIndex + index])));
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => NewsDetailsScreen(
+                              newsList: listOfAllNewsListsHome[comingIndex][startIndex + index],
+                            ),
+                          ),
+                        );
                       },
                       child: SingleHorizontalNewsWidget(
                         newsModel: newsList[comingIndex][startIndex + index],
