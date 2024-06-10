@@ -94,9 +94,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(width: getScreenArea(context, 0.00003)),
                   Expanded(
-                    child: Text(
-                      'Welcome, ${userInfo['name']}',
-                      style: Theme.of(context).textTheme.titleLarge,
+                    child: Text.rich(
+                      TextSpan(text: 'Welcome,\n', style: Theme.of(context).textTheme.titleSmall, children: [
+                        TextSpan(
+                          text: '${userInfo['name']}',
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+                        )
+                      ]),
                     ),
                   ),
                 ],
@@ -194,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: getMediaQueryHeight(context, 0.015)),
                           //* Horizontal categories with vertical recommendations widget...
                           const CustomDivider(),
-                          SizedBox(height: getMediaQueryHeight(context, 0.015)),
+                          SizedBox(height: getMediaQueryHeight(context, 0.02)),
                           //* Entire news categories vertical PageView...
                           ...List.generate(
                             listOfAllNewsListsHome.length,

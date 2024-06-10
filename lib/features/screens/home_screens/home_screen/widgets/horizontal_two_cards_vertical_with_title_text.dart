@@ -38,8 +38,11 @@ class HorizontalTwoCardsVerticalWithTitleText extends StatelessWidget {
             ],
           ),
         ),
+        //* Top padding between title and card's column...
+        SizedBox(height: getMediaQueryHeight(context, 0.01)),
         AspectRatio(
-          aspectRatio: 1 / 1.1,
+          //* Height of the entire card containing two single cards vertically, is 1/1.03 of the screen height...
+          aspectRatio: 1 / 1.03,
           child: PageView.builder(
             itemCount: newsList[comingIndex].length ~/ 2,
             itemBuilder: (context, realIndex) {

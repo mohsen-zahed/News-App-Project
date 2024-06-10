@@ -59,6 +59,7 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: getMediaQueryHeight(context, 0.008)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.035)),
           child: Row(
@@ -73,7 +74,7 @@ class _HorizontalBreakingNewsSliderWidgetState extends State<HorizontalBreakingN
             ],
           ),
         ),
-        SizedBox(height: getMediaQueryHeight(context, 0.015)),
+        SizedBox(height: getMediaQueryHeight(context, 0.005)),
         AspectRatio(
           aspectRatio: 3 / 1.75,
           child: PageView.builder(

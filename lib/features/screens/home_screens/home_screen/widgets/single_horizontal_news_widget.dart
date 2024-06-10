@@ -17,10 +17,14 @@ class SingleHorizontalNewsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.035)),
+      padding: EdgeInsets.fromLTRB(
+        getMediaQueryWidth(context, 0.035),
+        getMediaQueryWidth(context, 0),
+        getMediaQueryWidth(context, 0.035),
+        getMediaQueryWidth(context, 0.04),
+      ),
       child: Column(
         children: [
-          const SizedBox(height: 20),
           AspectRatio(
             aspectRatio: 2 / 1,
             child: Row(
