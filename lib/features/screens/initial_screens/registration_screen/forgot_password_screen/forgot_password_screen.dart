@@ -24,33 +24,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailNode = FocusNode();
 
-  ForgotPasswordBloc? forgotPasswordBloc;
-  StreamSubscription? forgotPassStreamSubscription;
+  ForgotPasswordBloc? _forgotPasswordBloc;
+  StreamSubscription? _forgotPassStreamSubscription;
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _emailNode.dispose();
-    forgotPasswordBloc?.close();
-    forgotPassStreamSubscription?.cancel();
+    _forgotPasswordBloc?.close();
+    _forgotPassStreamSubscription?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ForgotPasswordBloc>(
       create: (context) {
-        forgotPasswordBloc = ForgotPasswordBloc(firebaseUserInfoRepository);
-        forgotPassStreamSubscription = forgotPasswordBloc?.stream.listen((state) async {
+        _forgotPasswordBloc = ForgotPasswordBloc(firebaseUserInfoRepository);
+        _forgotPassStreamSubscription = _forgotPasswordBloc?.stream.listen((state) async {
           if (state is ForgotPasswordSentSuccess) {
             await Future.delayed(const Duration(seconds: 2)).then((value) {
-              helperFunctions.showSnackBar(context, 'link sent to your email', 3000);
+              helperFunctions.showSnackBar(context, 'Link successfully was sent to ${state.email}', 3000);
             });
           } else if (state is ForgotPasswordSentFailed) {
             helperFunctions.showSnackBar(context, state.errorMessage, 3000);
           }
         });
-        return forgotPasswordBloc!;
+        return _forgotPasswordBloc!;
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -112,7 +112,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         builder: (context, state) {
                           //* Button to submit form...
                           return SubmitButtonWidget(
-                            isLoading: state is ForgotPasswordLoading,
+                            isLoading: state is ForgotPasswordLoading ? true : false,
                             buttonText: 'Send',
                             onPressed: () async {
                               String email = _emailController.text.trim();

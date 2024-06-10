@@ -8,13 +8,13 @@ part 'forgot_password_state.dart';
 
 class ForgotPasswordBloc extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
   final IFirebaseUserInfoRepository iFirebaseAuthRepository;
-  ForgotPasswordBloc(this.iFirebaseAuthRepository) : super(ForgotPasswordLoading()) {
-    on<ForgotPasswordEvent>((event, emit) {
+  ForgotPasswordBloc(this.iFirebaseAuthRepository) : super(ForgotPasswordInitial()) {
+    on<ForgotPasswordEvent>((event, emit) async {
       if (event is ForgotPasswordButtonIsClicked) {
         emit(ForgotPasswordLoading());
         try {
-          iFirebaseAuthRepository.sendForgotPasswordLink(event.email);
-          emit(ForgotPasswordSentSuccess());
+          await iFirebaseAuthRepository.sendForgotPasswordLink(event.email);
+          emit(ForgotPasswordSentSuccess(email: event.email));
         } on FirebaseException catch (e) {
           emit(ForgotPasswordSentFailed(errorMessage: e.message!));
         }
