@@ -34,9 +34,9 @@ class BannersNewsModel {
 
   BannersNewsModel.fromJson(Map<String, dynamic> json)
       : title = json['title'] ?? '',
-        author = json['author'],
+        author = json['author'] ?? 'Unknown',
         description = json['description'] ?? '',
-        content = json['content'] ?? '',
+        content = json['content'] ?? 'No content available for this post!',
         url = json['url'] ?? '',
         imageUrl = json['urlToImage'] ?? imageDownloadFailed,
         publishedAt = json['publishedAt'] ?? '',

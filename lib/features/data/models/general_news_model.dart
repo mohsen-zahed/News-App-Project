@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:news_app/config/constants/images_paths.dart';
 part 'general_news_model.g.dart';
 
 @HiveType(typeId: 2)
@@ -36,7 +37,7 @@ class GeneralNewsModel {
         description = json['description'] ?? 'No content available for this post!',
         author = json['author'] ?? 'Unknown',
         url = json['url'] ?? '',
-        imageUrl = json['urlToImage'],
+        imageUrl = json['urlToImage'] ?? imageDownloadFailed,
         publishedAt = json['publishedAt'] ?? '',
         content = json['content'] ?? '';
 

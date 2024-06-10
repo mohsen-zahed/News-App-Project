@@ -138,7 +138,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: 'Log Out',
                         icon: Icons.logout_rounded,
                         onTap: () {
-                          BlocProvider.of<ProfileBloc>(context).add(SignOutButtonIsClicked());
+                          helperFunctions.showConfirmationDialogBox(
+                            context,
+                            'Signing Off Safely?',
+                            titleText: 'Logging Out',
+                            onConfirm: () {
+                              BlocProvider.of<ProfileBloc>(context).add(SignOutButtonIsClicked());
+                            },
+                            onCancel: () {},
+                          );
                         },
                       ),
                       SizedBox(

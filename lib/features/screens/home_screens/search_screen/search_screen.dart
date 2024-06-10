@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/features/screens/home_screens/home_screen/widgets/horizontal_categories_widget.dart';
+import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_divider.dart';
 import 'package:news_app/features/screens/home_screens/search_screen/widgets/search_field.dart';
 import 'package:news_app/features/screens/home_screens/search_screen/widgets/search_result_body.dart';
@@ -38,6 +39,8 @@ class _SearchScreenState extends State<SearchScreen> {
             //* News tab bar...
             HorizontalCategoriesWidget(listValueNotifier: tabNotifier, selectedIndex: 0),
             const CustomDivider(),
+            //* Gap between categories widget and vertical search list...
+            SizedBox(height: getScreenArea(context, 0.00004)),
             //* Rest of the screen to show search results...
             SearchResultBody(tabNotifier: tabNotifier, searchNotifier: searchNotifier, widget: widget),
           ],

@@ -79,13 +79,13 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                 },
                 searchNotifier: _searchNotifier,
               ),
-              SizedBox(height: getMediaQueryHeight(context, 0.02)),
+              SizedBox(height: getMediaQueryHeight(context, 0.005)),
               //* Categories tab bar...
               HorizontalCategoriesWidget(
                 listValueNotifier: _tabNotifier,
                 selectedIndex: widget.index ?? 0,
               ),
-              SizedBox(height: getMediaQueryHeight(context, 0.02)),
+              SizedBox(height: getMediaQueryHeight(context, 0.005)),
               //* The space for displaying all news...
               AllNewsVerticalListView(
                 tabNotifier: _tabNotifier,

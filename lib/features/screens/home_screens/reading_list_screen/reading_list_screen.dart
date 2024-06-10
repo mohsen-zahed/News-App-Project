@@ -64,8 +64,8 @@ class _ReadingListScreenState extends State<ReadingListScreen> {
                         confirmDismiss: (direction) async {
                           return await helperFunctions.showConfirmationDialogBox(
                             context,
-                            '',
-                            titleText: 'Remove this item from Reading list?',
+                            'Tailoring Your Reading Experience?',
+                            titleText: 'Removing News',
                             onConfirm: () {
                               BlocProvider.of<BookmarkButtonBloc>(context).add(
                                 RemoveBookmarkReadingListButtonIsClicked(userId: globalUserId, newsId: readingList[index]),

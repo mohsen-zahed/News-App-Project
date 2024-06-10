@@ -34,7 +34,7 @@ class WallStreetNewsModel {
 
   WallStreetNewsModel.fromJson(Map<String, dynamic> json)
       : source = json['source']['name'] ?? '',
-        author = json['author'] ?? '',
+        author = json['author'] ?? 'Unknown',
         title = json['title'] ?? '',
         description = json['description'] ?? 'No content available for this post!',
         url = json['url'] ?? '',
