@@ -38,8 +38,10 @@ final class HomeFailed extends HomeState {
   List<Object> get props => [exception];
 }
 
+final class GetLocationLoading extends HomeState {}
+
 final class GetLocationSuccess extends HomeState {
-  final dynamic position;
+  final Position position;
 
   const GetLocationSuccess({required this.position});
   @override

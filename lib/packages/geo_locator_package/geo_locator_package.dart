@@ -11,7 +11,7 @@ class MyGeoLocatorPackage {
   //* Determine the current position of the device.
   // When the location services are not enabled or permissions
   // are denied the `Future` will return an error.
-  Future<dynamic> getCurrentPosition() async {
+  Future<Position?> getCurrentPosition() async {
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -20,15 +20,20 @@ class MyGeoLocatorPackage {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          return 'Location permissions are denied';
+          return null;
         }
       }
       if (permission == LocationPermission.deniedForever) {
-        return 'Location is disables forever';
+        return null;
       }
       return await Geolocator.getCurrentPosition();
     } else {
-      return 'Locations are disables';
+      if (await Geolocator.openLocationSettings()) {
+        await getCurrentPosition();
+      } else {
+        return null;
+      }
     }
+    return null;
   }
 }

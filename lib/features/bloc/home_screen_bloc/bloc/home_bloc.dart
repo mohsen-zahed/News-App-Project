@@ -12,7 +12,7 @@ import 'package:news_app/features/data/repository/ibanner_repository.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/data/repository/inews_repository.dart';
 import 'package:news_app/packages/connectivity_plus_package/connection_controller.dart';
-import 'package:news_app/packages/geolocator_package/geo_locator_package.dart';
+import 'package:news_app/packages/geo_locator_package/geo_locator_package.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -29,11 +29,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (event is HomeStarted || event is HomeRefresh || event is GetLocationButtonIsClicked) {
         if (event is GetLocationButtonIsClicked) {
           try {
+            emit(GetLocationLoading());
             await initNoInternetListener();
             final currentPosition = await myGeolocatorPackage.getCurrentPosition();
-            emit(GetLocationSuccess(position: currentPosition));
-            return;
-          } on LocationServiceDisabledException catch (e) {
+            if (currentPosition != null) {
+              emit(GetLocationSuccess(position: currentPosition));
+              return;
+            }
+          } catch (e) {
             emit(GetLocationFailed(
               errorMessage: e.toString(),
             ));
