@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:news_app/features/data/models/banners_news_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/data/models/business_news_model.dart';
@@ -12,7 +11,6 @@ import 'package:news_app/features/data/repository/ibanner_repository.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
 import 'package:news_app/features/data/repository/inews_repository.dart';
 import 'package:news_app/packages/connectivity_plus_package/connection_controller.dart';
-import 'package:news_app/packages/geo_locator_package/geo_locator_package.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -23,25 +21,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final IBannerRepository iBannerRepository;
   final INewsRepository iNewsRepository;
   final IFirebaseUserInfoRepository iFirebaseUserInfoRepository;
-  final MyGeoLocatorPackage myGeolocatorPackage;
-  HomeBloc(this.iBannerRepository, this.iNewsRepository, this.iFirebaseUserInfoRepository, this.myGeolocatorPackage) : super(HomeLoading()) {
+  HomeBloc(this.iBannerRepository, this.iNewsRepository, this.iFirebaseUserInfoRepository) : super(HomeLoading()) {
     on<HomeEvent>((event, emit) async {
-      if (event is HomeStarted || event is HomeRefresh || event is GetLocationButtonIsClicked) {
-        if (event is GetLocationButtonIsClicked) {
-          try {
-            emit(GetLocationLoading());
-            await initNoInternetListener();
-            final currentPosition = await myGeolocatorPackage.getCurrentPosition();
-            if (currentPosition != null) {
-              emit(GetLocationSuccess(position: currentPosition));
-              return;
-            }
-          } catch (e) {
-            emit(GetLocationFailed(
-              errorMessage: e.toString(),
-            ));
-          }
-        }
+      if (event is HomeStarted || event is HomeRefresh) {
         emit(HomeLoading());
         await initNoInternetListener();
         await Future.delayed(const Duration(seconds: 1));

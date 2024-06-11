@@ -20,7 +20,6 @@ import 'package:news_app/features/screens/home_screens/profile_screen/profile_sc
 import 'package:news_app/features/screens/home_screens/search_screen/search_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
-import 'package:news_app/packages/geo_locator_package/geo_locator_package.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/custom_divider.dart';
 import 'package:news_app/widgets/screen_loading_widget.dart';
@@ -57,19 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
     globalUserId = userInfo['id'];
     return BlocProvider<HomeBloc>(
       create: (context) {
-        _homeBloc = HomeBloc(bannerRepository, newsRepository, firebaseUserInfoRepository, MyGeoLocatorPackage.instance);
-        _streamSubscription = _homeBloc?.stream.listen((state) async {
-          if (state is GetLocationSuccess) {
-            Navigator.of(context).push(
-              CupertinoPageRoute(builder: (context) => GoogleMapScreen(userPosition: state.position)),
-            );
-            await Future.delayed(const Duration(milliseconds: 1500)).then((value) {
-              helperFunctions.showSnackBar(context, state.position.toString(), 3000);
-            });
-          } else if (state is GetLocationFailed) {
-            helperFunctions.showSnackBar(context, state.errorMessage, 3000);
-          }
-        });
+        _homeBloc = HomeBloc(bannerRepository, newsRepository, firebaseUserInfoRepository);
+        _streamSubscription = _homeBloc?.stream.listen((state) async {});
         _homeBloc?.add(HomeStarted(userId: globalUserId));
         return _homeBloc!;
       },
@@ -155,25 +143,11 @@ class _HomeScreenState extends State<HomeScreen> {
               //* Notifications icon button....
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
-                  if (state is GetLocationLoading) {
-                    return Container(
-                      width: getScreenArea(context, 0.000085),
-                      height: getScreenArea(context, 0.000085),
-                      padding: const EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: helperFunctions.isThemeLightMode(context) ? kGreyColorShade200 : kGreyColorShade700,
-                      ),
-                      child: Center(
-                        child: CupertinoActivityIndicator(
-                          radius: getScreenArea(context, 0.00002),
-                        ),
-                      ),
-                    );
-                  }
                   return GestureDetector(
                     onTap: () {
-                      BlocProvider.of<HomeBloc>(context).add(GetLocationButtonIsClicked());
+                      Navigator.of(context).push(CupertinoPageRoute(
+                        builder: (context) => const GoogleMapScreen(),
+                      ));
                     },
                     child: Container(
                       padding: const EdgeInsets.all(3),
@@ -211,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else if (state is HomeSuccess) {
                     //* Storing SavedNewsList fetched from Firebase to local variable...
                     savedNewsList = state.savedItemsList;
-                    //* Here I've seperated the list into two other lists, one for home screen
+                    //* Here I've separated the list into two other lists, one for home screen
                     //* another one for search screen and all news screen...
                     //* The one for home screen only contains 3 lists except allNewsList which is not needed here...
                     //* The one for search and all news screens contains all lists...
