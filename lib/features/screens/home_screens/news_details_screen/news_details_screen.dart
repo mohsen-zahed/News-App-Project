@@ -128,14 +128,23 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                       decoration: BoxDecoration(
                         backgroundBlendMode: BlendMode.screen,
                         gradient: LinearGradient(
-                          colors: [
-                            kWhiteColor,
-                            kWhiteColor,
-                            kWhiteColorOp8,
-                            kWhiteColorOp5,
-                            kWhiteColorOp1,
-                            kTransparentColor,
-                          ],
+                          colors: helperFunctions.isThemeLightMode(context)
+                              ? [
+                                  kWhiteColor,
+                                  kWhiteColor,
+                                  kWhiteColorOp8,
+                                  kWhiteColorOp5,
+                                  kWhiteColorOp1,
+                                  kTransparentColor,
+                                ]
+                              : [
+                                  kBlackColor,
+                                  kBlackColor,
+                                  kBlackColorOp8,
+                                  kBlackColorOp5,
+                                  kBlackColorOp1,
+                                  kTransparentColor,
+                                ],
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                         ),

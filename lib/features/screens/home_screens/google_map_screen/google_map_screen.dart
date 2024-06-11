@@ -22,6 +22,12 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
   GoogleMapController? mapController;
 
   @override
+  void dispose() {
+    super.dispose();
+    mapController?.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<GoogleMapBloc>(
       create: (context) => GoogleMapBloc(MyGeoLocatorPackage.instance)..add(GoogleMapStarted()),
@@ -34,16 +40,11 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             if (state is GoogleMapLoading) {
               return Stack(
                 children: [
-                  GoogleMap(
+                  const GoogleMap(
                     zoomControlsEnabled: false,
-                    onMapCreated: (controller) {
-                      setState(() {
-                        mapController = controller;
-                      });
-                    },
-                    initialCameraPosition: const CameraPosition(
+                    initialCameraPosition: CameraPosition(
                       target: defaultLocation,
-                      zoom: 16,
+                      zoom: 10,
                     ),
                   ),
                   Container(
@@ -56,19 +57,55 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
               );
             } else if (state is GoogleMapSuccess) {
               final userPosition = LatLng(state.position.latitude, state.position.longitude);
-              return GoogleMap(
-                zoomControlsEnabled: false,
-                initialCameraPosition: CameraPosition(
-                  target: userPosition,
-                  zoom: 16,
-                ),
-                markers: {
-                  Marker(
-                    markerId: const MarkerId(currentLocationMarkerId),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-                    position: userPosition,
+              return Stack(
+                children: [
+                  GoogleMap(
+                    myLocationButtonEnabled: true,
+                    myLocationEnabled: true,
+                    onMapCreated: (controller) {
+                      mapController = controller;
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: userPosition,
+                      zoom: 16,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId(currentLocationMarkerId),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+                        position: userPosition,
+                      ),
+                    },
                   ),
-                },
+                  Positioned(
+                    bottom: getScreenArea(context, 0.00006),
+                    right: getScreenArea(context, 0.00003),
+                    child: Column(
+                      children: [
+                        GoogleMapButtonWidget(
+                          icon: Icons.map,
+                          onTap: () {
+                            showSelectMapTypeDialog(context);
+                          },
+                        ),
+                        SizedBox(height: getScreenArea(context, 0.00002)),
+                        GoogleMapButtonWidget(
+                          icon: Icons.zoom_in,
+                          onTap: () {
+                            mapController?.animateCamera(CameraUpdate.zoomIn());
+                          },
+                        ),
+                        SizedBox(height: getScreenArea(context, 0.00002)),
+                        GoogleMapButtonWidget(
+                          icon: Icons.zoom_out,
+                          onTap: () {
+                            mapController?.animateCamera(CameraUpdate.zoomOut());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               );
             } else if (state is GoogleMapFailed) {
               return TryAgainWidget(
@@ -89,13 +126,78 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
             }
           },
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.white,
-          child: const Icon(
-            Icons.map,
-            color: Colors.blue,
+      ),
+    );
+  }
+
+  Future<dynamic> showSelectMapTypeDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Select Map Type'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Normal'),
+                onTap: () {
+                  mapController?.setMapStyle(MapType.normal.name);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Satellite'),
+                onTap: () {
+                  mapController?.setMapStyle(MapType.satellite.name);
+                  Navigator.of(context).pop();
+                },
+              ),
+              ListTile(
+                title: const Text('Terrain'),
+                onTap: () async {
+                  await mapController?.setMapStyle(MapType.terrain.name);
+                  // Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
+        );
+      },
+    );
+  }
+}
+
+class GoogleMapButtonWidget extends StatelessWidget {
+  final GestureTapCallback onTap;
+  final IconData icon;
+  const GoogleMapButtonWidget({
+    super.key,
+    required this.onTap,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: getScreenArea(context, 0.000115),
+        height: getScreenArea(context, 0.000115),
+        decoration: BoxDecoration(
+          color: kWhiteColor,
+          borderRadius: BorderRadius.circular(1),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 0),
+              blurRadius: 3,
+              color: kBlackColorOp3,
+            ),
+          ],
+        ),
+        child: Icon(
+          icon,
+          color: Colors.grey,
         ),
       ),
     );

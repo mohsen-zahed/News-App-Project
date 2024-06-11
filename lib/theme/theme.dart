@@ -51,6 +51,7 @@ ThemeData lightTheme(BuildContext context) {
       elevation: 0.3,
       shadowColor: kBlackColorOp3,
     ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: kWhiteColor),
   );
 }
 
@@ -104,5 +105,6 @@ ThemeData darkTheme(BuildContext context) {
       elevation: 0.3,
       shadowColor: kWhiteColorOp3,
     ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: kDarkBackgroundColor),
   );
 }
