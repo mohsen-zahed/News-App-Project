@@ -14,9 +14,11 @@ import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_list_tile_widget.dart';
+import 'package:news_app/theme/theme_provider.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/screen_loading_widget.dart';
 import 'package:news_app/widgets/try_again_widget.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String userId;
@@ -106,13 +108,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               title: 'Dark mode',
                               icon: CupertinoIcons.moon,
                               value: isDarkMode,
-                              onChange: (value) {},
+                              onChange: (value) {
+                                Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                              },
                             ),
                             SizedBox(height: getScreenArea(context, 0.00001)),
                             ProfileListTileWithToggle(
                               title: 'Notifications',
                               icon: Icons.notifications_none_rounded,
-                              value: isDarkMode,
+                              value: false,
                               onChange: (value) {},
                             ),
                             SizedBox(height: getScreenArea(context, 0.000035)),
@@ -142,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ProfileListTileWithToggle(
                               title: 'News by location',
                               icon: CupertinoIcons.location,
-                              value: isDarkMode,
+                              value: false,
                               onChange: (value) {},
                             ),
                             SizedBox(height: getScreenArea(context, 0.000035)),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 
-ThemeData lightTheme(BuildContext context) {
+ThemeData lightTheme() {
   return ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: kLightBackgroundColor,
@@ -25,24 +25,25 @@ ThemeData lightTheme(BuildContext context) {
       ),
     ),
     tabBarTheme: TabBarTheme(
-      labelStyle: Theme.of(context).textTheme.titleMedium,
+      // labelStyle: Theme.of(context).textTheme.titleMedium,
       unselectedLabelColor: kGreyColorShade500,
-      unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
+      // unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
-    ),
-    dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    dialogTheme: DialogTheme(
+    inputDecorationTheme: const InputDecorationTheme(
+        // hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
+        ),
+    // dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    dialogTheme: const DialogTheme(
       backgroundColor: kLightBackgroundColor,
-      titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(color: kLightPrimaryTextColor),
-      contentTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(color: kLightPrimaryTextColor),
+      // titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(color: kLightPrimaryTextColor),
+      // contentTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(color: kLightPrimaryTextColor),
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: const MaterialStatePropertyAll(kLightPrimaryTextColor),
         textStyle: MaterialStateProperty.all(
-          Theme.of(context).textTheme.titleSmall!.copyWith(color: kLightPrimaryTextColor),
+          const TextStyle(color: kLightPrimaryTextColor),
+          // Theme.of(context).textTheme.titleSmall!.copyWith(color: kLightPrimaryTextColor),
         ),
       ),
     ),
@@ -60,7 +61,7 @@ ThemeData lightTheme(BuildContext context) {
   );
 }
 
-ThemeData darkTheme(BuildContext context) {
+ThemeData darkTheme() {
   return ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: kDarkBackgroundColor,
@@ -84,24 +85,25 @@ ThemeData darkTheme(BuildContext context) {
       ),
     ),
     tabBarTheme: TabBarTheme(
-      labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: kWhiteColor),
+      // labelStyle: Theme.of(context).textTheme.titleMedium!.copyWith(color: kWhiteColor),
       unselectedLabelColor: kGreyColorShade500,
-      unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
+      // unselectedLabelStyle: Theme.of(context).textTheme.titleMedium,
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
-    ),
-    dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    dialogTheme: DialogTheme(
+    inputDecorationTheme: const InputDecorationTheme(
+        // hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(color: kGreyColorShade500),
+        ),
+    // dialogBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    dialogTheme: const DialogTheme(
       backgroundColor: kDarkBackgroundColor,
-      titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(color: kDarkPrimaryTextColor),
-      contentTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(color: kDarkPrimaryTextColor),
+      // titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(color: kDarkPrimaryTextColor),
+      // contentTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(color: kDarkPrimaryTextColor),
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: const MaterialStatePropertyAll(kDarkPrimaryTextColor),
         textStyle: MaterialStateProperty.all(
-          Theme.of(context).textTheme.titleSmall!.copyWith(color: kDarkPrimaryTextColor),
+          const TextStyle(color: kDarkPrimaryTextColor),
+          // Theme.of(context).textTheme.titleSmall!.copyWith(color: kDarkPrimaryTextColor),
         ),
       ),
     ),
@@ -118,3 +120,6 @@ ThemeData darkTheme(BuildContext context) {
     ),
   );
 }
+
+ThemeData lightMode = lightTheme();
+ThemeData darkMode = darkTheme();

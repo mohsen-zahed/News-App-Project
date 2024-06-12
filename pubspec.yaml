@@ -60,6 +60,7 @@ dependencies:
   url_launcher: ^6.3.0
   google_maps_flutter: ^2.2.8
   location: ^6.0.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

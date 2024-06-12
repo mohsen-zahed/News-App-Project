@@ -59,8 +59,7 @@ class ProfileImageWithUserNameEmail extends StatelessWidget {
           ),
           SizedBox(width: getScreenArea(context, 0.00003)),
           SizedBox(
-            width: getScreenArea(context, 0.0002),
-            height: getScreenArea(context, 0.00009),
+            height: getScreenArea(context, 0.00012),
             child: ElevatedButton(
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(
