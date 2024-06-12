@@ -15,20 +15,33 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.04)),
-      child: TextField(
-        controller: searchTextEditingController,
-        onChanged: (value) {
-          searchNotifier.value = searchTextEditingController.text;
-        },
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          focusedErrorBorder: InputBorder.none,
-          hintText: 'Search news here...',
-        ),
+      child: Row(
+        children: [
+          IconButton(
+              onPressed: () {
+                searchTextEditingController.clear();
+                searchNotifier.value = '';
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back_rounded)),
+          Expanded(
+            child: TextField(
+              controller: searchTextEditingController,
+              onChanged: (value) {
+                searchNotifier.value = searchTextEditingController.text;
+              },
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                focusedErrorBorder: InputBorder.none,
+                hintText: 'Search news here...',
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

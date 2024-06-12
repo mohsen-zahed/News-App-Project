@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/google_map_screen/bloc/google_map_bloc.dart';
+import 'package:news_app/features/screens/home_screens/google_map_screen/widgets/google_map_button_widget.dart';
 import 'package:news_app/packages/geo_locator_package/geo_locator_package.dart';
 import 'package:news_app/packages/geo_locator_package/geo_locator_package_const.dart';
 import 'package:news_app/utils/my_media_query.dart';
@@ -164,42 +165,6 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           ),
         );
       },
-    );
-  }
-}
-
-class GoogleMapButtonWidget extends StatelessWidget {
-  final GestureTapCallback onTap;
-  final IconData icon;
-  const GoogleMapButtonWidget({
-    super.key,
-    required this.onTap,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: getScreenArea(context, 0.000115),
-        height: getScreenArea(context, 0.000115),
-        decoration: BoxDecoration(
-          color: kWhiteColor,
-          borderRadius: BorderRadius.circular(1),
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(0, 0),
-              blurRadius: 3,
-              color: kBlackColorOp3,
-            ),
-          ],
-        ),
-        child: Icon(
-          icon,
-          color: Colors.grey,
-        ),
-      ),
     );
   }
 }
