@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/config/constants/global_colors.dart';
 import 'package:news_app/features/bloc/profile_screen_bloc/bloc/profile_bloc.dart';
 import 'package:news_app/features/data/repository/ifirebase_user_info_repository.dart';
-import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
+import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_image_with_user_name_email.dart';
+import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_list_tile_with_toggle.dart';
 import 'package:news_app/features/screens/home_screens/reading_list_screen/reading_list_screen.dart';
 import 'package:news_app/features/screens/initial_screens/registration_screen/login_screen/login_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_constants.dart';
 import 'package:news_app/packages/shared_preferences_package/shared_preferences_package.dart';
-import 'package:news_app/widgets/full_screen_image.dart';
-import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_image_widget.dart';
 import 'package:news_app/features/screens/home_screens/profile_screen/widgets/profile_list_tile_widget.dart';
 import 'package:news_app/utils/my_media_query.dart';
 import 'package:news_app/widgets/screen_loading_widget.dart';
@@ -40,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = !helperFunctions.isThemeLightMode(context);
     return BlocProvider<ProfileBloc>(
       create: (context) {
         _bloc = ProfileBloc(firebaseUserInfoRepository)..add(ProfileScreenStarted(userId: widget.userId));
@@ -75,82 +76,130 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: getScreenArea(context, 0.00006)),
-                      ValueListenableBuilder(
-                        valueListenable: FirebaseUserInfoDataSourceImp.imageNotifier,
-                        builder: (context, value, child) => ProfileImageWidget(
-                          userImage: value,
-                          onCameraTap: () async {
-                            BlocProvider.of<ProfileBloc>(context).add(
-                              ProfileImageChangeIsClicked(
-                                userName: state.userInfo['name'],
-                                userId: state.userInfo['id'],
-                                previousImageUrl: state.userInfo['profileImage'],
-                              ),
-                            );
-                          },
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => FullScreenImage(imageUrl: value)),
-                            );
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: getScreenArea(context, 0.00006),
-                      ),
-                      //* User name text...
-                      Text(
-                        state.userInfo['name'],
-                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(),
-                      ),
-                      SizedBox(
-                        height: getScreenArea(context, 0.00001),
-                      ),
-                      //* Email text with user email...
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text('E-mail: ', style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600)),
-                          Text(
-                            state.userInfo['email'],
-                            style:
-                                Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w400, decoration: TextDecoration.underline),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: getScreenArea(context, 0.00015),
-                      ),
-                      //* Bookmark list tile...
-                      ProfileListTileWidget(
-                        title: 'Reading list',
-                        icon: Icons.bookmark_border_rounded,
-                        onTap: () {
-                          Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const ReadingListScreen()));
-                        },
-                      ),
-                      SizedBox(
-                        height: getScreenArea(context, 0.0001),
-                      ),
-                      //* Logout list tile...
-                      ProfileListTileWidget(
-                        title: 'Log Out',
-                        icon: Icons.logout_rounded,
-                        onTap: () {
-                          helperFunctions.showConfirmationDialogBox(
-                            context,
-                            'Signing Off Safely?',
-                            titleText: 'Logging Out',
-                            onConfirm: () {
-                              BlocProvider.of<ProfileBloc>(context).add(SignOutButtonIsClicked());
+                      //* Profile image with user name and email...
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, innerState) {
+                          return ProfileImageWithUserNameEmail(
+                            userInfo: state.userInfo,
+                            onPressed: () {
+                              BlocProvider.of<ProfileBloc>(context).add(
+                                ProfileImageChangeIsClicked(
+                                  userName: state.userInfo['name'],
+                                  userId: state.userInfo['id'],
+                                  previousImageUrl: state.userInfo['profileImage'],
+                                ),
+                              );
                             },
-                            onCancel: () {},
                           );
                         },
                       ),
-                      SizedBox(
-                        height: getScreenArea(context, 0.00015),
+                      SizedBox(height: getScreenArea(context, 0.00009)),
+                      //* Settings...
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: getScreenArea(context, 0.00008)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Settings', style: Theme.of(context).textTheme.titleMedium!.copyWith(color: kGreyColorShade400)),
+                            SizedBox(height: getScreenArea(context, 0.00002)),
+                            ProfileListTileWithToggle(
+                              title: 'Dark mode',
+                              icon: CupertinoIcons.moon,
+                              value: isDarkMode,
+                              onChange: (value) {},
+                            ),
+                            SizedBox(height: getScreenArea(context, 0.00001)),
+                            ProfileListTileWithToggle(
+                              title: 'Notifications',
+                              icon: Icons.notifications_none_rounded,
+                              value: isDarkMode,
+                              onChange: (value) {},
+                            ),
+                            SizedBox(height: getScreenArea(context, 0.000035)),
+                            ProfileListTileWidget(
+                              title: 'Reading list',
+                              icon: Icons.bookmark_border_rounded,
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  CupertinoPageRoute(
+                                    builder: (context) => const ReadingListScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: getScreenArea(context, 0.00009)),
+                      //* Summary...
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: getScreenArea(context, 0.00008)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Summary', style: Theme.of(context).textTheme.titleMedium!.copyWith(color: kGreyColorShade400)),
+                            SizedBox(height: getScreenArea(context, 0.00002)),
+                            ProfileListTileWithToggle(
+                              title: 'News by location',
+                              icon: CupertinoIcons.location,
+                              value: isDarkMode,
+                              onChange: (value) {},
+                            ),
+                            SizedBox(height: getScreenArea(context, 0.000035)),
+                            ProfileListTileWidget(
+                              title: 'Time to read',
+                              icon: Icons.access_time,
+                              onTap: () {},
+                            ),
+                            SizedBox(height: getScreenArea(context, 0.00007)),
+                            ProfileListTileWidget(
+                              title: 'Language',
+                              icon: Icons.language,
+                              onTap: () {},
+                            ),
+                            SizedBox(height: getScreenArea(context, 0.00007)),
+                            ProfileListTileWidget(
+                              title: 'Block content and sources',
+                              icon: Icons.block,
+                              onTap: () {},
+                            ),
+                            SizedBox(height: getScreenArea(context, 0.00007)),
+                            ProfileListTileWidget(
+                              title: 'Help',
+                              icon: Icons.help_outline_rounded,
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: getScreenArea(context, 0.00009)),
+                      //* Account settings...
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: getScreenArea(context, 0.00008)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Account', style: Theme.of(context).textTheme.titleMedium!.copyWith(color: kGreyColorShade400)),
+                            SizedBox(height: getScreenArea(context, 0.00003)),
+                            //* Logout list tile...
+                            ProfileListTileWidget(
+                              title: 'Log Out',
+                              icon: Icons.logout_rounded,
+                              titleColor: kRedColor,
+                              onTap: () {
+                                helperFunctions.showConfirmationDialogBox(
+                                  context,
+                                  'Signing Off Safely?',
+                                  titleText: 'Logging Out',
+                                  onConfirm: () {
+                                    BlocProvider.of<ProfileBloc>(context).add(SignOutButtonIsClicked());
+                                  },
+                                  onCancel: () {},
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

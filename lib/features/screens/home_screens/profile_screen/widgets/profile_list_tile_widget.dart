@@ -5,27 +5,38 @@ class ProfileListTileWidget extends StatelessWidget {
   final String title;
   final IconData icon;
   final GestureTapCallback onTap;
+  final Color? titleColor;
   const ProfileListTileWidget({
     super.key,
     required this.title,
     required this.icon,
     required this.onTap,
+    this.titleColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getScreenArea(context, 0.00008)),
+      padding: EdgeInsets.symmetric(horizontal: getScreenArea(context, 0.00003)),
       child: GestureDetector(
         onTap: onTap,
         child: Row(
           children: [
-            Icon(icon),
-            SizedBox(width: getScreenArea(context, 0.00004)),
-            Text(title,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600, fontSize: getScreenArea(context, 0.00005))),
-            const Spacer(),
-            Icon(Icons.arrow_forward_ios_rounded, size: getScreenArea(context, 0.00005)),
+            Icon(icon, color: titleColor),
+            SizedBox(width: getScreenArea(context, 0.00006)),
+            Expanded(
+              child: Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: titleColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: getScreenArea(context, 0.00005),
+                    ),
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios_rounded, color: titleColor, size: getScreenArea(context, 0.00005)),
           ],
         ),
       ),

@@ -52,6 +52,11 @@ ThemeData lightTheme(BuildContext context) {
       shadowColor: kBlackColorOp3,
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: kWhiteColor),
+    switchTheme: SwitchThemeData(
+      trackColor: const MaterialStatePropertyAll(kWhiteColor),
+      thumbColor: MaterialStatePropertyAll(kGreyColorShade700),
+      trackOutlineColor: MaterialStatePropertyAll(kGreyColorShade700),
+    ),
   );
 }
 
@@ -106,5 +111,10 @@ ThemeData darkTheme(BuildContext context) {
       shadowColor: kWhiteColorOp3,
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: kDarkBackgroundColor),
+    switchTheme: const SwitchThemeData(
+      trackColor: MaterialStatePropertyAll(kDarkBackgroundColor),
+      thumbColor: MaterialStatePropertyAll(kWhiteColor),
+      trackOutlineColor: MaterialStatePropertyAll(kWhiteColor),
+    ),
   );
 }

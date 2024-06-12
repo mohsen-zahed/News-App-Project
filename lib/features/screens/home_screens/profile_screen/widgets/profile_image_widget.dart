@@ -8,12 +8,12 @@ class ProfileImageWidget extends StatelessWidget {
     super.key,
     required this.userImage,
     required this.onTap,
-    required this.onCameraTap,
+    // required this.onCameraTap,
   });
 
   final GestureTapCallback onTap;
   final String userImage;
-  final GestureTapCallback onCameraTap;
+  // final GestureTapCallback onCameraTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,41 +22,41 @@ class ProfileImageWidget extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            width: getScreenArea(context, 0.0005),
-            height: getScreenArea(context, 0.0005),
+            width: getScreenArea(context, 0.0002),
+            height: getScreenArea(context, 0.0002),
             padding: EdgeInsets.all(getScreenArea(context, 0.000005)),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               border: Border.all(
                 color: kSecondaryColor,
-                width: 3,
+                width: getScreenArea(context, 0.000005),
               ),
             ),
             child: CustomCachedNetworkImage(borderRadius: 100, imageUrl: userImage),
           ),
         ),
         //* Camera icon to change profile image...
-        Positioned(
-          bottom: 0,
-          right: getScreenArea(context, 0.00008),
-          child: GestureDetector(
-            onTap: onCameraTap,
-            child: Container(
-              padding: EdgeInsets.all(getScreenArea(context, 0.00002)),
-              decoration: BoxDecoration(
-                color: kGreyColorShade300,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.camera_enhance,
-                  size: getScreenArea(context, 0.00006),
-                  color: kGreyColorShade500,
-                ),
-              ),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   bottom: 0,
+        //   right: 10,
+        //   child: GestureDetector(
+        //     onTap: onCameraTap,
+        //     child: Container(
+        //       padding: EdgeInsets.all(getScreenArea(context, 0.00002)),
+        //       decoration: BoxDecoration(
+        //         color: kGreyColorShade300,
+        //         borderRadius: BorderRadius.circular(100),
+        //       ),
+        //       child: Center(
+        //         child: Icon(
+        //           Icons.camera_enhance,
+        //           size: getScreenArea(context, 0.00006),
+        //           color: kGreyColorShade500,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
