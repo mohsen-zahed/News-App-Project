@@ -37,7 +37,10 @@ const Color kGreyColor = Colors.grey;
 const Color kPrimaryColor = Color(0xff128c7f);
 const Color kSecondaryColor = Color(0xFF19D6C4);
 const Color kRedColor = Colors.red;
+Color kRedColorOp3 = Colors.red.withOpacity(0.3);
+Color kRedColorOp4 = Colors.red.withOpacity(0.4);
 Color kRedColorOp5 = Colors.red.withOpacity(0.5);
+Color kRedColorOp6 = Colors.red.withOpacity(0.6);
 List<Color> bannerGradientColors = [
   kBlackColor,
   kBlackColor.withOpacity(0.8),

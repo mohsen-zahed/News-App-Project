@@ -105,7 +105,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         prefixIcon: Icons.email,
                         controller: _emailController,
                         focusNode: _emailNode,
-                        onSumbit: (value) {},
+                        onSubmit: (value) {},
                       ),
                       SizedBox(height: getScreenArea(context, 0.0003)),
                       BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(

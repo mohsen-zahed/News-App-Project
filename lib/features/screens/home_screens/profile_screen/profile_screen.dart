@@ -116,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ProfileListTileWithToggle(
                               title: 'Notifications',
                               icon: Icons.notifications_none_rounded,
-                              value: false,
+                              value: isDarkMode,
                               onChange: (value) {},
                             ),
                             SizedBox(height: getScreenArea(context, 0.000035)),
@@ -146,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ProfileListTileWithToggle(
                               title: 'News by location',
                               icon: CupertinoIcons.location,
-                              value: false,
+                              value: isDarkMode,
                               onChange: (value) {},
                             ),
                             SizedBox(height: getScreenArea(context, 0.000035)),

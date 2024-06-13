@@ -8,10 +8,10 @@ class RegistrationTextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final Color? backgroundColor;
   final IconData? suffixIcon;
-  final bool? isObsecured;
+  final bool? isObscured;
   final GestureTapCallback? onShowPasswordTap;
   final FocusNode focusNode;
-  final Function(String) onSumbit;
+  final Function(String) onSubmit;
   final TextInputType? textInputType;
   const RegistrationTextFieldWidget({
     super.key,
@@ -20,10 +20,10 @@ class RegistrationTextFieldWidget extends StatelessWidget {
     required this.controller,
     this.backgroundColor,
     this.suffixIcon,
-    this.isObsecured,
+    this.isObscured,
     this.onShowPasswordTap,
     required this.focusNode,
-    required this.onSumbit,
+    required this.onSubmit,
     this.textInputType,
   });
 
@@ -40,10 +40,10 @@ class RegistrationTextFieldWidget extends StatelessWidget {
       child: Center(
         child: TextField(
           keyboardType: textInputType ?? TextInputType.text,
-          onSubmitted: onSumbit,
+          onSubmitted: onSubmit,
           focusNode: focusNode,
           controller: controller,
-          obscureText: isObsecured ?? false,
+          obscureText: isObscured ?? false,
           decoration: InputDecoration(
             // contentPadding: EdgeInsets.symmetric(vertical: getMediaQueryHeight(context, 0.015)),
             prefixIcon: Icon(prefixIcon, color: kGreyColorShade100Op2),

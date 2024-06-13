@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:news_app/features/data/source/ifirebase_user_info_data_source.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/firebase_firestore_package/firebase_firestore_constants.dart';
 
@@ -58,6 +59,13 @@ class MyFirebaseFirestorePackage {
     await FirebaseFirestore.instance.collection('users').doc(userId).update({
       'savedNews': FieldValue.arrayRemove([newsData]),
     });
+  }
+
+  Future<void> clearSavedList(String userId) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).update({
+      'savedNews': [],
+    });
+    FirebaseUserInfoDataSourceImp.savedListNotifier.value = [];
   }
 
   Future<dynamic> getSavedNewsListFromFirebase(String userId) async {

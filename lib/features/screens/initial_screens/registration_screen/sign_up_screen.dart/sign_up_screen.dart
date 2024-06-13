@@ -140,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             prefixIcon: Icons.person,
                             controller: _nameController,
                             focusNode: _nameNode,
-                            onSumbit: (value) {
+                            onSubmit: (value) {
                               // _emailNode.requestFocus(_passwordNode);
                             },
                           ),
@@ -152,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             prefixIcon: Icons.email,
                             controller: _emailController,
                             focusNode: _emailNode,
-                            onSumbit: (value) {
+                            onSubmit: (value) {
                               // _emailNode.requestFocus(_passwordNode);
                             },
                           ),
@@ -168,9 +168,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             prefixIcon: Icons.lock,
                             controller: _passwordController,
                             suffixIcon: obscurePass ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
-                            isObsecured: obscurePass,
+                            isObscured: obscurePass,
                             focusNode: _passwordNode,
-                            onSumbit: (value) {
+                            onSubmit: (value) {
                               // _emailNode.requestFocus(_confirmPasswordNode);
                             },
                           ),
@@ -186,9 +186,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             prefixIcon: Icons.lock,
                             controller: _confirmPasswordController,
                             suffixIcon: obscureConfirmPass ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
-                            isObsecured: obscureConfirmPass,
+                            isObscured: obscureConfirmPass,
                             focusNode: _confirmPasswordNode,
-                            onSumbit: (value) {
+                            onSubmit: (value) {
                               // _confirmPasswordNode.unfocus();
                             },
                           ),

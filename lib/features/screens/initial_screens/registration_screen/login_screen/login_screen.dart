@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
         loginBloc = LoginBloc(firebaseUserInfoRepository);
         //* Here I am listening to state in order to show snackbar and navigate user to next screen....
         //* Because user can login with email or anonymously
-        //* we have two sections, one for loging in with email and another one for anonymous login...
+        //* we have two sections, one for logging in with email and another one for anonymous login...
         //* Starts here...
         streamSubscription = loginBloc?.stream.listen((state) async {
           if (state is LoginSuccess) {
@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: getMediaQueryWidth(context, 0.08)),
                         child: Text(
-                          'Login/SignUp to perceed to application!',
+                          'Login/SignUp to continue to application!',
                           style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: kWhiteColor, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: Icons.email,
                         controller: _emailController,
                         focusNode: _emailNode,
-                        onSumbit: (value) {},
+                        onSubmit: (value) {},
                       ),
                       SizedBox(height: getScreenArea(context, 0.00005)),
                       //* Password text field...
@@ -162,9 +162,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: Icons.lock,
                         controller: _passwordController,
                         focusNode: _passwordNode,
-                        onSumbit: (value) {},
+                        onSubmit: (value) {},
                         suffixIcon: showPassword ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash,
-                        isObsecured: showPassword,
+                        isObscured: showPassword,
                       ),
                       SizedBox(height: getScreenArea(context, 0.00002)),
                       //* Switch between login/sign-up text...

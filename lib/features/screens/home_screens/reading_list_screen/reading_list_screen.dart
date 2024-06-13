@@ -11,6 +11,7 @@ import 'package:news_app/features/screens/home_screens/home_screen/widgets/singl
 import 'package:news_app/features/screens/home_screens/reading_list_screen/reading_list_news_details_screen.dart';
 import 'package:news_app/helpers/helper_functions.dart';
 import 'package:news_app/packages/firebase_auth_package/firebase_auth_constants.dart';
+import 'package:news_app/packages/firebase_firestore_package/firebase_firestore_package.dart';
 import 'package:news_app/utils/my_app_bar.dart';
 import 'package:news_app/utils/my_media_query.dart';
 
@@ -52,6 +53,33 @@ class _ReadingListScreenState extends State<ReadingListScreen> {
       },
       child: Scaffold(
         appBar: myAppBar(context: context, child: const Text('My Reading List')),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            helperFunctions.showConfirmationDialogBox(
+              context,
+              'Are you sure you want to clear the list? This action cannot be undone.',
+              titleText: 'Confirm Clearing List',
+              onConfirm: () async {
+                await MyFirebaseFirestorePackage.instance.clearSavedList(globalUserId).then((value) {
+                  helperFunctions.showSnackBar(context, 'Reading list cleared successfully', 3000);
+                });
+              },
+              onCancel: () {},
+            );
+          },
+          foregroundColor: kRedColor,
+          backgroundColor: kRedColorOp3,
+          splashColor: kRedColorOp3,
+          elevation: 0,
+          label: const Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.delete),
+              SizedBox(width: 4),
+              Text('Clear list'),
+            ],
+          ),
+        ),
         body: ValueListenableBuilder(
           valueListenable: FirebaseUserInfoDataSourceImp.savedListNotifier,
           builder: (context, value, child) {
